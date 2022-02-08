@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/TvNodataFound"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:fontFamily="@font/rubik_medium"
+        android:gravity="center"
+        android:text="@string/no_data_found"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12ssp"
+        android:visibility="gone" />
+
+</RelativeLayout>

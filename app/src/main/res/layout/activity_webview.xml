@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LLProfileMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_app"
+    tools:context=".Activity.HomeActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbarwith_back" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:fadeScrollbars="true"
+        android:scrollbarSize="@dimen/_1sdp"
+        android:scrollbars="vertical">
+
+        <WebView
+            android:id="@+id/simpleWebView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</RelativeLayout>

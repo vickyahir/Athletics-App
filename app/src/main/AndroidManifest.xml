@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.Athletics">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name="com.example.athletics.Activity.SplashActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.example.athletics.Activity.IntroSliderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.example.athletics.Activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.example.athletics.Activity.SignUpActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.example.athletics.Activity.ForgotPasswordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.example.athletics.Activity.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NavigationDrawerAppTheme" />
+
+        <activity
+            android:name="com.example.athletics.Activity.NotificationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NavigationDrawerAppTheme" />
+
+        <activity
+            android:name="com.example.athletics.Activity.SettingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NavigationDrawerAppTheme" />
+
+        <activity
+            android:name="com.example.athletics.Activity.UploadVideoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NavigationDrawerAppTheme" />
+
+        <activity
+            android:name="com.example.athletics.Activity.FollowingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NavigationDrawerAppTheme" />
+
+        <activity
+            android:name="com.example.athletics.Activity.SubscribePackageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NavigationDrawerAppTheme" />
+
+        <activity
+            android:name="com.example.athletics.Activity.SaveVideoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NavigationDrawerAppTheme" />
+
+        <activity
+            android:name="com.example.athletics.Activity.WebviewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NavigationDrawerAppTheme" />
+
+
+        <activity
+            android:name="com.example.athletics.Activity.SearchActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NavigationDrawerAppTheme" />
+
+        <activity
+            android:name="com.example.athletics.Activity.VideoViewActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/NavigationDrawerAppTheme" />
+
+
+    </application>
+
+</manifest>
+

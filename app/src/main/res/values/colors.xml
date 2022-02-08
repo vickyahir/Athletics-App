@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#A3195B</color>
+    <color name="colorPrimaryDark">#29235C</color>
+    <color name="thankyou">#292539</color>
+
+    <color name="gray">#A4A4A6</color>
+    <color name="background_app">#F5F5F5</color>
+    <color name="bg_border">#FBFBFB</color>
+    <color name="border">#EBEBEB</color>
+    <color name="white_gray">#DCEDE9E9</color>
+    <color name="white">#ffffff</color>
+    <color name="white_dark">#00E1D7D7</color>
+    <color name="black">#010101</color>
+    <color name="text_color">#9294AF</color>
+    <color name="dark_black">#C4010101</color>t
+    <color name="red">#FF4500</color>
+    <color name="transperrent">#00000000</color>
+    <color name="blur_color">#46171A1E</color>
+    <color name="blur_color_dark">#88171A1E</color>
+    <color name="blur_color_fulldark">#C8171A1E</color>
+    <color name="bottomicon">#B6B5B5</color>
+    <color name="tool_color">#57E3D7E2</color>
+    <color name="tool_color_second">#9FE3D7E2</color>
+    <color name="green">#a4c639</color>
+    <color name="menu_color">#BFA36C</color>
+    <color name="yellow">#E18611</color>
+    <color name="background">#E6DDDDDD</color>
+    <color name="Order_Placed">#00e210</color>
+    <color name="Confirmed">#002fdc</color>
+    <color name="Picked_Up">#6800dc</color>
+    <color name="On_The_Way">#6800dc</color>
+    <color name="Delivered">#005b13</color>
+    <color name="Cancelled">#ff0000</color>
+</resources>
