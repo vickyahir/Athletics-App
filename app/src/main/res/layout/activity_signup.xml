@@ -88,12 +88,12 @@
                         android:layout_marginLeft="@dimen/_3sdp"
                         android:layout_marginRight="@dimen/_3sdp"
                         android:fontFamily="@font/rubik_regular"
-                        android:text="@string/username"
+                        android:text="@string/first_name"
                         android:textColor="@color/blur_color_dark" />
 
 
                     <EditText
-                        android:id="@+id/EdtUsername"
+                        android:id="@+id/EdtFirstName"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_35sdp"
                         android:backgroundTint="@color/gray"
@@ -105,6 +105,37 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="vertical"
+
+                    >
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_3sdp"
+                        android:layout_marginRight="@dimen/_3sdp"
+                        android:fontFamily="@font/rubik_regular"
+                        android:text="@string/last_name"
+                        android:textColor="@color/blur_color_dark" />
+
+
+                    <EditText
+                        android:id="@+id/EdtLastName"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_35sdp"
+                        android:backgroundTint="@color/gray"
+                        android:fontFamily="@font/rubik_regular"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11ssp" />
+
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -206,6 +237,100 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:layout_marginRight="@dimen/_5sdp"
+                            android:fontFamily="@font/rubik_regular"
+                            android:text="I am*"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12ssp" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginBottom="@dimen/_10sdp">
+
+                            <RadioGroup
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <RadioButton
+                                    android:id="@+id/RbVisitor"
+                                    style="@style/Theme.Athletics"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:buttonTint="@color/colorPrimary"
+                                    android:checked="true"
+                                    android:text="Visitor"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_11ssp" />
+
+                                <RadioButton
+                                    android:id="@+id/RbAthlete"
+                                    style="@style/Theme.Athletics"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_3sdp"
+                                    android:layout_weight="1"
+                                    android:buttonTint="@color/colorPrimary"
+                                    android:text="Athlete"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_11ssp" />
+
+                                <RadioButton
+                                    android:id="@+id/RbSchoolClub"
+                                    style="@style/Theme.Athletics"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_3sdp"
+                                    android:layout_weight="1"
+
+                                    android:buttonTint="@color/colorPrimary"
+                                    android:text="School/Club"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_11ssp" />
+
+                                <RadioButton
+                                    android:id="@+id/RbCoach"
+                                    style="@style/Theme.Athletics"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_3sdp"
+                                    android:layout_weight="1"
+                                    android:buttonTint="@color/colorPrimary"
+                                    android:text="Coach"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_11ssp" />
+
+
+                            </RadioGroup>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="end"
                     android:orientation="vertical">
@@ -262,7 +387,6 @@
                     </LinearLayout>
 
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relHomePageListing"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_app"
-    tools:context=".Activity.HomeActivity">
+    tools:context="com.example.athletics.Activity.HomeActivity">
 
     <include
         android:id="@+id/toolbar"
@@ -23,9 +24,11 @@
 
 
             <LinearLayout
+                android:id="@+id/LLHomeMain"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="visible">
 
 
                 <LinearLayout
@@ -35,7 +38,7 @@
                     android:layout_marginEnd="@dimen/_8sdp">
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvCategory"
+                        android:id="@+id/rvAthlete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         tools:itemCount="2"
@@ -53,7 +56,7 @@
 
 
                     <TextView
-                        android:id="@+id/tvAll"
+                        android:id="@+id/tvExplore"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/ic_category_bg_selected"
@@ -62,7 +65,7 @@
                         android:paddingTop="@dimen/_8sdp"
                         android:paddingRight="@dimen/_16sdp"
                         android:paddingBottom="@dimen/_8sdp"
-                        android:text="@string/all"
+                        android:text="@string/explore"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_11ssp" />
 
@@ -102,14 +105,43 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_13sdp"
-                    android:descendantFocusability="blocksDescendants">
+                    android:descendantFocusability="blocksDescendants"
+                    android:orientation="vertical">
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvAllListingData"
+                        android:id="@+id/rvExploreData"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         tools:itemCount="5"
-                        tools:listitem="@layout/item_allcategorylist" />
+                        tools:listitem="@layout/item_explore_list" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvAthleteData"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        tools:itemCount="5"
+                        tools:listitem="@layout/item_athlete_list" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvCoachData"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        tools:itemCount="5"
+                        tools:listitem="@layout/item_coach_list" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_150sdp"
+                        android:visibility="gone"
+                        >
+
+                        <include layout="@layout/activity_nodatafound" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

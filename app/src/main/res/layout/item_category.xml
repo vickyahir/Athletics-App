@@ -22,19 +22,17 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@color/transperrent"
+                app:cardBackgroundColor="@color/transperrent"
                 app:cardCornerRadius="@dimen/_10sdp">
 
                 <ImageView
-                    android:id="@+id/iv_ProductCategory"
+                    android:id="@+id/iv_AthleticProfile"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
-                    android:cropToPadding="true"
                     android:scaleType="fitXY"
-                    android:src="@drawable/dummy_three"
-                    app:civ_border_color="@color/colorPrimaryDark"
-                    app:civ_circle_background_color="@color/white" />
+                    android:src="@drawable/dummy_three" />
 
             </androidx.cardview.widget.CardView>
 
@@ -42,7 +40,7 @@
 
 
         <TextView
-            android:id="@+id/Tv_ProductCategoryName"
+            android:id="@+id/Tv_AthleteName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

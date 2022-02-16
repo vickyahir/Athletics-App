@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_app"
-    tools:context=".Activity.HomeActivity">
+    tools:context="com.example.athletics.Activity.SettingActivity">
 
     <include
         android:id="@+id/toolbar"
@@ -23,10 +23,12 @@
 
 
         <LinearLayout
+            android:id="@+id/LLMain"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/_20sdp">
+            android:paddingBottom="@dimen/_20sdp"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -53,20 +55,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/rubik_bold"
-                        android:text="Nararaya Kirana"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp" />
+                        android:textSize="@dimen/_12ssp"
+                        tools:text="Nararaya Kirana" />
 
                     <TextView
-                        android:id="@+id/Tv_UserType"
+                        android:id="@+id/Tv_UserEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_4sdp"
                         android:fontFamily="@font/rubik_regular"
                         android:maxLines="2"
-                        android:text="Nararaya.putri@mail.com"
                         android:textColor="@color/gray"
-                        android:textSize="@dimen/_10ssp" />
+                        android:textSize="@dimen/_10ssp"
+                        tools:text="Nararaya.putri@mail.com" />
 
                 </LinearLayout>
 
@@ -126,7 +128,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_3sdp"
                             android:fontFamily="@font/rubik_regular"
-                            android:text="@string/save_video"
+                            android:text="@string/like_video"
 
                             android:textColor="@color/blur_color_dark"
                             android:textSize="@dimen/_10ssp" />
@@ -184,7 +186,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_3sdp"
                             android:fontFamily="@font/rubik_regular"
-                            android:text="@string/profie"
+                            android:text="@string/edit_profie"
                             android:textColor="@color/blur_color_dark"
                             android:textSize="@dimen/_10ssp" />
 

@@ -87,7 +87,7 @@
             android:paddingTop="@dimen/_5sdp"
             android:paddingRight="@dimen/_12sdp"
             android:paddingBottom="@dimen/_5sdp"
-            android:text="@string/follow"
+            android:text="@string/following"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="@dimen/_9ssp"

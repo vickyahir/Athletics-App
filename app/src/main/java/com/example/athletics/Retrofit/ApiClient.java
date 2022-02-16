@@ -2,7 +2,6 @@ package com.example.athletics.Retrofit;
 
 import android.content.Context;
 
-import com.example.athletics.Utils.ExtraPrefrence;
 import com.example.athletics.Utils.SessionManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,7 +18,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    public static String BASE_URL = "https://app.aalafqatar.com.qa/admin/api/v2/";
+    //    public static String BASE_URL = "http://192.168.0.10:10/api/";
+    public static String BASE_URL = "https://athletics54.herokuapp.com/api/";
 
     private static Retrofit retrofit = null;
 
@@ -41,10 +41,11 @@ public class ApiClient {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
                     Request.Builder requestBuilder = chain.request().newBuilder();
+                    requestBuilder.header("Accept", "application/json");
                     requestBuilder.header("Authorization", "Bearer " + new SessionManager(context).getApiToken());
-                    if (!new ExtraPrefrence(context).getLanguage().equalsIgnoreCase("English")) {
-                        requestBuilder.header("App-Language", "sa");
-                    }
+//                    if (!new ExtraPrefrence(context).getLanguage().equalsIgnoreCase("English")) {
+//                        requestBuilder.header("App-Language", "sa");
+//                    }
 
 //                    if (!new SessionManager(context).getUserID().equalsIgnoreCase("")) {
 //                        if (new SessionManager(context).getApiToken().equalsIgnoreCase("")) {

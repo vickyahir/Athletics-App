@@ -13,14 +13,20 @@
     <string name="enter_your_email_and_password">Enter your emails and password</string>
     <string name="enter_email_to_reset_password">Enter email to reset password</string>
     <string name="enter_your_credential_to_continue">Enter your credential to continue</string>
-    <string name="email">Email</string>
+    <string name="email">Email*</string>
     <string name="username">Username</string>
-    <string name="password">Password</string>
+    <string name="password">Password*</string>
+    <string name="old_password">Old Password*</string>
+    <string name="new_password">New Password*</string>
+    <string name="confirm_password">Confirm Password*</string>
     <string name="forgot_password">Forgot password?</string>
+    <string name="first_name">First Name*</string>
+    <string name="last_name">Last Name*</string>
     <string name="by_continuing_terms_of_service">By continuing you agree to our</string>
     <string name="terms_of_service"><font color='#A3195B'><b> Terms of Service</b></font></string>
     <string name="and_pricacy_policy">and</string>
     <string name="all">All</string>
+    <string name="explore">Explore</string>
     <string name="follow">Follow</string>
     <string name="follower">Follower</string>
     <string name="following">Following</string>
@@ -34,22 +40,36 @@
     <string name="signup_simple">Signup</string>
     <string name="please_enter_your_email">Please enter your email id</string>
     <string name="please_enter_valid_your_email">Please enter your valid email id</string>
+    <string name="password_validation">Password must be at least 8 characters long and contain at least 1 capital 1 small letter, number and special character</string>
     <string name="check_internet_connection">Please check your internet connection..!!</string>
     <string name="please_enter_your_password">Please enter your password</string>
     <string name="please_enter_your_username">Please enter your username</string>
+    <string name="please_enter_your_first_name">Please enter your first name</string>
+    <string name="please_enter_your_full_name">Please enter your full name</string>
+    <string name="please_enter_your_last_name">Please enter your last name</string>
+
+    <string name="please_enter_your_current_password">Please enter your current password</string>
+    <string name="please_enter_your_new_password">Please enter your new password</string>
+    <string name="please_enter_your_confirm_password">Please enter your confirm password</string>
+    <string name="password_and_confirm_password_not_match">Password and confirm password does not match !</string>
+
+
     <string name="next">Next</string>
     <string name="profie">Profile</string>
+    <string name="edit_profie">Edit profile</string>
     <string name="upload_video">Upload Video</string>
     <string name="upload_now">Upload Now</string>
     <string name="what_you_are_thinking_right_now">What you\'re thinking right now...</string>
     <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
     <string name="no">No</string>
     <string name="search">Search</string>
     <string name="notifications">Notifications</string>
     <string name="subscribe_package">Subscribe Package</string>
     <string name="save_video">Save Video</string>
-    <string name="are_you_sure_you_want_to_exit">Are you sure you want to exit from app?</string>
-    <string name="are_you_sure_you_want_to_logout">Are you sure you want to logout from app?</string>
+    <string name="are_you_sure_you_want_to_exit">Are you sure you want to exit ?</string>
+    <string name="downloading_video">Please Wait...</string>
+    <string name="are_you_sure_you_want_to_logout">Are you sure you want to logout ?</string>
     <string name="rugby">Rugby</string>
     <string name="fieldhockey">Field Hockey</string>
     <string name="find_someone">Find someone</string>
@@ -78,5 +98,10 @@
     <string name="check_for_update">Check for Update</string>
     <string name="choose_your_premium_plans">Choose your premium plans</string>
     <string name="logout">Logout</string>
+    <string name="you_hant_pic_image">You haven\'t picked image</string>
+    <string name="select_picture">Select picture</string>
+    <string name="select_an_Action">Select an action</string>
+    <string name="allow_access_camera_gallery">Allow Aalaf qatar to access this device\'s Camera &amp; Gallery?</string>
+    <string name="want_to_change_your_password"><u>Want to change your password?</u></string>
 
 </resources>

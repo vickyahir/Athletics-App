@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.Athletics">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:replace="allowBackup,supportsRtl">
 
         <activity
             android:name="com.example.athletics.Activity.SplashActivity"
@@ -51,8 +59,9 @@
 
         <activity
             android:name="com.example.athletics.Activity.HomeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/NavigationDrawerAppTheme" />
+            android:theme="@style/NavigationDrawerAppTheme"
+
+            />
 
         <activity
             android:name="com.example.athletics.Activity.NotificationActivity"
@@ -70,7 +79,7 @@
             android:theme="@style/NavigationDrawerAppTheme" />
 
         <activity
-            android:name="com.example.athletics.Activity.FollowingActivity"
+            android:name="com.example.athletics.Activity.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NavigationDrawerAppTheme" />
 
@@ -97,8 +106,28 @@
 
         <activity
             android:name="com.example.athletics.Activity.VideoViewActivity"
+            android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize"
             android:screenOrientation="landscape"
+            android:supportsPictureInPicture="true"
             android:theme="@style/NavigationDrawerAppTheme" />
+
+        <activity
+            android:name="com.example.athletics.Activity.EditProfileActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NavigationDrawerAppTheme"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name="com.example.athletics.Activity.MyFollowingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NavigationDrawerAppTheme"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name="com.example.athletics.Activity.UserProfileActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NavigationDrawerAppTheme"
+            android:windowSoftInputMode="adjustResize" />
 
 
     </application>

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LLLikeVideoMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_app"
-    tools:context=".Activity.HomeActivity">
+    tools:context="com.example.athletics.Activity.SaveVideoActivity">
 
     <include
         android:id="@+id/toolbar"
@@ -25,8 +26,8 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvProfileHome"
-                android:layout_width="wrap_content"
+                android:id="@+id/rvLikevideo"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:itemCount="2"
                 tools:listitem="@layout/item_save_video" />
@@ -35,6 +36,9 @@
 
 
     </androidx.core.widget.NestedScrollView>
+
+
+    <include layout="@layout/activity_nodatafound" />
 
 
     <LinearLayout

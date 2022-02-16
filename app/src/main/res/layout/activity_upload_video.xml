@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_app"
-    tools:context=".Activity.HomeActivity">
+    tools:context="com.example.athletics.Activity.UploadVideoActivity">
 
     <include
         android:id="@+id/toolbar"
@@ -80,8 +80,7 @@
                                 android:id="@+id/imgVideoView"
                                 android:layout_width="@dimen/_50sdp"
                                 android:layout_height="@dimen/_50sdp"
-                                android:scaleType="fitXY"
-                                android:src="@drawable/dummy_three" />
+                                android:scaleType="fitXY" />
 
                             <ImageView
                                 android:layout_width="@dimen/_22sdp"

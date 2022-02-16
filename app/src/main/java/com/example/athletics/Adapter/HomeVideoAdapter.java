@@ -47,7 +47,8 @@ public class HomeVideoAdapter extends RecyclerView.Adapter<HomeVideoAdapter.Myvi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, VideoViewActivity.class).putExtra("fullScreenInd", "y"));
+                context.startActivity(new Intent(context, VideoViewActivity.class).putExtra("fullScreenInd", "y")
+                        .putExtra("VideoUrl", ""));
                 Functions.animNext(context);
             }
         });

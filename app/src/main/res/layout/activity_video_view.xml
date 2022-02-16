@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_app"
-    tools:context=".Activity.VideoViewActivity">
+    tools:context="com.example.athletics.Activity.VideoViewActivity">
 
     <VideoView
         android:id="@+id/videoViewRelative"
@@ -14,5 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true" />
+
+
 
 </RelativeLayout>

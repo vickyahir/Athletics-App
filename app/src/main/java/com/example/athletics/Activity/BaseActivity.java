@@ -75,7 +75,7 @@ public class BaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(activity, FollowingActivity.class);
+                Intent intent = new Intent(activity, MyProfileActivity.class);
                 startActivity(intent);
                 Functions.animNext(activity);
             }

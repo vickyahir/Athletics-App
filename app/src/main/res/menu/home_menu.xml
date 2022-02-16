@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <item
-        android:id="@+id/MenuViewProfile"
-        android:title="View profile" />
+        android:id="@+id/MenuShareVideo"
+        android:title="Share Video"
+        android:visible="false"
+        />
 
 
     <item
-        android:id="@+id/android"
-        android:title="Remove from list" />
+        android:id="@+id/MenuDownloadVideo"
+        android:title="Download Video" />
+
 
     <item
-        android:id="@+id/react_native"
-        android:title="Unfollow" />
+        android:id="@+id/MenuPictureInPicture"
+        android:title="Picture in Picture Mode"
+        />
 
 </menu>

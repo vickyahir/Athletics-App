@@ -11,15 +11,23 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.Athletics.R;
+import com.example.athletics.Model.SignInApiResponse;
+import com.example.athletics.Retrofit.ApiClient;
 import com.example.athletics.Retrofit.ApiInterface;
 import com.example.athletics.Utils.ConnectionDetector;
 import com.example.athletics.Utils.Constant;
 import com.example.athletics.Utils.Functions;
+import com.example.athletics.Utils.SessionManager;
 import com.google.android.material.snackbar.Snackbar;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -117,28 +125,32 @@ public class LoginActivity extends AppCompatActivity {
         TvLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (EdtEmail.getText().toString().equalsIgnoreCase("")) {
-//                    Snackbar snackbar = Snackbar
-//                            .make(RelLoginMain, getResources().getString(R.string.please_enter_your_email), Snackbar.LENGTH_LONG);
-//                    snackbar.show();
-//                } else if (!isValidEmail(EdtEmail.getText().toString())) {
-//                    Snackbar snackbar = Snackbar
-//                            .make(RelLoginMain, getResources().getString(R.string.please_enter_valid_your_email), Snackbar.LENGTH_SHORT);
-//                    snackbar.show();
-//                } else if (EdtPassword.getText().toString().equalsIgnoreCase("")) {
-//                    Snackbar snackbar = Snackbar.make(RelLoginMain, getResources().getString(R.string.please_enter_your_password), Snackbar.LENGTH_LONG);
-//                    snackbar.show();
-//                } else {
-
-
-                if (cd.isConnectingToInternet()) {
-                    callLoginApi();
-                } else {
+                if (EdtEmail.getText().toString().equalsIgnoreCase("")) {
                     Snackbar snackbar = Snackbar
-                            .make(RelLoginMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
+                            .make(RelLoginMain, getResources().getString(R.string.please_enter_your_email), Snackbar.LENGTH_LONG);
                     snackbar.show();
+                } else if (!isValidEmail(EdtEmail.getText().toString())) {
+                    Snackbar snackbar = Snackbar
+                            .make(RelLoginMain, getResources().getString(R.string.please_enter_valid_your_email), Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                } else if (EdtPassword.getText().toString().equalsIgnoreCase("")) {
+                    Snackbar snackbar = Snackbar.make(RelLoginMain, getResources().getString(R.string.please_enter_your_password), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else {
+
+
+                    if (cd.isConnectingToInternet()) {
+                        Functions.dialogShow(LoginActivity.this);
+                        callSignInApi();
+                    } else {
+                        Snackbar snackbar = Snackbar
+                                .make(RelLoginMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
                 }
-//                }
+//                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+//                startActivity(intent);
+//                Functions.animNext(LoginActivity.this);
 
 
             }
@@ -147,107 +159,56 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    //    private void callSignInApi() {
-//
-//        apiInterface = ApiClient.getClient(LoginActivity.this).create(ApiInterface.class);
-//        final Call<SignInResponse> loginApiResponseCall = apiInterface.GetLogin(edtUsername.getText().toString(), edtPassword.getText().toString(), "", Latitude, Longitude);
-//        loginApiResponseCall.enqueue(new Callback<SignInResponse>() {
-//            @Override
-//            public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
-//                try {
-//                    Functions.dialogHide();
-//                    if (response.body().isResult()) {
-//
-//
-//                        new SessionManager(LoginActivity.this).setKeyMobileNo(response.body().getUser().getPhone());
-//                        new SessionManager(LoginActivity.this).setKeyUserName(response.body().getUser().getName());
-//                        new SessionManager(LoginActivity.this).setApiToken(response.body().getAccessToken());
-//                        new SessionManager(LoginActivity.this).setUserID(String.valueOf(response.body().getUser().getId()));
-//                        new SessionManager(LoginActivity.this).setKeyEmail(response.body().getUser().getEmail());
-////                        Snackbar snackbar = Snackbar.make(LLMain, response.body().getMessage(), Snackbar.LENGTH_LONG);
-////                        snackbar.show();
-//                        Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_LONG).show();
-//                        if (!FirebaseToken.equalsIgnoreCase("")) {
-//                            callSendFirebaseTokenApi();
-//                        }
-//
-//                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-//                        startActivity(intent);
-//                        Functions.animNext(LoginActivity.this);
-//
-//                    } else {
-////                        Snackbar snackbar = Snackbar.make(LLMain, response.body().getMessage(), Snackbar.LENGTH_LONG);
-////                        snackbar.show();
-//                        Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_LONG).show();
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<SignInResponse> call, Throwable t) {
-//                Functions.dialogHide();
-//            }
-//
-//        });
-//    }
+    private void callSignInApi() {
 
+        apiInterface = ApiClient.getClient(LoginActivity.this).create(ApiInterface.class);
+        final Call<SignInApiResponse> loginApiResponseCall = apiInterface.GetLogin(EdtEmail.getText().toString(), EdtPassword.getText().toString());
+        loginApiResponseCall.enqueue(new Callback<SignInApiResponse>() {
+            @Override
+            public void onResponse(Call<SignInApiResponse> call, Response<SignInApiResponse> response) {
+                try {
+                    Functions.dialogHide();
 
-//    private void fetchDeviceToken() {
-//        FirebaseInstanceId.getInstance().getInstanceId()
-//                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-//                        if (!task.isSuccessful()) {
-////                            Log.w(TAG, getString(R.string.instant_id_failed), task.getException());
-//                            return;
-//                        }
-//
-//                        // Get new Instance ID token
-//                        FirebaseToken = task.getResult().getToken();
-//                        Constant.FIREBASE_TOKEN = FirebaseToken;
-//                        new SessionManager(LoginActivity.this).setFirebaseToken(Constant.FIREBASE_TOKEN);
-//
-//                    }
-//                });
-//    }
+                    if (response.isSuccessful()) {
 
+                        if (response.body().isStatus()) {
 
-//    private void callSendFirebaseTokenApi() {
-//
-//        apiInterface = ApiClient.getClient(LoginActivity.this).create(ApiInterface.class);
-//        Call<DefaultApiResponse> loginApiResponseCall = apiInterface.SendFirebaseToken(FirebaseToken);
-//        loginApiResponseCall.enqueue(new Callback<DefaultApiResponse>() {
-//            @Override
-//            public void onResponse(Call<DefaultApiResponse> call, Response<DefaultApiResponse> response) {
-//                try {
-//                    if (response.body().isResult()) {
-//
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<DefaultApiResponse> call, Throwable t) {
-//                Functions.dialogHide();
-//            }
-//        });
-//    }
+                            Toast.makeText(LoginActivity.this, response.body().getMsg(), Toast.LENGTH_LONG).show();
 
+                            new SessionManager(LoginActivity.this).setKeyUserName(response.body().getData().getName());
+                            new SessionManager(LoginActivity.this).setApiToken(response.body().getData().getToken());
+                            new SessionManager(LoginActivity.this).setUserID(String.valueOf(response.body().getData().getId()));
+                            new SessionManager(LoginActivity.this).setKeyEmail(response.body().getData().getEmail());
 
-    private void callLoginApi() {
-        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-        startActivity(intent);
-        Functions.animNext(LoginActivity.this);
+                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                            finish();
+                            Functions.animNext(LoginActivity.this);
+
+                        } else {
+
+                            Toast.makeText(LoginActivity.this, response.body().getMsg(), Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SignInApiResponse> call, Throwable t) {
+                Functions.dialogHide();
+            }
+
+        });
     }
+
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Functions.animBack(LoginActivity.this);
     }
 }

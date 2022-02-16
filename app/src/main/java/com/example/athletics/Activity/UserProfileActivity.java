@@ -19,14 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Athletics.R;
 import com.example.athletics.Adapter.HomeVideoAdapter;
-
 import com.example.athletics.Utils.Functions;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FollowingActivity extends BaseActivity {
+public class UserProfileActivity extends BaseActivity {
     private ImageView imgBack, imgMenu, ImgProfile, ImgHome;
     private Toolbar toolbarMain;
     private TextView TvTitle, TvNodataFound;
@@ -39,7 +38,7 @@ public class FollowingActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_following);
+        setContentView(R.layout.activity_user_profile);
         super.onCreateMenu();
         super.onMenuSelect(5);
 
@@ -64,7 +63,7 @@ public class FollowingActivity extends BaseActivity {
         LLFollower = findViewById(R.id.LLFollower);
         TvNodataFound = findViewById(R.id.TvNodataFound);
         RelFollowingMain = findViewById(R.id.RelFollowingMain);
-        imgMenu.setVisibility(View.VISIBLE);
+        imgMenu.setVisibility(View.INVISIBLE);
         TvTitle.setText(getResources().getString(R.string.profie));
 
     }
@@ -76,7 +75,7 @@ public class FollowingActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Functions.animBack(FollowingActivity.this);
+        Functions.animBack(UserProfileActivity.this);
     }
 
 
@@ -91,8 +90,8 @@ public class FollowingActivity extends BaseActivity {
         HomeVideoCategory.add("Mark Henry");
         HomeVideoCategory.add("Mark Henry");
 //        ProductCategory.addAll(homePageResponse.getData().getCategory());
-        rvProfileHome.setLayoutManager(new GridLayoutManager(FollowingActivity.this, 2));
-        rvProfileHome.setAdapter(new HomeVideoAdapter(FollowingActivity.this, HomeVideoCategory));
+        rvProfileHome.setLayoutManager(new GridLayoutManager(UserProfileActivity.this, 2));
+        rvProfileHome.setAdapter(new HomeVideoAdapter(UserProfileActivity.this, HomeVideoCategory));
     }
 
 
@@ -108,7 +107,7 @@ public class FollowingActivity extends BaseActivity {
         imgMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(FollowingActivity.this, imgMenu);
+                PopupMenu popupMenu = new PopupMenu(UserProfileActivity.this, imgMenu);
 
                 // Inflating popup menu from popup_menu.xml file
                 popupMenu.getMenuInflater().inflate(R.menu.following_menu, popupMenu.getMenu());
@@ -162,20 +161,20 @@ public class FollowingActivity extends BaseActivity {
         LLFollower.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(FollowingActivity.this, SearchActivity.class);
+                Intent intent = new Intent(UserProfileActivity.this, MyFollowingActivity.class);
                 intent.putExtra("Title", "Follower");
                 startActivity(intent);
-                Functions.animNext(FollowingActivity.this);
+                Functions.animNext(UserProfileActivity.this);
             }
         });
 
         LLFollowing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(FollowingActivity.this, SearchActivity.class);
+                Intent intent = new Intent(UserProfileActivity.this, MyFollowingActivity.class);
                 intent.putExtra("Title", "Following");
                 startActivity(intent);
-                Functions.animNext(FollowingActivity.this);
+                Functions.animNext(UserProfileActivity.this);
             }
         });
 
@@ -197,9 +196,9 @@ public class FollowingActivity extends BaseActivity {
                 if (cd.isConnectingToInternet()) {
                     builder.dismiss();
 //                    callLogoutApi();
-                    Intent intent = new Intent(FollowingActivity.this, LoginActivity.class);
+                    Intent intent = new Intent(UserProfileActivity.this, LoginActivity.class);
                     startActivity(intent);
-                    Functions.animNext(FollowingActivity.this);
+                    Functions.animNext(UserProfileActivity.this);
                 } else {
                     Snackbar snackbar = Snackbar
                             .make(RelFollowingMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_SHORT);

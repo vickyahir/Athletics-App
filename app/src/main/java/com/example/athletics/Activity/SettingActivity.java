@@ -15,17 +15,28 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
-
+import com.bumptech.glide.Glide;
 import com.example.Athletics.R;
+import com.example.athletics.Model.SignInData;
+import com.example.athletics.Retrofit.ApiClient;
+import com.example.athletics.Retrofit.ApiInterface;
 import com.example.athletics.Utils.Functions;
+import com.example.athletics.Utils.SessionManager;
 import com.google.android.material.snackbar.Snackbar;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SettingActivity extends BaseActivity {
     private ImageView imgBack, imgMenu;
     private Toolbar toolbarMain;
-    private TextView TvTitle;
-    private LinearLayout LLLogout, LLCheckForUpdate, LLRateUs, LLPackageDetail, LLHelpSupport, LLAbout, LLLikeVideo, LLNotification, LLProfile;
+    private TextView TvTitle, Tv_Username, Tv_UserEmail;
+    private LinearLayout LLLogout, LLCheckForUpdate, LLRateUs, LLPackageDetail, LLHelpSupport, LLAbout, LLLikeVideo, LLNotification, LLProfile, LLMain;
     private RelativeLayout LLProfileMain;
+    private CircleImageView iv_User;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +46,15 @@ public class SettingActivity extends BaseActivity {
         super.onMenuSelect(2);
 
         initView();
-        loadData();
+
         setClickListener();
     }
 
+    @Override
+    protected void onResume() {
+        loadData();
+        super.onResume();
+    }
 
     private void initView() {
         toolbarMain = findViewById(R.id.toolbarMain);
@@ -52,6 +68,10 @@ public class SettingActivity extends BaseActivity {
         LLAbout = findViewById(R.id.LLAbout);
         LLLikeVideo = findViewById(R.id.LLLikeVideo);
         LLNotification = findViewById(R.id.LLNotification);
+        LLMain = findViewById(R.id.LLMain);
+        iv_User = findViewById(R.id.iv_User);
+        Tv_Username = findViewById(R.id.Tv_Username);
+        Tv_UserEmail = findViewById(R.id.Tv_UserEmail);
 
         LLRateUs = findViewById(R.id.LLRateUs);
         LLProfile = findViewById(R.id.LLProfile);
@@ -63,12 +83,52 @@ public class SettingActivity extends BaseActivity {
 
     private void loadData() {
 
+        if (cd.isConnectingToInternet()) {
+            Functions.dialogShow(SettingActivity.this);
+            callProfileApiResponse();
+        } else {
+            Snackbar snackbar = Snackbar.make(LLProfileMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         Functions.animBack(SettingActivity.this);
+    }
+
+    public void callProfileApiResponse() {
+
+        apiInterface = ApiClient.getClient(this).create(ApiInterface.class);
+        Call<SignInData> loginApiResponseCall = apiInterface.GetProfileInfoApi();
+        loginApiResponseCall.enqueue(new Callback<SignInData>() {
+            @Override
+            public void onResponse(Call<SignInData> call, Response<SignInData> response) {
+                try {
+                    if (response.isSuccessful()) {
+                        Functions.dialogHide();
+                        LLMain.setVisibility(View.VISIBLE);
+                        Tv_Username.setText(response.body().getName());
+                        Tv_UserEmail.setText(response.body().getEmail());
+
+                        if (!response.body().getImage().equalsIgnoreCase("")) {
+                            Glide.with(SettingActivity.this).load(response.body().getImage()).into(iv_User);
+
+                        }
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SignInData> call, Throwable t) {
+//                Functions.dialogHide();
+            }
+        });
     }
 
 
@@ -92,7 +152,7 @@ public class SettingActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(SettingActivity.this, FollowingActivity.class);
+                Intent intent = new Intent(SettingActivity.this, EditProfileActivity.class);
                 startActivity(intent);
                 Functions.animNext(SettingActivity.this);
 
@@ -193,6 +253,8 @@ public class SettingActivity extends BaseActivity {
                 if (cd.isConnectingToInternet()) {
                     builder.dismiss();
 //                    callLogoutApi();
+
+                    new SessionManager(activity).logoutUser();
                     Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
                     startActivity(intent);
                     Functions.animNext(SettingActivity.this);

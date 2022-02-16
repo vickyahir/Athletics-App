@@ -6,25 +6,29 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.Athletics.R;
 import com.example.athletics.Activity.VideoViewActivity;
-
+import com.example.athletics.Model.UserLikeVideoDataItem;
 import com.example.athletics.Utils.Functions;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class SaveVideoAdapter extends RecyclerView.Adapter<SaveVideoAdapter.Myviewholder> {
     Context context;
-    List<String> muscles;
+    List<UserLikeVideoDataItem> muscles;
 
 
-    public SaveVideoAdapter(Activity activity, List<String> muscles) {
+    public SaveVideoAdapter(Activity activity, List<UserLikeVideoDataItem> muscles) {
         this.context = activity;
         this.muscles = muscles;
     }
@@ -37,23 +41,24 @@ public class SaveVideoAdapter extends RecyclerView.Adapter<SaveVideoAdapter.Myvi
 
     @Override
     public void onBindViewHolder(@NonNull final Myviewholder holder, final int position) {
-        final String bean = muscles.get(position);
+        final UserLikeVideoDataItem bean = muscles.get(position);
 
-        holder.Tv_Title.setText(bean);
+        holder.Tv_Username.setText(bean.getAthlete().getName());
+        holder.Tv_VideoDetails.setText(bean.getTitle());
+        Glide.with(context).load(bean.getThumb()).into(holder.IvUserProfile);
+        Glide.with(context).load(bean.getThumb()).into(holder.imgVideoView);
 
-//        if (position == 0) {
-//            holder.iv_ProductCategory.setBorderWidth(8);
-//        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, VideoViewActivity.class).putExtra("fullScreenInd", "y"));
+                context.startActivity(new Intent(context, VideoViewActivity.class)
+                        .putExtra("fullScreenInd", "y")
+                        .putExtra("VideoUrl", bean.getVideo()));
+
                 Functions.animNext(context);
             }
         });
-
-//        Glide.with(context).load(bean.getBanner()).into(holder.iv_ProductCategory);
 
 
     }
@@ -65,13 +70,17 @@ public class SaveVideoAdapter extends RecyclerView.Adapter<SaveVideoAdapter.Myvi
 
 
     public class Myviewholder extends RecyclerView.ViewHolder {
-        private TextView Tv_Title, Tv_Details;
+        private TextView Tv_Username, Tv_VideoDetails;
+        private CircleImageView IvUserProfile;
+        private ImageView imgVideoView;
 
 
         public Myviewholder(@NonNull View itemView) {
             super(itemView);
-            Tv_Title = itemView.findViewById(R.id.Tv_Title);
-            Tv_Details = itemView.findViewById(R.id.Tv_Details);
+            Tv_Username = itemView.findViewById(R.id.Tv_Username);
+            Tv_VideoDetails = itemView.findViewById(R.id.Tv_VideoDetails);
+            IvUserProfile = itemView.findViewById(R.id.IvUserProfile);
+            imgVideoView = itemView.findViewById(R.id.imgVideoView);
 
         }
     }

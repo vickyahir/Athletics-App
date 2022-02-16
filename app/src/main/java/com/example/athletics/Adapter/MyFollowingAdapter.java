@@ -6,16 +6,15 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.Athletics.R;
-import com.example.athletics.Activity.MyProfileActivity;
 import com.example.athletics.Activity.UserProfileActivity;
+import com.example.athletics.Model.FollowingDataItem;
 import com.example.athletics.Utils.Functions;
 
 import java.util.List;
@@ -23,12 +22,12 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.Myviewholder> {
+public class MyFollowingAdapter extends RecyclerView.Adapter<MyFollowingAdapter.Myviewholder> {
     Context context;
-    List<String> muscles;
+    List<FollowingDataItem> muscles;
 
 
-    public NotificationAdapter(Activity activity, List<String> muscles) {
+    public MyFollowingAdapter(Activity activity, List<FollowingDataItem> muscles) {
         this.context = activity;
         this.muscles = muscles;
     }
@@ -36,22 +35,23 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @NonNull
     @Override
     public Myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new Myviewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_notifcation, parent, false));
+        return new Myviewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_find_user, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull final Myviewholder holder, final int position) {
-        final String bean = muscles.get(position);
+        final FollowingDataItem bean = muscles.get(position);
 
-        holder.Tv_Username.setText(bean);
 
-        if (position % 2 == 0) {
-            holder.FrmVideo.setVisibility(View.GONE);
-            holder.tvFollow.setVisibility(View.VISIBLE);
-        } else {
-            holder.FrmVideo.setVisibility(View.VISIBLE);
-            holder.tvFollow.setVisibility(View.GONE);
-        }
+        holder.Tv_Username.setText(bean.getName());
+        holder.Tv_UserType.setText(bean.getName());
+
+//        holder.TvProductAverageRating.setText(String.valueOf(bean.getRating()));
+//        holder.RecentlyRatingBar.setNumStars(5);
+//        holder.RecentlyRatingBar.setRating(Float.valueOf(bean.getRating()));
+//
+        Glide.with(context).load(bean.getImage()).into(holder.iv_UserProfile);
+
 
         holder.tvFollow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +70,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             public void onClick(View v) {
                 context.startActivity(new Intent(context, UserProfileActivity.class));
                 Functions.animNext(context);
+
             }
         });
 
@@ -78,6 +79,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             public void onClick(View v) {
                 context.startActivity(new Intent(context, UserProfileActivity.class));
                 Functions.animNext(context);
+
             }
         });
 
@@ -86,10 +88,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             public void onClick(View v) {
                 context.startActivity(new Intent(context, UserProfileActivity.class));
                 Functions.animNext(context);
+
             }
         });
-
-//        Glide.with(context).load(bean.getBanner()).into(holder.iv_ProductCategory);
 
 
     }
@@ -101,21 +102,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
 
     public class Myviewholder extends RecyclerView.ViewHolder {
-        private TextView Tv_Username, tvFollow, Tv_UserType;
-        private FrameLayout FrmUserProfile, FrmVideo;
         private CircleImageView iv_UserProfile;
-        private LinearLayout LLUserProfile;
+        private TextView Tv_Username, Tv_UserType, tvFollow;
 
 
         public Myviewholder(@NonNull View itemView) {
             super(itemView);
-            Tv_Username = itemView.findViewById(R.id.Tv_Username);
-            Tv_UserType = itemView.findViewById(R.id.Tv_UserType);
-            FrmUserProfile = itemView.findViewById(R.id.FrmUserProfile);
-            FrmVideo = itemView.findViewById(R.id.FrmVideo);
-            tvFollow = itemView.findViewById(R.id.tvFollow);
-            iv_UserProfile = itemView.findViewById(R.id.iv_UserProfile);
-            LLUserProfile = itemView.findViewById(R.id.LLUserProfile);
+            iv_UserProfile = (CircleImageView) itemView.findViewById(R.id.iv_UserProfile);
+            Tv_Username = (TextView) itemView.findViewById(R.id.Tv_Username);
+            Tv_UserType = (TextView) itemView.findViewById(R.id.Tv_UserType);
+            tvFollow = (TextView) itemView.findViewById(R.id.tvFollow);
 
         }
     }

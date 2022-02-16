@@ -12,15 +12,30 @@ import com.example.Athletics.R;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Constant {
 
     public static String FIREBASE_TOKEN = "";
     public static String SideMenuSelection = "Home";
+    public static String DownloadFileName = "Athletic";
 
     public static boolean isNetworkAvailable(Context context) {
         final ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
         return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
+    }
+
+
+
+    public static final String PASSWORD_PATTERN =
+            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
+
+    public static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
+
+    public static boolean isValid(String password) {
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
     }
 
 

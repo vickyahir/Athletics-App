@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.myapplication"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 31
         versionCode 1
         versionName "1.0"
@@ -91,5 +91,15 @@ dependencies {
 //    implementation 'com.github.User:Repo:Tag'
 //    implementation 'com.henryblue.mxvideoplayer:xvideoplayer:1.2.1'
     implementation 'com.linsea:universalvideoview:1.1.0@aar'
+
+    //Progress dependency in android
+    implementation 'com.agrawalsuneet.androidlibs:dotsloader:1.4'
+
+    //snackbar dependency in android
+    implementation 'com.chootdev:csnackbar:1.4.2'
+
+    //downloading progressbar
+    implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
+
 
 }

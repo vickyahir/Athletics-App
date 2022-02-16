@@ -12,7 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Athletics.R;
-import com.example.athletics.Activity.FollowingActivity;
+import com.example.athletics.Activity.MyProfileActivity;
+import com.example.athletics.Activity.UserProfileActivity;
 import com.example.athletics.Utils.Functions;
 
 import java.util.List;
@@ -67,7 +68,7 @@ public class SearchedAdapter extends RecyclerView.Adapter<SearchedAdapter.Myview
         holder.Tv_Username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, FollowingActivity.class));
+                context.startActivity(new Intent(context, UserProfileActivity.class));
                 Functions.animNext(context);
 
             }
@@ -76,7 +77,7 @@ public class SearchedAdapter extends RecyclerView.Adapter<SearchedAdapter.Myview
         holder.Tv_UserType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, FollowingActivity.class));
+                context.startActivity(new Intent(context, UserProfileActivity.class));
                 Functions.animNext(context);
 
             }
@@ -85,7 +86,7 @@ public class SearchedAdapter extends RecyclerView.Adapter<SearchedAdapter.Myview
         holder.iv_UserProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, FollowingActivity.class));
+                context.startActivity(new Intent(context, UserProfileActivity.class));
                 Functions.animNext(context);
 
             }

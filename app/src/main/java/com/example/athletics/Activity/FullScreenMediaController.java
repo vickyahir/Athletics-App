@@ -1,10 +1,11 @@
 package com.example.athletics.Activity;
 
 import android.app.Activity;
+import android.app.PictureInPictureParams;
 import android.content.Context;
+import android.util.Rational;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.MediaController;
 
@@ -13,7 +14,7 @@ import com.example.Athletics.R;
 
 public class FullScreenMediaController extends MediaController {
 
-    private ImageButton fullScreen;
+    private ImageButton fullScreen, PictureInPicture;
     private String isFullScreen;
 
     public FullScreenMediaController(Context context) {
@@ -28,11 +29,24 @@ public class FullScreenMediaController extends MediaController {
 
         //image button for full screen to be added to media controller
         fullScreen = new ImageButton(super.getContext());
+        PictureInPicture = new ImageButton(super.getContext());
 
         LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.RIGHT;
         params.rightMargin = 100;
         addView(fullScreen, params);
+
+        PictureInPicture.setImageResource(R.drawable.ic_picture_in_picture);
+        LayoutParams param = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        param.gravity = Gravity.LEFT;
+        param.leftMargin = 100;
+        addView(PictureInPicture, param);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            PictureInPicture.setVisibility(View.VISIBLE);
+        } else {
+            PictureInPicture.setVisibility(View.GONE);
+        }
 
         //fullscreen indicator from intent
         isFullScreen = ((Activity) getContext()).getIntent().
@@ -61,5 +75,22 @@ public class FullScreenMediaController extends MediaController {
 //                ((Activity) getContext()).startActivity(intent);
             }
         });
+
+
+        PictureInPicture.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    PictureInPictureParams pips = null;
+                    pips = new PictureInPictureParams.Builder()
+                            .setAspectRatio(new Rational(1, 1))
+                            .build();
+                    ((Activity) getContext()).enterPictureInPictureMode(pips);
+                }
+            }
+        });
     }
+
+
 }

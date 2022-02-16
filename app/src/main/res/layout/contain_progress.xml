@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/RelativeProgress"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.agrawalsuneet.dotsloader.loaders.RotatingCircularDotsLoader
+        android:id="@+id/RotatingProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        app:rotatingcircular_animDur="3000"
+        app:rotatingcircular_bigCircleRadius="@dimen/_12sdp"
+        app:rotatingcircular_dotsColor="@color/colorPrimary"
+        app:rotatingcircular_dotsRadius="@dimen/_3sdp" />
+
+
+</RelativeLayout>

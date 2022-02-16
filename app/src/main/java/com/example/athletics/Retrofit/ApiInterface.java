@@ -1,44 +1,82 @@
 package com.example.athletics.Retrofit;
 
 
-import retrofit2.http.DELETE;
+import com.example.athletics.Model.FollowingApiResponse;
+import com.example.athletics.Model.HomeAthleteApiResponse;
+import com.example.athletics.Model.HomeCoachApiResponse;
+import com.example.athletics.Model.HomeExploreApiResponse;
+import com.example.athletics.Model.ProfileUpdateApiResponse;
+import com.example.athletics.Model.SignInApiResponse;
+import com.example.athletics.Model.SignInData;
+import com.example.athletics.Model.UserLikeVideoApiResponse;
+
+import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
+import retrofit2.http.Part;
 
 public interface ApiInterface {
 
-//    @FormUrlEncoded
-//    @POST("auth/login")
-//    Call<SignInResponse> GetLogin(@Field("email") String email,
-//                                  @Field("password") String password,
-//                                  @Field("otp") String otp,
-//                                  @Field("lat") String lat,
-//                                  @Field("lng") String lng
-//    );
-//
-//    @FormUrlEncoded
-//    @POST("otp-for-login")
-//    Call<DefaultApiResponse> RequestOTPApi(@Field("phone") String phone
-//    );
-//
-//
-//    @FormUrlEncoded
-//    @POST("auth/signup")
-//    Call<SignUpResponse> GetSignup(@Field("email_or_phone") String email_or_phone,
-//                                   @Field("register_by") String register_by);
-//
-//    @FormUrlEncoded
-//    @POST("profile/update")
-//    Call<ProfileUpdateResponse> GetProfileUpdate(@Field("id") String id,
-//                                                 @Field("name") String name,
-//                                                 @Field("email") String email,
-//                                                 @Field("password") String password);
-//
-//
+    @FormUrlEncoded
+    @POST("login")
+    Call<SignInApiResponse> GetLogin(@Field("email") String email,
+                                     @Field("password") String password);
+
+
+    @GET("user")
+    Call<SignInData> GetProfileInfoApi();
+
+
+    @FormUrlEncoded
+    @POST("password")
+    Call<ResponseBody> ChangePassword(@Field("password") String password,
+                                      @Field("old_password") String old_password,
+                                      @Field("password_confirmation") String password_confirmation
+    );
+
+    @FormUrlEncoded
+    @POST("profile")
+    Call<ProfileUpdateApiResponse> UpdateProfileDetails(@Field("name") String name);
+
+
+    @Multipart
+    @POST("profile")
+    Call<ProfileUpdateApiResponse> UpdateUserProfile(@Part MultipartBody.Part image);
+
+
+    @GET("like-video")
+    Call<UserLikeVideoApiResponse> GetUserLikeVideoApi();
+
+
+    @FormUrlEncoded
+    @POST("athletes")
+    Call<HomeAthleteApiResponse> HomeAthleteApiResponse(@Field("limit") String limit);
+
+    @POST("explore")
+    Call<HomeExploreApiResponse> HomeExploreApiResponse();
+
+    @POST("coaches")
+    Call<HomeCoachApiResponse> HomeCoachApiResponse();
+
+
+    @FormUrlEncoded
+    @POST("register")
+    Call<ResponseBody> GetSignup(@Field("first_name") String first_name,
+                                 @Field("last_name") String last_name,
+                                 @Field("email") String email,
+                                 @Field("password") String password,
+                                 @Field("role") String role
+    );
+
+    @GET("my-following")
+    Call<FollowingApiResponse> GetMyFollowingApi();
+
+
 //    @FormUrlEncoded
 //    @POST("profile/update")
 //    Call<DefaultApiResponse> ProfileUpdatewithDob(@Field("id") String id,
@@ -151,8 +189,7 @@ public interface ApiInterface {
 //    @GET("cart-summary/{id}")
 //    Call<SummyApiResponse> GetTotalSummaryApi(@Path(value = "id") String id);
 //
-//    @GET("user/info")
-//    Call<ProfileDataResponse> GetProfileInfoApi();
+//
 //
 //    @GET("profile/avatar-original-remove")
 //    Call<DefaultApiResponse> RemoveUserProfile();

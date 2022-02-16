@@ -26,7 +26,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
-
 import com.example.Athletics.R;
 import com.example.athletics.Utils.Functions;
 
@@ -145,7 +144,7 @@ public class UploadVideoActivity extends BaseActivity {
             } else {
                 AlertDialog alertDialog = new AlertDialog.Builder(UploadVideoActivity.this).create();
                 alertDialog.setTitle("Athletics App");
-                alertDialog.setMessage("Permission denied from setting ! Please give permission to upload video.");
+                alertDialog.setMessage("Read Storage permission is necessary to upload video.");
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -203,7 +202,10 @@ public class UploadVideoActivity extends BaseActivity {
     }
 
     private String getRealPathFromURIForVideo(Uri selectedVideoUri) {
-        String wholeID = DocumentsContract.getDocumentId(selectedVideoUri);
+        String wholeID = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            wholeID = DocumentsContract.getDocumentId(selectedVideoUri);
+        }
         String id = wholeID.split(":")[1];
 
         String[] column = {MediaStore.Video.Media.DATA};
