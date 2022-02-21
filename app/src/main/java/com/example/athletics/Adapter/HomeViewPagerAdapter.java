@@ -6,24 +6,27 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.Athletics.R;
 import com.example.athletics.Activity.VideoViewActivity;
+import com.example.athletics.Model.AthleteProfileVideosItem;
 import com.example.athletics.Utils.Functions;
 
 import java.util.List;
 
 
-public class HomeVideoAdapter extends RecyclerView.Adapter<HomeVideoAdapter.Myviewholder> {
+public class HomeViewPagerAdapter extends RecyclerView.Adapter<HomeViewPagerAdapter.Myviewholder> {
     Context context;
-    List<String> muscles;
+    List<AthleteProfileVideosItem> muscles;
 
 
-    public HomeVideoAdapter(Activity activity, List<String> muscles) {
+    public HomeViewPagerAdapter(Activity activity, List<AthleteProfileVideosItem> muscles) {
         this.context = activity;
         this.muscles = muscles;
     }
@@ -36,9 +39,9 @@ public class HomeVideoAdapter extends RecyclerView.Adapter<HomeVideoAdapter.Myvi
 
     @Override
     public void onBindViewHolder(@NonNull final Myviewholder holder, final int position) {
-        final String bean = muscles.get(position);
+        final AthleteProfileVideosItem bean = muscles.get(position);
 
-        holder.Tv_Title.setText(bean);
+        holder.Tv_Title.setText(bean.getTitle());
 
 //        if (position == 0) {
 //            holder.iv_ProductCategory.setBorderWidth(8);
@@ -53,7 +56,7 @@ public class HomeVideoAdapter extends RecyclerView.Adapter<HomeVideoAdapter.Myvi
             }
         });
 
-//        Glide.with(context).load(bean.getBanner()).into(holder.iv_ProductCategory);
+        Glide.with(context).load(bean.getThumb()).into(holder.ImgAthleteVideo);
 
 
     }
@@ -66,12 +69,14 @@ public class HomeVideoAdapter extends RecyclerView.Adapter<HomeVideoAdapter.Myvi
 
     public class Myviewholder extends RecyclerView.ViewHolder {
         private TextView Tv_Title, Tv_Details;
+        private ImageView ImgAthleteVideo;
 
 
         public Myviewholder(@NonNull View itemView) {
             super(itemView);
             Tv_Title = itemView.findViewById(R.id.Tv_Title);
             Tv_Details = itemView.findViewById(R.id.Tv_Details);
+            ImgAthleteVideo = itemView.findViewById(R.id.ImgAthleteVideo);
 
         }
     }

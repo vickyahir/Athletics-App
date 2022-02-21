@@ -14,19 +14,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.Athletics.R;
-import com.example.athletics.Activity.AthleteProfileActivity;
-import com.example.athletics.Model.HomeAthleteDataItem;
+import com.example.athletics.Activity.VideoViewActivity;
+import com.example.athletics.Model.AthleteProfileVideosItem;
 import com.example.athletics.Utils.Functions;
 
 import java.util.List;
 
 
-public class ProductCategoryAdapter extends RecyclerView.Adapter<ProductCategoryAdapter.Myviewholder> {
+public class AthleteProfileVideoAdapter extends RecyclerView.Adapter<AthleteProfileVideoAdapter.Myviewholder> {
     Context context;
-    List<HomeAthleteDataItem> muscles;
+    List<AthleteProfileVideosItem> muscles;
 
 
-    public ProductCategoryAdapter(Activity activity, List<HomeAthleteDataItem> muscles) {
+    public AthleteProfileVideoAdapter(Activity activity, List<AthleteProfileVideosItem> muscles) {
         this.context = activity;
         this.muscles = muscles;
     }
@@ -34,16 +34,14 @@ public class ProductCategoryAdapter extends RecyclerView.Adapter<ProductCategory
     @NonNull
     @Override
     public Myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new Myviewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category, parent, false));
+        return new Myviewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_profile_home, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull final Myviewholder holder, final int position) {
-        final HomeAthleteDataItem bean = muscles.get(position);
+        final AthleteProfileVideosItem bean = muscles.get(position);
 
-        holder.Tv_AthleteName.setText(bean.getName());
-        Glide.with(context).load(bean.getImage()).into(holder.iv_AthleticProfile);
-
+        holder.Tv_Title.setText(bean.getTitle());
 
 //        if (position == 0) {
 //            holder.iv_ProductCategory.setBorderWidth(8);
@@ -52,10 +50,13 @@ public class ProductCategoryAdapter extends RecyclerView.Adapter<ProductCategory
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, AthleteProfileActivity.class).putExtra("Id", String.valueOf(bean.getId())));
+                context.startActivity(new Intent(context, VideoViewActivity.class).putExtra("fullScreenInd", "y")
+                        .putExtra("VideoUrl", ""));
                 Functions.animNext(context);
             }
         });
+
+        Glide.with(context).load(bean.getThumb()).into(holder.ImgAthleteVideo);
 
 
     }
@@ -67,14 +68,15 @@ public class ProductCategoryAdapter extends RecyclerView.Adapter<ProductCategory
 
 
     public class Myviewholder extends RecyclerView.ViewHolder {
-        private ImageView iv_AthleticProfile;
-        private TextView Tv_AthleteName;
+        private TextView Tv_Title, Tv_Details;
+        private ImageView ImgAthleteVideo;
 
 
         public Myviewholder(@NonNull View itemView) {
             super(itemView);
-            iv_AthleticProfile = itemView.findViewById(R.id.iv_AthleticProfile);
-            Tv_AthleteName = itemView.findViewById(R.id.Tv_AthleteName);
+            Tv_Title = itemView.findViewById(R.id.Tv_Title);
+            Tv_Details = itemView.findViewById(R.id.Tv_Details);
+            ImgAthleteVideo = itemView.findViewById(R.id.ImgAthleteVideo);
 
         }
     }

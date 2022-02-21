@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -245,7 +244,7 @@ public class HomeActivity extends BaseActivity {
 
         final Dialog builder = new Dialog(HomeActivity.this);
         builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        View view1 = LayoutInflater.from(HomeActivity.this).inflate(R.layout.logout_dialog, null);
+        View view1 = LayoutInflater.from(HomeActivity.this).inflate(R.layout.dialog_logout, null);
 
         TextView tvDialogok = (TextView) view1.findViewById(R.id.tvDialogok);
         TextView tvDialogCancel = (TextView) view1.findViewById(R.id.tvDialogCancel);
@@ -479,10 +478,6 @@ public class HomeActivity extends BaseActivity {
             }
         });
     }
-
-
-
-
 
 
     private void callHomeCoachListingDataApi() {

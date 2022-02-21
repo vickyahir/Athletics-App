@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.Athletics.R;
@@ -32,10 +33,12 @@ import retrofit2.Response;
 public class SettingActivity extends BaseActivity {
     private ImageView imgBack, imgMenu;
     private Toolbar toolbarMain;
-    private TextView TvTitle, Tv_Username, Tv_UserEmail;
-    private LinearLayout LLLogout, LLCheckForUpdate, LLRateUs, LLPackageDetail, LLHelpSupport, LLAbout, LLLikeVideo, LLNotification, LLProfile, LLMain;
+    private TextView TvTitle, Tv_Username, Tv_UserEmail, TvLogout;
+    private LinearLayout LLLogout, LLCheckForUpdate, LLRateUs, LLPackageDetail,
+            LLHelpSupport, LLAbout, LLLikeVideo, LLNotification, LLProfile, LLMain, LLProfileView;
     private RelativeLayout LLProfileMain;
     private CircleImageView iv_User;
+    private SwipeRefreshLayout SwipeSettingPage;
 
 
     @Override
@@ -61,6 +64,7 @@ public class SettingActivity extends BaseActivity {
         imgBack = toolbarMain.findViewById(R.id.imgBack);
         imgMenu = toolbarMain.findViewById(R.id.imgMenu);
         TvTitle = toolbarMain.findViewById(R.id.TvTitle);
+        TvLogout = findViewById(R.id.TvLogout);
         LLLogout = findViewById(R.id.LLLogout);
         LLCheckForUpdate = findViewById(R.id.LLCheckForUpdate);
         LLPackageDetail = findViewById(R.id.LLPackageDetail);
@@ -69,27 +73,43 @@ public class SettingActivity extends BaseActivity {
         LLLikeVideo = findViewById(R.id.LLLikeVideo);
         LLNotification = findViewById(R.id.LLNotification);
         LLMain = findViewById(R.id.LLMain);
+        LLProfileView = findViewById(R.id.LLProfileView);
         iv_User = findViewById(R.id.iv_User);
         Tv_Username = findViewById(R.id.Tv_Username);
         Tv_UserEmail = findViewById(R.id.Tv_UserEmail);
-
+        SwipeSettingPage = (SwipeRefreshLayout) findViewById(R.id.SwipeSettingPage);
         LLRateUs = findViewById(R.id.LLRateUs);
         LLProfile = findViewById(R.id.LLProfile);
         LLProfileMain = findViewById(R.id.LLProfileMain);
 
         TvTitle.setText(getResources().getString(R.string.settings));
 
+        if (new SessionManager(SettingActivity.this).getUserID().equalsIgnoreCase("")) {
+            TvLogout.setText(getResources().getString(R.string.login));
+            LLProfileView.setVisibility(View.GONE);
+        } else {
+            TvLogout.setText(getResources().getString(R.string.logout));
+            LLProfileView.setVisibility(View.VISIBLE);
+        }
+
     }
 
     private void loadData() {
 
-        if (cd.isConnectingToInternet()) {
-            Functions.dialogShow(SettingActivity.this);
-            callProfileApiResponse();
+        if (!new SessionManager(SettingActivity.this).getUserID().equalsIgnoreCase("")) {
+            if (cd.isConnectingToInternet()) {
+                Functions.dialogShow(SettingActivity.this);
+                callProfileApiResponse();
+            } else {
+                Snackbar snackbar = Snackbar.make(LLProfileMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
         } else {
-            Snackbar snackbar = Snackbar.make(LLProfileMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
-            snackbar.show();
+            if (SwipeSettingPage.isRefreshing()) {
+                SwipeSettingPage.setRefreshing(false);
+            }
         }
+
     }
 
     @Override
@@ -108,6 +128,11 @@ public class SettingActivity extends BaseActivity {
                 try {
                     if (response.isSuccessful()) {
                         Functions.dialogHide();
+
+                        if (SwipeSettingPage.isRefreshing()) {
+                            SwipeSettingPage.setRefreshing(false);
+                        }
+
                         LLMain.setVisibility(View.VISIBLE);
                         Tv_Username.setText(response.body().getName());
                         Tv_UserEmail.setText(response.body().getEmail());
@@ -133,6 +158,13 @@ public class SettingActivity extends BaseActivity {
 
 
     private void setClickListener() {
+
+        SwipeSettingPage.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,7 +204,7 @@ public class SettingActivity extends BaseActivity {
         LLLikeVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SettingActivity.this, SaveVideoActivity.class);
+                Intent intent = new Intent(SettingActivity.this, LikeVideoActivity.class);
                 startActivity(intent);
                 Functions.animNext(SettingActivity.this);
             }
@@ -182,7 +214,15 @@ public class SettingActivity extends BaseActivity {
         LLLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showLogoutDialog();
+
+                if (new SessionManager(SettingActivity.this).getUserID().equalsIgnoreCase("")) {
+                    Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    Functions.animNext(SettingActivity.this);
+                } else {
+                    showLogoutDialog();
+                }
+
             }
         });
 
@@ -240,7 +280,7 @@ public class SettingActivity extends BaseActivity {
     public void showLogoutDialog() {
         final Dialog builder = new Dialog(activity);
         builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        View view1 = LayoutInflater.from(activity).inflate(R.layout.logout_dialog, null);
+        View view1 = LayoutInflater.from(activity).inflate(R.layout.dialog_logout, null);
 
         TextView tvDialogok = (TextView) view1.findViewById(R.id.tvDialogok);
         TextView tvDialogCancel = (TextView) view1.findViewById(R.id.tvDialogCancel);

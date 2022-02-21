@@ -35,7 +35,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8sdp"
-                    android:layout_marginEnd="@dimen/_8sdp">
+                    android:layout_marginEnd="@dimen/_8sdp"
+
+                    >
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvAthlete"
@@ -136,8 +138,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_150sdp"
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
 
                         <include layout="@layout/activity_nodatafound" />
 

@@ -19,13 +19,11 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.PowerManager;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -34,13 +32,11 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.example.Athletics.R;
-import com.example.athletics.Activity.AthleteProfileActivity;
 import com.example.athletics.Activity.LoginActivity;
 import com.example.athletics.Activity.VideoViewActivity;
-import com.example.athletics.Model.HomeExploreDataItem;
+import com.example.athletics.Model.AthleteProfileVideosItem;
 import com.example.athletics.Model.LikeVideoApiResponse;
 import com.example.athletics.Model.VideoCountIncrementResponse;
 import com.example.athletics.Retrofit.ApiClient;
@@ -66,10 +62,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExploreCategoryAdapter.Myviewholder> {
+public class AthleteVideoAdapter extends RecyclerView.Adapter<AthleteVideoAdapter.Myviewholder> {
     Context context;
     String fileN = null;
-    List<HomeExploreDataItem> muscles;
+    List<AthleteProfileVideosItem> muscles;
     Dialog downloadDialog;
     NotificationManager notificationManager;
     PendingIntent pendingIntent;
@@ -79,7 +75,7 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
     public ConnectionDetector cd;
 
 
-    public HomeExploreCategoryAdapter(Activity activity, List<HomeExploreDataItem> muscles) {
+    public AthleteVideoAdapter(Activity activity, List<AthleteProfileVideosItem> muscles) {
         this.context = activity;
         this.muscles = muscles;
     }
@@ -87,16 +83,14 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
     @NonNull
     @Override
     public Myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new Myviewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_explore_list, parent, false));
+        return new Myviewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_athlete_video_list, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull final Myviewholder holder, final int position) {
-        final HomeExploreDataItem bean = muscles.get(position);
+        final AthleteProfileVideosItem bean = muscles.get(position);
         cd = new ConnectionDetector(context);
 
-
-        holder.Tv_Username.setText(bean.getAthlete().getName());
         holder.Tv_PostTitle.setText(bean.getTitle());
         holder.TvViewCount.setText(String.valueOf(bean.getViews()));
 
@@ -116,8 +110,8 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
         }
 
 
-        Glide.with(context).load(bean.getThumb()).into(holder.iv_User);
-
+//        Glide.with(context).load(bean.getThumb()).into(holder.iv_User);
+//        Glide.with(context).load(bean.getThumb()).into(holder.simpleVideoView);
 
 //        holder.simpleVideoView.setVideoURI(Uri.parse(bean.getVideo()));
 
@@ -127,17 +121,40 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
             @Override
             public void onClick(View view) {
 
+
                 holder.imgPlay.setVisibility(View.GONE);
                 holder.simpleVideoView.setVideoURI(Uri.parse(bean.getVideo()));
-//                holder.VideoProgress.setVisibility(View.VISIBLE);
-                holder.RoundProgress.setVisibility(View.VISIBLE);
-//                holder.LLVideoProgress.setVisibility(View.VISIBLE);
 //                holder.simpleVideoView.start();
+                holder.RoundProgress.setVisibility(View.VISIBLE);
 
+
+//                context.startActivity(new Intent(context, VideoViewActivity.class).putExtra("fullScreenInd", "y").putExtra("VideoUrl", bean.getVideo()));
+//                Functions.animNext(context);
 
             }
         });
 
+
+        holder.imgLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (new SessionManager(context).getUserID().equalsIgnoreCase("")) {
+                    LoginAlertDialog();
+                } else {
+                    if (cd.isConnectingToInternet()) {
+                        Functions.dialogShow(context);
+                        CallLikeUnlikeVideoApiResponse(String.valueOf(bean.getId()), holder.imgLike, holder.TvLikeCount);
+
+                    } else {
+                        Snackbar snackbar = Snackbar.make(holder.LLItemAthlete, context.getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                }
+
+
+            }
+        });
 
         holder.simpleVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
@@ -154,52 +171,13 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
 //                holder.VideoProgress.setVisibility(View.GONE);
                 holder.RoundProgress.setVisibility(View.GONE);
                 holder.simpleVideoView.start();
-                if (cd.isConnectingToInternet()) {
-                    CallVideoCounIncrementResponse(String.valueOf(bean.getId()));
-                    int viewCount = bean.getViews() + 1;
-                    holder.TvViewCount.setText(String.valueOf(viewCount));
 
+                if (cd.isConnectingToInternet()) {
+                    CallVideoCounIncrementResponse(String.valueOf(bean.getId()), bean.getViews(), holder.TvViewCount);
                 } else {
-                    Snackbar snackbar = Snackbar.make(holder.LLExploreItem, context.getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(holder.LLItemAthlete, context.getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
-            }
-        });
-        holder.ImgMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(context, holder.ImgMenu);
-
-                // Inflating popup menu from popup_menu.xml file
-                popupMenu.getMenuInflater().inflate(R.menu.home_menu, popupMenu.getMenu());
-                popupMenu.getMenu().findItem(R.id.MenuShareVideo).setVisible(true);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        // Toast message on menu item clicked
-//                        Toast.makeText(context, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
-
-
-                        if (menuItem.getItemId() == R.id.MenuShareVideo) {
-
-                            Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-                            intent.setType("text/plain");
-                            intent.putExtra(Intent.EXTRA_SUBJECT, "Athletic App");
-                            intent.putExtra(Intent.EXTRA_TEXT, bean.getVideo());
-                            context.startActivity(Intent.createChooser(intent, "Share Video"));
-
-                        } else if (menuItem.getItemId() == R.id.MenuDownloadVideo) {
-
-//                            Toast.makeText(context, "Downloading", Toast.LENGTH_SHORT).show();
-                            newDownload(bean.getVideo());
-
-                        } else if (menuItem.getItemId() == R.id.MenuPictureInPicture) {
-                        }
-                        return true;
-                    }
-                });
-                // Showing the popup menu
-                popupMenu.show();
             }
         });
 
@@ -232,7 +210,7 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
         holder.ImgShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
                 intent.putExtra(Intent.EXTRA_SUBJECT, "Athletic App");
                 intent.putExtra(Intent.EXTRA_TEXT, bean.getVideo());
@@ -241,69 +219,11 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
         });
 
 
-        holder.imgLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (new SessionManager(context).getUserID().equalsIgnoreCase("")) {
-                    LoginAlertDialog();
-                } else {
-                    if (cd.isConnectingToInternet()) {
-                        Functions.dialogShow(context);
-                        CallLikeUnlikeVideoApiResponse(String.valueOf(bean.getId()), holder.imgLike, holder.TvLikeCount);
-
-                    } else {
-                        Snackbar snackbar = Snackbar.make(holder.LLExploreItem, context.getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
-                        snackbar.show();
-                    }
-                }
-            }
-        });
-
-        holder.Tv_Username.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                context.startActivity(new Intent(context, AthleteProfileActivity.class).putExtra("Id", String.valueOf(bean.getUserId())));
-                Functions.animNext(context);
-
-            }
-        });
-
-        holder.Tv_UserType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                context.startActivity(new Intent(context, AthleteProfileActivity.class).putExtra("Id", String.valueOf(bean.getUserId())));
-                Functions.animNext(context);
-
-            }
-        });
-
-        holder.iv_User.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                context.startActivity(new Intent(context, AthleteProfileActivity.class).putExtra("Id", String.valueOf(bean.getUserId())));
-                Functions.animNext(context);
-
-            }
-        });
-
         holder.imgFullscreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 context.startActivity(new Intent(context, VideoViewActivity.class).putExtra("fullScreenInd", "y").putExtra("VideoUrl", bean.getVideo()));
                 Functions.animNext(context);
-//                if (cd.isConnectingToInternet()) {
-//                    CallVideoCounIncrementResponse(String.valueOf(bean.getId()));
-//                    int viewCount = bean.getViews() + 1;
-//                    holder.TvViewCount.setText(String.valueOf(viewCount));
-//
-//                } else {
-//                    Snackbar snackbar = Snackbar.make(holder.LLExploreItem, context.getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
-//                    snackbar.show();
-//                }
             }
         });
 
@@ -318,28 +238,24 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
 
 
     public class Myviewholder extends RecyclerView.ViewHolder {
-        public ImageView iv_User, imgLike, imgView, ImgMenu, imgFullscreen, imgPlay, ImgShare;
-        public TextView Tv_Username, TvLikeCount, TvViewCount, Tv_UserType, Tv_PostTitle;
-        public LinearLayout LLUserProfile, LLExploreItem, LLVideoProgress;
+        public ImageView imgLike, imgView, imgFullscreen, imgPlay, ImgShare;
+        public TextView TvLikeCount, TvViewCount, Tv_PostTitle;
+        public LinearLayout LLUserProfile, LLItemAthlete;
         public VideoView simpleVideoView;
         public CircularProgressIndicator RoundProgress;
 
         public Myviewholder(@NonNull View itemView) {
             super(itemView);
-            iv_User = itemView.findViewById(R.id.iv_User);
-            Tv_Username = itemView.findViewById(R.id.Tv_Username);
-            Tv_UserType = itemView.findViewById(R.id.Tv_UserType);
             Tv_PostTitle = itemView.findViewById(R.id.Tv_PostTitle);
             imgLike = itemView.findViewById(R.id.imgLike);
             imgView = itemView.findViewById(R.id.imgView);
             ImgShare = itemView.findViewById(R.id.ImgShare);
-            ImgMenu = itemView.findViewById(R.id.ImgMenu);
             imgPlay = itemView.findViewById(R.id.imgPlay);
             imgFullscreen = itemView.findViewById(R.id.imgFullscreen);
             TvLikeCount = itemView.findViewById(R.id.TvLikeCount);
             TvViewCount = itemView.findViewById(R.id.TvViewCount);
             LLUserProfile = itemView.findViewById(R.id.LLUserProfile);
-            LLExploreItem = itemView.findViewById(R.id.LLExploreItem);
+            LLItemAthlete = itemView.findViewById(R.id.LLItemAthlete);
             simpleVideoView = itemView.findViewById(R.id.simpleVideoView);
             RoundProgress = itemView.findViewById(R.id.RoundProgress);
 
@@ -368,7 +284,7 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
             OutputStream output = null;
             HttpURLConnection connection = null;
             try {
-                java.net.URL url = new URL(sUrl[0]);
+                URL url = new URL(sUrl[0]);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
 
@@ -538,7 +454,7 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
 
     }
 
-    public void CallVideoCounIncrementResponse(String VideoId) {
+    public void CallVideoCounIncrementResponse(String VideoId, int views, TextView tvViewCount) {
 
         apiInterface = ApiClient.getClient(context).create(ApiInterface.class);
         Call<VideoCountIncrementResponse> loginApiResponseCall = apiInterface.GetVideoIncrementCount(VideoId);
@@ -547,7 +463,8 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
             public void onResponse(Call<VideoCountIncrementResponse> call, Response<VideoCountIncrementResponse> response) {
                 try {
                     if (response.isSuccessful()) {
-
+                        int viewCount = views + 1;
+                        tvViewCount.setText(String.valueOf(viewCount));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

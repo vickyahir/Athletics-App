@@ -1,14 +1,19 @@
 package com.example.athletics.Retrofit;
 
 
+import com.example.athletics.Model.AthleteProfileResponse;
+import com.example.athletics.Model.CoachProfileApiResponse;
 import com.example.athletics.Model.FollowingApiResponse;
+import com.example.athletics.Model.GetAthleteFollowUnFollowResponse;
 import com.example.athletics.Model.HomeAthleteApiResponse;
 import com.example.athletics.Model.HomeCoachApiResponse;
 import com.example.athletics.Model.HomeExploreApiResponse;
+import com.example.athletics.Model.LikeVideoApiResponse;
 import com.example.athletics.Model.ProfileUpdateApiResponse;
 import com.example.athletics.Model.SignInApiResponse;
 import com.example.athletics.Model.SignInData;
 import com.example.athletics.Model.UserLikeVideoApiResponse;
+import com.example.athletics.Model.VideoCountIncrementResponse;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -19,6 +24,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 public interface ApiInterface {
 
@@ -75,6 +81,21 @@ public interface ApiInterface {
 
     @GET("my-following")
     Call<FollowingApiResponse> GetMyFollowingApi();
+
+    @GET("athlete/{id}")
+    Call<AthleteProfileResponse> GetAthleteProfileApiResponse(@Path(value = "id") String id);
+
+    @GET("athlete/{id}/follow")
+    Call<GetAthleteFollowUnFollowResponse> GetAthleteFollowUnFollow(@Path(value = "id") String id);
+
+    @GET("video/{id}/increment")
+    Call<VideoCountIncrementResponse> GetVideoIncrementCount(@Path(value = "id") String id);
+
+    @GET("coach/{id}")
+    Call<CoachProfileApiResponse> GetCoachProfileApiResponse(@Path(value = "id") String id);
+
+    @GET("video/{id}/like")
+    Call<LikeVideoApiResponse> GetLikeUnlikeVideo(@Path(value = "id") String id);
 
 
 //    @FormUrlEncoded

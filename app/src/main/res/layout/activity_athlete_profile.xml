@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/RelMyProfileMain"
+    android:id="@+id/RelFollowingMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_app"
@@ -13,27 +13,24 @@
         layout="@layout/toolbarwith_back" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/SwipeProfilePage"
+        android:id="@+id/SwipeAthleteProfilePage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bootomMenu"
         android:layout_below="@+id/toolbar">
 
-
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/bootomMenu"
-            android:layout_below="@+id/toolbar">
+            android:scrollbars="vertical">
 
 
             <LinearLayout
-                android:id="@+id/LLProfile"
+                android:id="@+id/LLAthleteProfileMain"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:descendantFocusability="blocksDescendants"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -83,18 +80,19 @@
                                     android:layout_gravity="center|end"
                                     android:gravity="center|end"
                                     android:orientation="horizontal"
-                                    android:paddingBottom="@dimen/_40sdp"
-                                    android:visibility="gone">
+                                    android:paddingBottom="@dimen/_40sdp">
 
                                     <ImageView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/_2sdp"
                                         android:padding="@dimen/_10sdp"
-                                        android:src="@drawable/ic_communication" />
+                                        android:src="@drawable/ic_communication"
+                                        android:visibility="gone" />
 
 
                                     <ImageView
+                                        android:id="@+id/imgFollow"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/_5sdp"
@@ -130,19 +128,7 @@
                                         android:fontFamily="@font/rubik_medium"
                                         android:maxLines="2"
                                         android:textColor="@color/gray"
-                                        android:textSize="@dimen/_9ssp"
-                                        android:visibility="gone"
-                                        tools:text="Coach" />
-
-                                    <TextView
-                                        android:id="@+id/Tv_UserEmail"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/_2sdp"
-                                        android:fontFamily="@font/rubik_medium"
-                                        android:maxLines="2"
-                                        android:textColor="@color/gray"
-                                        android:textSize="@dimen/_9ssp"
+                                        android:textSize="@dimen/_10ssp"
                                         tools:text="Coach" />
 
                                 </LinearLayout>
@@ -156,7 +142,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_20sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginBottom="@dimen/_20sdp">
 
 
@@ -230,18 +216,15 @@
                             <View
                                 android:layout_width="1dp"
                                 android:layout_height="match_parent"
-                                android:background="@color/border"
-                                android:visibility="visible" />
+                                android:background="@color/border" />
 
                             <LinearLayout
-                                android:id="@+id/LLLikeVideo"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
                                 android:gravity="center"
-                                android:orientation="vertical"
-                                android:visibility="visible">
+                                android:orientation="vertical">
 
 
                                 <TextView
@@ -258,7 +241,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/_8sdp"
                                     android:fontFamily="@font/rubik_regular"
-                                    android:text="@string/like_video"
+                                    android:text="@string/videos"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_10ssp" />
 
@@ -272,107 +255,15 @@
 
                 </LinearLayout>
 
-
-                <LinearLayout
+                <FrameLayout
+                    android:id="@+id/FrmProfileBg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_20sdp"
                     android:layout_marginEnd="@dimen/_10sdp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_15sdp"
-                        android:orientation="vertical">
-
-
-                        <LinearLayout
-                            android:id="@+id/LLProfileMenu"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start|center"
-                            android:background="@drawable/bg_button"
-                            android:gravity="start|center"
-
-                            >
-
-                            <ImageView
-                                android:layout_width="@dimen/_15sdp"
-                                android:layout_height="@dimen/_15sdp"
-                                android:layout_marginLeft="@dimen/_15sdp"
-                                android:src="@drawable/ic_menu_profile"
-                                android:tint="@color/white"
-
-                                />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="@dimen/_15sdp"
-                                android:fontFamily="@font/rubik_medium"
-                                android:gravity="center|start"
-                                android:letterSpacing="0.05"
-                                android:paddingTop="@dimen/_10sdp"
-                                android:paddingBottom="@dimen/_10sdp"
-                                android:text="@string/profie"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/_12ssp" />
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:id="@+id/LLLikeVideoMenu"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start|center"
-                            android:layout_marginTop="@dimen/_15sdp"
-                            android:background="@drawable/bg_button"
-                            android:gravity="start|center">
-
-                            <ImageView
-                                android:layout_width="@dimen/_15sdp"
-                                android:layout_height="@dimen/_15sdp"
-                                android:layout_marginLeft="@dimen/_15sdp"
-                                android:src="@drawable/ic_like_video"
-                                android:tint="@color/white"
-
-                                />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="@dimen/_15sdp"
-                                android:fontFamily="@font/rubik_medium"
-                                android:gravity="center|start"
-                                android:letterSpacing="0.05"
-                                android:paddingTop="@dimen/_10sdp"
-                                android:paddingBottom="@dimen/_10sdp"
-                                android:text="@string/like_video"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/_12ssp" />
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:id="@+id/FrmProfileBg"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:background="@drawable/profile_bg"
-                    android:visibility="gone">
+                    <!--                    android:background="@drawable/profile_bg"-->
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -410,9 +301,9 @@
                             android:id="@+id/LLVideoData"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
                             android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
                             android:orientation="vertical"
                             android:visibility="visible">
 
@@ -421,15 +312,16 @@
                                 android:id="@+id/rvProfileHome"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:visibility="visible"
                                 tools:itemCount="2"
-                                tools:listitem="@layout/item_profile_home" />
+                                tools:listitem="@layout/item_athlete_video_list" />
 
 
                             <TextView
                                 android:id="@+id/TvNodataFound"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/_250sdp"
+                                android:layout_marginTop="@dimen/_120sdp"
                                 android:fontFamily="@font/rubik_medium"
                                 android:gravity="center"
                                 android:text="@string/no_data_found"
@@ -439,6 +331,82 @@
 
 
                         </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/LLSportDataWithoutLogin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:gravity="center"
+                            android:visibility="gone">
+
+
+                            <ImageView
+                                android:layout_width="@dimen/_35sdp"
+                                android:layout_height="@dimen/_35sdp"
+                                android:padding="@dimen/_2sdp"
+                                android:src="@drawable/ic_group" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/rubik_regular"
+                                    android:text="@string/sports_"
+                                    android:textColor="@color/blur_color_fulldark"
+                                    android:textSize="@dimen/_10ssp" />
+
+                                <TextView
+                                    android:id="@+id/TvSportsWithoudLogin"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_3sdp"
+                                    android:fontFamily="@font/rubik_regular"
+                                    android:textColor="@color/gray"
+                                    android:textSize="@dimen/_9ssp"
+                                    tools:text="Soccer" />
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/LLJoinToView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_100sdp"
+                            android:visibility="gone">
+
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_10sdp"
+                                android:background="@drawable/bg_button"
+                                android:fontFamily="@font/rubik_medium"
+                                android:gravity="center"
+                                android:letterSpacing="0.05"
+                                android:paddingTop="@dimen/_10sdp"
+                                android:paddingBottom="@dimen/_10sdp"
+                                android:text="@string/join_us_to_view_the_athlets_profile"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_12ssp" />
+
+
+                        </LinearLayout>
+
 
                         <LinearLayout
                             android:id="@+id/LLPersonalData"
@@ -491,13 +459,14 @@
                                         android:textSize="@dimen/_10ssp" />
 
                                     <TextView
+                                        android:id="@+id/TvEmail"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/_3sdp"
                                         android:fontFamily="@font/rubik_regular"
-                                        android:text="Personaldetails@gmail.com"
                                         android:textColor="@color/gray"
-                                        android:textSize="@dimen/_9ssp" />
+                                        android:textSize="@dimen/_9ssp"
+                                        tools:text="Personaldetails@gmail.com" />
 
 
                                 </LinearLayout>
@@ -535,13 +504,14 @@
                                         android:textSize="@dimen/_10ssp" />
 
                                     <TextView
+                                        android:id="@+id/TvSports"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/_3sdp"
                                         android:fontFamily="@font/rubik_regular"
-                                        android:text="Soccer"
                                         android:textColor="@color/gray"
-                                        android:textSize="@dimen/_9ssp" />
+                                        android:textSize="@dimen/_9ssp"
+                                        tools:text="Soccer" />
 
 
                                 </LinearLayout>
@@ -579,13 +549,14 @@
                                         android:textSize="@dimen/_10ssp" />
 
                                     <TextView
+                                        android:id="@+id/TvPosition"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/_3sdp"
                                         android:fontFamily="@font/rubik_regular"
-                                        android:text="Expert trainer"
                                         android:textColor="@color/gray"
-                                        android:textSize="@dimen/_9ssp" />
+                                        android:textSize="@dimen/_9ssp"
+                                        tools:text="Expert trainer" />
 
 
                                 </LinearLayout>
@@ -623,13 +594,14 @@
                                         android:textSize="@dimen/_10ssp" />
 
                                     <TextView
+                                        android:id="@+id/TvMajor"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/_3sdp"
                                         android:fontFamily="@font/rubik_regular"
-                                        android:text="major_2"
                                         android:textColor="@color/gray"
-                                        android:textSize="@dimen/_9ssp" />
+                                        android:textSize="@dimen/_9ssp"
+                                        tools:text="major_2" />
 
 
                                 </LinearLayout>
@@ -667,13 +639,14 @@
                                         android:textSize="@dimen/_10ssp" />
 
                                     <TextView
+                                        android:id="@+id/TvAge"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/_3sdp"
                                         android:fontFamily="@font/rubik_regular"
-                                        android:text="22"
                                         android:textColor="@color/gray"
-                                        android:textSize="@dimen/_9ssp" />
+                                        android:textSize="@dimen/_9ssp"
+                                        tools:text="22" />
 
 
                                 </LinearLayout>
@@ -711,13 +684,14 @@
                                         android:textSize="@dimen/_10ssp" />
 
                                     <TextView
+                                        android:id="@+id/TvGender"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/_3sdp"
                                         android:fontFamily="@font/rubik_regular"
-                                        android:text="Male"
                                         android:textColor="@color/gray"
-                                        android:textSize="@dimen/_9ssp" />
+                                        android:textSize="@dimen/_9ssp"
+                                        tools:text="Male" />
 
 
                                 </LinearLayout>
@@ -755,13 +729,14 @@
                                         android:textSize="@dimen/_10ssp" />
 
                                     <TextView
+                                        android:id="@+id/TvSpeed"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/_3sdp"
                                         android:fontFamily="@font/rubik_regular"
-                                        android:text="2454 mp/h"
                                         android:textColor="@color/gray"
-                                        android:textSize="@dimen/_9ssp" />
+                                        android:textSize="@dimen/_9ssp"
+                                        tools:text="2454 mp/h" />
 
 
                                 </LinearLayout>
@@ -813,13 +788,14 @@
                                         android:textSize="@dimen/_10ssp" />
 
                                     <TextView
+                                        android:id="@+id/TvUniversity"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/_3sdp"
                                         android:fontFamily="@font/rubik_regular"
-                                        android:text="Standford University"
                                         android:textColor="@color/gray"
-                                        android:textSize="@dimen/_9ssp" />
+                                        android:textSize="@dimen/_9ssp"
+                                        tools:text="Standford University" />
 
 
                                 </LinearLayout>
@@ -857,13 +833,14 @@
                                         android:textSize="@dimen/_10ssp" />
 
                                     <TextView
+                                        android:id="@+id/TvSchool"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/_3sdp"
                                         android:fontFamily="@font/rubik_regular"
-                                        android:text="grand sr school"
                                         android:textColor="@color/gray"
-                                        android:textSize="@dimen/_9ssp" />
+                                        android:textSize="@dimen/_9ssp"
+                                        tools:text="grand sr school" />
 
 
                                 </LinearLayout>
@@ -901,13 +878,14 @@
                                         android:textSize="@dimen/_10ssp" />
 
                                     <TextView
+                                        android:id="@+id/TvSchoolComplete"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/_3sdp"
                                         android:fontFamily="@font/rubik_regular"
-                                        android:text="2020"
                                         android:textColor="@color/gray"
-                                        android:textSize="@dimen/_9ssp" />
+                                        android:textSize="@dimen/_9ssp"
+                                        tools:text="2020" />
 
 
                                 </LinearLayout>
@@ -945,13 +923,14 @@
                                         android:textSize="@dimen/_10ssp" />
 
                                     <TextView
+                                        android:id="@+id/TvGPA"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/_3sdp"
                                         android:fontFamily="@font/rubik_regular"
-                                        android:text="9"
                                         android:textColor="@color/gray"
-                                        android:textSize="@dimen/_9ssp" />
+                                        android:textSize="@dimen/_9ssp"
+                                        tools:text="9" />
 
 
                                 </LinearLayout>
@@ -959,17 +938,67 @@
                             </LinearLayout>
 
 
+                            <TextView
+                                android:id="@+id/TvStateYear"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:layout_marginTop="@dimen/_15sdp"
+                                android:layout_marginEnd="@dimen/_10sdp"
+                                android:layout_marginBottom="@dimen/_5sdp"
+                                android:fontFamily="@font/rubik_medium"
+                                android:text="@string/state_of"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_12ssp" />
+
+
+                            <LinearLayout
+                                android:id="@+id/LLSateDynemic"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:layout_marginTop="@dimen/_15sdp"
+                                android:layout_marginEnd="@dimen/_10sdp"
+                                android:layout_marginBottom="@dimen/_5sdp"
+                                android:orientation="vertical">
+
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/RvAthleteStateList"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:background="@color/white_gray"
+                                    android:visibility="visible"
+                                    tools:itemCount="2"
+                                    tools:listitem="@layout/item_athlet_sport_list" />
+
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/RvStateSportNameList"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_10sdp"
+                                    android:layout_marginBottom="@dimen/_10sdp"
+                                    android:visibility="visible"
+                                    tools:itemCount="2"
+                                    tools:listitem="@layout/item_athlet_sport_list" />
+
+
+                            </LinearLayout>
+
                         </LinearLayout>
 
 
                     </LinearLayout>
 
-                </LinearLayout>
+                </FrameLayout>
 
 
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
+
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

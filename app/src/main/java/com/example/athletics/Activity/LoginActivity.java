@@ -1,12 +1,15 @@
 package com.example.athletics.Activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -37,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     private ConnectionDetector cd;
     private static CharSequence target;
     private EditText EdtEmail, EdtPassword;
-    private TextView TvForgotPassword, TvLogin, TvSignup;
+    private TextView TvForgotPassword, TvLogin, TvSignup, TvSkipLogin;
     private RelativeLayout RelLoginMain;
     private ImageView img_password, img_rightArrow;
 
@@ -60,9 +63,11 @@ public class LoginActivity extends AppCompatActivity {
         TvForgotPassword = findViewById(R.id.TvForgotPassword);
         TvLogin = findViewById(R.id.TvLogin);
         TvSignup = findViewById(R.id.TvSignup);
+        TvSkipLogin = findViewById(R.id.TvSkipLogin);
         RelLoginMain = findViewById(R.id.RelLoginMain);
         img_password = findViewById(R.id.img_password);
         img_rightArrow = findViewById(R.id.img_rightArrow);
+
 
     }
 
@@ -108,6 +113,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
+                Functions.animNext(LoginActivity.this);
+            }
+        });
+
+        TvSkipLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(intent);
                 Functions.animNext(LoginActivity.this);
             }
@@ -179,6 +193,7 @@ public class LoginActivity extends AppCompatActivity {
                             new SessionManager(LoginActivity.this).setApiToken(response.body().getData().getToken());
                             new SessionManager(LoginActivity.this).setUserID(String.valueOf(response.body().getData().getId()));
                             new SessionManager(LoginActivity.this).setKeyEmail(response.body().getData().getEmail());
+                            new SessionManager(LoginActivity.this).setKeyUserRole(String.valueOf(response.body().getData().getRole()));
 
                             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                             startActivity(intent);
@@ -208,7 +223,44 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        Functions.animBack(LoginActivity.this);
+        showBackPressDialog();
     }
+
+    public void showBackPressDialog() {
+
+        final Dialog builder = new Dialog(LoginActivity.this);
+        builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        View view1 = LayoutInflater.from(LoginActivity.this).inflate(R.layout.dialog_logout, null);
+
+        TextView tvDialogok = (TextView) view1.findViewById(R.id.tvDialogok);
+        TextView tvDialogCancel = (TextView) view1.findViewById(R.id.tvDialogCancel);
+        TextView tvDialogMessage = (TextView) view1.findViewById(R.id.tvDialogMessage);
+        tvDialogMessage.setText(R.string.are_you_sure_you_want_to_exit);
+
+        tvDialogok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder.dismiss();
+                finishAffinity();
+            }
+        });
+
+
+        tvDialogCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder.dismiss();
+            }
+        });
+
+
+        builder.setCancelable(false);
+        builder.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_round));
+        // builder.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
+        builder.setContentView(view1);
+        builder.show();
+
+
+    }
+
 }

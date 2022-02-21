@@ -19,7 +19,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
     //    public static String BASE_URL = "http://192.168.0.10:10/api/";
-    public static String BASE_URL = "https://athletics54.herokuapp.com/api/";
+//    public static String BASE_URL = "https://athletics54.herokuapp.com/api/";
+    public static String BASE_URL = "https://54athletics.com/console/public/api/";
 
     private static Retrofit retrofit = null;
 

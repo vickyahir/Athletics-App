@@ -8,11 +8,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.Athletics.R;
-import com.example.athletics.Adapter.SaveVideoAdapter;
+import com.example.athletics.Adapter.LikeVideoCategoryAdapter;
 import com.example.athletics.Model.UserLikeVideoApiResponse;
 import com.example.athletics.Model.UserLikeVideoDataItem;
 import com.example.athletics.Retrofit.ApiClient;
@@ -27,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SaveVideoActivity extends BaseActivity {
+public class LikeVideoActivity extends BaseActivity {
     private ImageView imgBack, imgMenu;
     private Toolbar toolbarMain;
     private TextView TvTitle;
@@ -35,16 +36,16 @@ public class SaveVideoActivity extends BaseActivity {
     private List<UserLikeVideoDataItem> HomeVideoCategory;
     private RelativeLayout LLLikeVideoMain;
     private TextView TvNodataFound;
+    private SwipeRefreshLayout SwipeLikeVideoPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_save_video);
+        setContentView(R.layout.activity_like_video);
         super.onCreateMenu();
         super.onMenuSelect(5);
 
         initView();
-        loadData();
         setClickListener();
     }
 
@@ -57,14 +58,20 @@ public class SaveVideoActivity extends BaseActivity {
         imgMenu = toolbarMain.findViewById(R.id.imgMenu);
         TvTitle = toolbarMain.findViewById(R.id.TvTitle);
         rvLikevideo = (RecyclerView) findViewById(R.id.rvLikevideo);
-
+        SwipeLikeVideoPage = (SwipeRefreshLayout) findViewById(R.id.SwipeLikeVideoPage);
         TvTitle.setText(getResources().getString(R.string.like_video));
 
     }
 
+    @Override
+    protected void onResume() {
+        loadData();
+        super.onResume();
+    }
+
     private void loadData() {
         if (cd.isConnectingToInternet()) {
-            Functions.dialogShow(SaveVideoActivity.this);
+            Functions.dialogShow(LikeVideoActivity.this);
             callLikeVideoApiResponse();
         } else {
             Snackbar snackbar = Snackbar.make(LLLikeVideoMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
@@ -84,14 +91,18 @@ public class SaveVideoActivity extends BaseActivity {
                     if (response.isSuccessful()) {
                         Functions.dialogHide();
 
+                        if (SwipeLikeVideoPage.isRefreshing()) {
+                            SwipeLikeVideoPage.setRefreshing(false);
+                        }
+
                         if (response.body().getData().size() > 0) {
                             rvLikevideo.setVisibility(View.VISIBLE);
                             TvNodataFound.setVisibility(View.GONE);
 
                             HomeVideoCategory = new ArrayList<>();
                             HomeVideoCategory.addAll(response.body().getData());
-                            rvLikevideo.setLayoutManager(new GridLayoutManager(SaveVideoActivity.this, 2));
-                            rvLikevideo.setAdapter(new SaveVideoAdapter(SaveVideoActivity.this, HomeVideoCategory));
+                            rvLikevideo.setLayoutManager(new LinearLayoutManager(LikeVideoActivity.this));
+                            rvLikevideo.setAdapter(new LikeVideoCategoryAdapter(LikeVideoActivity.this, HomeVideoCategory));
 
                         } else {
                             TvNodataFound.setVisibility(View.VISIBLE);
@@ -116,11 +127,18 @@ public class SaveVideoActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Functions.animBack(SaveVideoActivity.this);
+        Functions.animBack(LikeVideoActivity.this);
     }
 
 
     private void setClickListener() {
+
+        SwipeLikeVideoPage.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +150,7 @@ public class SaveVideoActivity extends BaseActivity {
         imgMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(SaveVideoActivity.this, "menu clicked !", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LikeVideoActivity.this, "menu clicked !", Toast.LENGTH_SHORT).show();
             }
         });
 

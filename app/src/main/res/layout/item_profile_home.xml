@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -25,6 +26,7 @@
 
 
                 <ImageView
+                    android:id="@+id/ImgAthleteVideo"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_200sdp"
                     android:scaleType="fitXY"
@@ -55,9 +57,9 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/rubik_regular"
                         android:maxLines="2"
-                        android:text="New sport training"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/_11ssp" />
+                        android:textSize="@dimen/_11ssp"
+                        tools:text="New sport training" />
 
                 </LinearLayout>
 

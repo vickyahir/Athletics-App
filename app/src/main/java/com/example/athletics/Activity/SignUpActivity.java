@@ -248,7 +248,11 @@ public class SignUpActivity extends AppCompatActivity {
 //                            Toast.makeText(SignUpActivity.this, response.body().getMsg(), Toast.LENGTH_LONG).show();
 //                        }
 
-                        Toast.makeText(SignUpActivity.this, "Register Success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUpActivity.this, "Register Success. Please login and continue in app !", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        Functions.animNext(SignUpActivity.this);
+
                     } else if (response.code() == 422) {
                         try {
                             String content = response.errorBody().string();

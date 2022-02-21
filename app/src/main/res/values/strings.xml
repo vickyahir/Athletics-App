@@ -5,11 +5,14 @@
     <string name="martialartls">Martial Arts</string>
     <string name="startnow">Start Now</string>
     <string name="login">Log in</string>
+    <string name="continue_">Continue</string>
+    <string name="not_available">N/A</string>
     <string name="forgot_password_">Forgot password</string>
     <string name="login_simple">Login</string>
     <string name="signup">Sign up</string>
     <string name="signup_">Sign Up</string>
     <string name="login_">Log In</string>
+    <string name="join_us_to_view_the_athlets_profile">Join us to view the Athlete\'s profile</string>
     <string name="enter_your_email_and_password">Enter your emails and password</string>
     <string name="enter_email_to_reset_password">Enter email to reset password</string>
     <string name="enter_your_credential_to_continue">Enter your credential to continue</string>
@@ -17,6 +20,8 @@
     <string name="username">Username</string>
     <string name="password">Password*</string>
     <string name="old_password">Old Password*</string>
+
+    <string name="ok">OK</string>
     <string name="new_password">New Password*</string>
     <string name="confirm_password">Confirm Password*</string>
     <string name="forgot_password">Forgot password?</string>
@@ -31,6 +36,10 @@
     <string name="follower">Follower</string>
     <string name="following">Following</string>
     <string name="videos">Videos</string>
+    <string name="visitor">Visitor</string>
+    <string name="athlete">Athlete</string>
+    <string name="school_club">School/Club</string>
+    <string name="coach">Coach</string>
     <string name="athletics">Athletics</string>
     <string name="coaches">Coaches</string>
     <string name="result">Result</string>
@@ -38,6 +47,7 @@
     <string name="dont_have_an_account">Don\'t have an account?</string>
     <string name="already_having_an_Account">Already having an account?</string>
     <string name="signup_simple">Signup</string>
+    <string name="skip_login">Skip Login >>></string>
     <string name="please_enter_your_email">Please enter your email id</string>
     <string name="please_enter_valid_your_email">Please enter your valid email id</string>
     <string name="password_validation">Password must be at least 8 characters long and contain at least 1 capital 1 small letter, number and special character</string>
@@ -56,6 +66,8 @@
 
     <string name="next">Next</string>
     <string name="profie">Profile</string>
+    <string name="coach_profie">Coach Profile</string>
+    <string name="athlete_profie">Athlete Profile</string>
     <string name="edit_profie">Edit profile</string>
     <string name="upload_video">Upload Video</string>
     <string name="upload_now">Upload Now</string>
@@ -69,7 +81,10 @@
     <string name="save_video">Save Video</string>
     <string name="are_you_sure_you_want_to_exit">Are you sure you want to exit ?</string>
     <string name="downloading_video">Please Wait...</string>
+    <string name="download_resume">Download Resume</string>
     <string name="are_you_sure_you_want_to_logout">Are you sure you want to logout ?</string>
+    <string name="only_athlete_upload_video">You can\'t upload video. Please login with athlete account an Upload Video !</string>
+    <string name="please_login_first_to_continue_in_app">Please login first to continue in App !</string>
     <string name="rugby">Rugby</string>
     <string name="fieldhockey">Field Hockey</string>
     <string name="find_someone">Find someone</string>
@@ -86,7 +101,9 @@
     <string name="age_">Age :</string>
     <string name="gender_">Gender :</string>
     <string name="speed_">Speed :</string>
+    <string name="coach_experience">Coach Experience :</string>
     <string name="school_detail_">School Detail :</string>
+    <string name="state_of">State of</string>
     <string name="university_name_">University Name :</string>
     <string name="school_">School :</string>
     <string name="school_year_complete_">School Year Complete :</string>

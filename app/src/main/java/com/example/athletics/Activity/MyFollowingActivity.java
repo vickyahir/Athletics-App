@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.Athletics.R;
 import com.example.athletics.Adapter.MyFollowingAdapter;
@@ -34,12 +35,13 @@ public class MyFollowingActivity extends AppCompatActivity {
     public Toolbar toolbarMain;
     private ImageView imgBack;
     private TextView tvTitle, TvNoDataFound, TvResult;
-    private RecyclerView rvSearchList;
+    private RecyclerView rvFollowingList;
     private ApiInterface apiInterface;
     private ConnectionDetector cd;
     private LinearLayout LLFollowingMain, LLResultCount;
     private List<FollowingDataItem> FollowingList;
     private String Title = "";
+    private SwipeRefreshLayout SwipFollowingPage;
 
 
     @Override
@@ -50,7 +52,7 @@ public class MyFollowingActivity extends AppCompatActivity {
 
         getIntentData();
         initView();
-        loadData();
+
         setClickListener();
 
     }
@@ -65,6 +67,7 @@ public class MyFollowingActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        loadData();
         super.onResume();
     }
 
@@ -76,9 +79,9 @@ public class MyFollowingActivity extends AppCompatActivity {
         toolbarMain = findViewById(R.id.toolbarMain);
         imgBack = toolbarMain.findViewById(R.id.imgBack);
         tvTitle.setText(Title);
-        rvSearchList = findViewById(R.id.rvSearchList);
+        rvFollowingList = findViewById(R.id.rvFollowingList);
         LLFollowingMain = findViewById(R.id.LLFollowingMain);
-
+        SwipFollowingPage = (SwipeRefreshLayout) findViewById(R.id.SwipFollowingPage);
 
     }
 
@@ -96,6 +99,13 @@ public class MyFollowingActivity extends AppCompatActivity {
 
 
     private void setClickListener() {
+
+        SwipFollowingPage.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,21 +129,30 @@ public class MyFollowingActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         Functions.dialogHide();
 
+                        if (SwipFollowingPage.isRefreshing()) {
+                            SwipFollowingPage.setRefreshing(false);
+                        }
+
                         if (response.body().getData().size() > 0) {
 
 
                             TvNoDataFound.setVisibility(View.GONE);
-                            rvSearchList.setVisibility(View.VISIBLE);
+                            rvFollowingList.setVisibility(View.VISIBLE);
 
                             FollowingList = new ArrayList<>();
                             FollowingList.addAll(response.body().getData());
 
-                            rvSearchList.setLayoutManager(new LinearLayoutManager(MyFollowingActivity.this, RecyclerView.VERTICAL, false));
-                            rvSearchList.setAdapter(new MyFollowingAdapter(MyFollowingActivity.this, FollowingList));
+                            rvFollowingList.setLayoutManager(new LinearLayoutManager(MyFollowingActivity.this, RecyclerView.VERTICAL, false));
+                            rvFollowingList.setAdapter(new MyFollowingAdapter(MyFollowingActivity.this, FollowingList));
 
                         } else {
                             TvNoDataFound.setVisibility(View.VISIBLE);
-                            rvSearchList.setVisibility(View.GONE);
+                            rvFollowingList.setVisibility(View.GONE);
+                        }
+
+                        if (Title.equalsIgnoreCase(getResources().getString(R.string.follower))) {
+                            TvNoDataFound.setVisibility(View.VISIBLE);
+                            rvFollowingList.setVisibility(View.GONE);
                         }
 
 

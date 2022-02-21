@@ -9,39 +9,46 @@
 
     <include layout="@layout/toolbarwith_back" />
 
-    <RelativeLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/SwipFollowingPage"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.core.widget.NestedScrollView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvSearchList"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:paddingBottom="@dimen/_30sdp"
-                    tools:itemCount="5"
-                    tools:listitem="@layout/item_find_user" />
-
-            </LinearLayout>
-
-        </androidx.core.widget.NestedScrollView>
-
-        <include layout="@layout/activity_nodatafound" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
 
-    </RelativeLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvFollowingList"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_30sdp"
+                        tools:itemCount="5"
+                        tools:listitem="@layout/item_find_user" />
+
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+            <include layout="@layout/activity_nodatafound" />
+
+
+        </RelativeLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <include layout="@layout/contain_progress" />
 

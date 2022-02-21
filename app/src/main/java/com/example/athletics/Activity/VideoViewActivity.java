@@ -3,6 +3,7 @@ package com.example.athletics.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.MediaController;
 import android.widget.VideoView;
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.Athletics.R;
 import com.example.athletics.Utils.Functions;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 public class VideoViewActivity extends AppCompatActivity {
 
@@ -22,6 +24,7 @@ public class VideoViewActivity extends AppCompatActivity {
     int delay = 0; //1 second=1000 milisecond, 5*1000=5seconds
     Runnable runnable;
     private Boolean IsVideoPlaying = false;
+    public CircularProgressIndicator RoundProgressVideoView;
 
 
     @Override
@@ -45,7 +48,7 @@ public class VideoViewActivity extends AppCompatActivity {
         }
 
         videoView = findViewById(R.id.videoViewRelative);
-
+        RoundProgressVideoView = findViewById(R.id.RoundProgressVideoView);
         if ("y".equals(fullScreen)) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -97,11 +100,13 @@ public class VideoViewActivity extends AppCompatActivity {
                 int duration = videoView.getCurrentPosition();
                 if (old_duration == duration && videoView.isPlaying()) {
                     if (IsVideoPlaying) {
-                        Functions.dialogHide();
+//                        Functions.dialogHide();
+                        RoundProgressVideoView.setVisibility(View.GONE);
                     }
                 } else {
                     if (!IsVideoPlaying) {
-                        Functions.dialogShow(VideoViewActivity.this);
+//                        Functions.dialogShow(VideoViewActivity.this);
+                        RoundProgressVideoView.setVisibility(View.VISIBLE);
                         IsVideoPlaying = true;
                     }
                 }

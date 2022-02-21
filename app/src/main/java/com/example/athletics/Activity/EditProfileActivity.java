@@ -104,14 +104,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        if (cd.isConnectingToInternet()) {
-            Functions.dialogShow(EditProfileActivity.this);
-            LLEditProfile.setVisibility(View.GONE);
-            callProfileApiResponse();
-        } else {
-            Snackbar snackbar = Snackbar.make(LLProfileMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
-            snackbar.show();
-        }
         super.onResume();
     }
 
@@ -138,6 +130,15 @@ public class EditProfileActivity extends AppCompatActivity {
         ic_profile = findViewById(R.id.ic_profile);
         Img_Edit = findViewById(R.id.Img_Edit);
 
+
+        if (cd.isConnectingToInternet()) {
+            Functions.dialogShow(EditProfileActivity.this);
+            LLEditProfile.setVisibility(View.GONE);
+            callProfileApiResponse();
+        } else {
+            Snackbar snackbar = Snackbar.make(LLProfileMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
 
     }
 

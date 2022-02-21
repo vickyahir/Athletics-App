@@ -3,6 +3,7 @@ package com.example.athletics.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -21,19 +22,30 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.Athletics.R;
-import com.example.athletics.Activity.MyProfileActivity;
-import com.example.athletics.Activity.UserProfileActivity;
+import com.example.athletics.Activity.CoachProfileActivity;
 import com.example.athletics.Activity.VideoViewActivity;
 import com.example.athletics.Model.HomeCoachDataItem;
+import com.example.athletics.Model.VideoCountIncrementResponse;
+import com.example.athletics.Retrofit.ApiClient;
+import com.example.athletics.Retrofit.ApiInterface;
+import com.example.athletics.Utils.ConnectionDetector;
 import com.example.athletics.Utils.Functions;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class HomeCoachCategoryAdapter extends RecyclerView.Adapter<HomeCoachCategoryAdapter.Myviewholder> {
     Context context;
     List<HomeCoachDataItem> muscles;
     private MediaController mediaController;
+    public ApiInterface apiInterface;
+    public ConnectionDetector cd;
 
 
     public HomeCoachCategoryAdapter(Activity activity, List<HomeCoachDataItem> muscles) {
@@ -50,6 +62,7 @@ public class HomeCoachCategoryAdapter extends RecyclerView.Adapter<HomeCoachCate
     @Override
     public void onBindViewHolder(@NonNull final Myviewholder holder, final int position) {
         final HomeCoachDataItem bean = muscles.get(position);
+        cd = new ConnectionDetector(context);
 
 
         holder.Tv_Username.setText(bean.getName());
@@ -80,17 +93,36 @@ public class HomeCoachCategoryAdapter extends RecyclerView.Adapter<HomeCoachCate
 
                 holder.imgPlay.setVisibility(View.GONE);
                 holder.simpleVideoView.setVideoURI(Uri.parse(bean.getCoach().getProfileVideo()));
-                holder.simpleVideoView.start();
+//                holder.simpleVideoView.start();
+                holder.RoundProgress.setVisibility(View.VISIBLE);
+
 
             }
         });
 
 
-        holder.imgLike.setOnClickListener(new View.OnClickListener() {
+        holder.simpleVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
-            public void onClick(View view) {
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                holder.imgPlay.setVisibility(View.VISIBLE);
+                holder.RoundProgress.setVisibility(View.GONE);
+            }
+        });
 
 
+        holder.simpleVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+//                holder.VideoProgress.setVisibility(View.GONE);
+                holder.RoundProgress.setVisibility(View.GONE);
+                holder.simpleVideoView.start();
+                if (cd.isConnectingToInternet()) {
+                    CallVideoCounIncrementResponse(String.valueOf(bean.getId()));
+
+                } else {
+                    Snackbar snackbar = Snackbar.make(holder.LLCoachMain, context.getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
             }
         });
 
@@ -150,7 +182,7 @@ public class HomeCoachCategoryAdapter extends RecyclerView.Adapter<HomeCoachCate
             @Override
             public void onClick(View view) {
 
-                context.startActivity(new Intent(context, UserProfileActivity.class));
+                context.startActivity(new Intent(context, CoachProfileActivity.class).putExtra("Id", String.valueOf(bean.getId())));
                 Functions.animNext(context);
 
             }
@@ -160,7 +192,7 @@ public class HomeCoachCategoryAdapter extends RecyclerView.Adapter<HomeCoachCate
             @Override
             public void onClick(View view) {
 
-                context.startActivity(new Intent(context, UserProfileActivity.class));
+                context.startActivity(new Intent(context, CoachProfileActivity.class).putExtra("Id", String.valueOf(bean.getId())));
                 Functions.animNext(context);
 
             }
@@ -170,7 +202,7 @@ public class HomeCoachCategoryAdapter extends RecyclerView.Adapter<HomeCoachCate
             @Override
             public void onClick(View view) {
 
-                context.startActivity(new Intent(context, UserProfileActivity.class));
+                context.startActivity(new Intent(context, CoachProfileActivity.class).putExtra("Id", String.valueOf(bean.getId())));
                 Functions.animNext(context);
 
             }
@@ -197,8 +229,9 @@ public class HomeCoachCategoryAdapter extends RecyclerView.Adapter<HomeCoachCate
     public class Myviewholder extends RecyclerView.ViewHolder {
         private ImageView iv_User, imgLike, imgShare, ImgMenu, imgFullscreen, imgPlay;
         private TextView Tv_Username, Tv_UserType, Tv_CoachGame;
-        private LinearLayout LLUserProfile;
+        private LinearLayout LLUserProfile, LLCoachMain;
         private VideoView simpleVideoView;
+        public CircularProgressIndicator RoundProgress;
 
         public Myviewholder(@NonNull View itemView) {
             super(itemView);
@@ -212,9 +245,35 @@ public class HomeCoachCategoryAdapter extends RecyclerView.Adapter<HomeCoachCate
             ImgMenu = itemView.findViewById(R.id.ImgMenu);
             imgFullscreen = itemView.findViewById(R.id.imgFullscreen);
             LLUserProfile = itemView.findViewById(R.id.LLUserProfile);
+            LLCoachMain = itemView.findViewById(R.id.LLCoachMain);
             simpleVideoView = itemView.findViewById(R.id.simpleVideoView);
+            RoundProgress = itemView.findViewById(R.id.RoundProgress);
 
         }
+    }
+
+    public void CallVideoCounIncrementResponse(String VideoId) {
+
+        apiInterface = ApiClient.getClient(context).create(ApiInterface.class);
+        Call<VideoCountIncrementResponse> loginApiResponseCall = apiInterface.GetVideoIncrementCount(VideoId);
+        loginApiResponseCall.enqueue(new Callback<VideoCountIncrementResponse>() {
+            @Override
+            public void onResponse(Call<VideoCountIncrementResponse> call, Response<VideoCountIncrementResponse> response) {
+                try {
+                    if (response.isSuccessful()) {
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<VideoCountIncrementResponse> call, Throwable t) {
+//                Functions.dialogHide();
+            }
+        });
     }
 
 

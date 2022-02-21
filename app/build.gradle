@@ -102,4 +102,9 @@ dependencies {
     implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
 
 
+    //Look at me video dependency
+    implementation 'com.github.Pradyuman7:LookAtMe:Version2.0'
+
+
+
 }

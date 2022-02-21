@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.Athletics.R;
-import com.example.athletics.Activity.UserProfileActivity;
+import com.example.athletics.Activity.AthleteProfileActivity;
 import com.example.athletics.Model.FollowingDataItem;
 import com.example.athletics.Utils.Functions;
 
@@ -53,6 +53,8 @@ public class MyFollowingAdapter extends RecyclerView.Adapter<MyFollowingAdapter.
         Glide.with(context).load(bean.getImage()).into(holder.iv_UserProfile);
 
 
+        holder.tvFollow.setVisibility(View.GONE);
+
         holder.tvFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,7 +70,7 @@ public class MyFollowingAdapter extends RecyclerView.Adapter<MyFollowingAdapter.
         holder.Tv_Username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, UserProfileActivity.class));
+                context.startActivity(new Intent(context, AthleteProfileActivity.class).putExtra("Id", String.valueOf(bean.getId())));
                 Functions.animNext(context);
 
             }
@@ -77,7 +79,7 @@ public class MyFollowingAdapter extends RecyclerView.Adapter<MyFollowingAdapter.
         holder.Tv_UserType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, UserProfileActivity.class));
+                context.startActivity(new Intent(context, AthleteProfileActivity.class).putExtra("Id", String.valueOf(bean.getId())));
                 Functions.animNext(context);
 
             }
@@ -86,7 +88,7 @@ public class MyFollowingAdapter extends RecyclerView.Adapter<MyFollowingAdapter.
         holder.iv_UserProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, UserProfileActivity.class));
+                context.startActivity(new Intent(context, AthleteProfileActivity.class).putExtra("Id", String.valueOf(bean.getId())));
                 Functions.animNext(context);
 
             }

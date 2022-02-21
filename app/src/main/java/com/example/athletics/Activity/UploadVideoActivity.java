@@ -1,6 +1,7 @@
 package com.example.athletics.Activity;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,7 +16,9 @@ import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +31,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.Athletics.R;
 import com.example.athletics.Utils.Functions;
+import com.example.athletics.Utils.SessionManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -56,6 +60,13 @@ public class UploadVideoActivity extends BaseActivity {
         setClickListener();
     }
 
+    @Override
+    protected void onResume() {
+        if (!new SessionManager(UploadVideoActivity.this).getUserRole().equalsIgnoreCase("2")) {
+            UploadVideoAlertDialog();
+        }
+        super.onResume();
+    }
 
     private void initView() {
         toolbarMain = findViewById(R.id.toolbarMain);
@@ -68,6 +79,7 @@ public class UploadVideoActivity extends BaseActivity {
 
         TvTitle.setText(getResources().getString(R.string.upload_video));
 
+
     }
 
     private void loadData() {
@@ -78,6 +90,45 @@ public class UploadVideoActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Functions.animBack(UploadVideoActivity.this);
+    }
+
+
+    public void UploadVideoAlertDialog() {
+        final Dialog builder = new Dialog(activity);
+        builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        View view1 = LayoutInflater.from(activity).inflate(R.layout.dialog_customise, null);
+
+        TextView tvDialogok = (TextView) view1.findViewById(R.id.tvDialogok);
+        TextView tvDialogMessage = (TextView) view1.findViewById(R.id.tvDialogMessage);
+        TextView tvDialogCancel = (TextView) view1.findViewById(R.id.tvDialogCancel);
+        tvDialogMessage.setText(R.string.only_athlete_upload_video);
+
+        tvDialogok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SessionManager(activity).logoutUser();
+                Intent intent = new Intent(UploadVideoActivity.this, LoginActivity.class);
+                startActivity(intent);
+                Functions.animNext(UploadVideoActivity.this);
+            }
+        });
+
+        tvDialogCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+
+        builder.setCancelable(false);
+        builder.setCanceledOnTouchOutside(false);
+        builder.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_round));
+        // builder.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
+        builder.setContentView(view1);
+        builder.show();
+
+
     }
 
 

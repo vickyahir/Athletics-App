@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/_15sdp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/LLCoachMain"
+    >
 
 
     <LinearLayout
@@ -139,6 +141,15 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_play" />
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/RoundProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminate="true"
+                    android:visibility="gone" />
+                <!--                app:indicatorColor="@color/colorPrimary"-->
 
 
                 <LinearLayout

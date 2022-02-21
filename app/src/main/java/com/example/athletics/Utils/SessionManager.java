@@ -14,6 +14,7 @@ public class SessionManager {
     public static final String FIREBASE_TOKEN = "firebasetoken";
     public static final String KEY_CART_COUNT = "keycartcount";
     public static final String KEY_SEARCH_PRODUCT = "keysearchproduct";
+    public static final String KEY_USER_ROLE = "keyuserrole";
 
 
     // Shared Preferences
@@ -38,6 +39,16 @@ public class SessionManager {
 
     public void setUserID(String id) {
         editor.putString(KEY_ID, id);
+        editor.commit();
+    }
+
+    public String getUserRole() {
+        String value = pref.getString(KEY_USER_ROLE, "");
+        return value;
+    }
+
+    public void setKeyUserRole(String id) {
+        editor.putString(KEY_USER_ROLE, id);
         editor.commit();
     }
 

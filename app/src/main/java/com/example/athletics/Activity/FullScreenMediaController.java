@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.MediaController;
 
 import com.example.Athletics.R;
+import com.example.athletics.Utils.Functions;
 
 
 public class FullScreenMediaController extends MediaController {
@@ -64,6 +65,7 @@ public class FullScreenMediaController extends MediaController {
             public void onClick(View v) {
 
                 ((Activity) getContext()).finish();
+                Functions.dialogHide();
 
 //                Intent intent = new Intent(getContext(), HomeActivity.class);
 //
