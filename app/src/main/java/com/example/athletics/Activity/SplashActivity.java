@@ -69,6 +69,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void RedirectToNextScreen() {
         if (!new SessionManager(SplashActivity.this).getUserID().equalsIgnoreCase("")) {
+//            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
             Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
             startActivity(intent);
             finish();

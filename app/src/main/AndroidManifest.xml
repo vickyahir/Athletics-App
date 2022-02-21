@@ -135,6 +135,11 @@
             android:theme="@style/NavigationDrawerAppTheme"
             android:windowSoftInputMode="adjustResize" />
 
+        <activity
+            android:name="com.example.athletics.Activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NavigationDrawerAppTheme" />
+
 
     </application>
 

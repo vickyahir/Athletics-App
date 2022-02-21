@@ -6,15 +6,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.Athletics.R;
+import com.example.athletics.Adapter.HomeViewPagerAdapter;
+import com.example.athletics.Model.HomeExploreApiResponse;
+import com.example.athletics.Model.HomeExploreDataItem;
+import com.example.athletics.Retrofit.ApiClient;
+import com.example.athletics.Retrofit.ApiInterface;
+import com.example.athletics.Utils.Functions;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends BaseActivity {
     private ImageView imgSearch;
     private Toolbar toolbarMain;
+    private List<HomeExploreDataItem> HomeExploreList;
+    private ViewPager2 videoViewPager;
+    private RelativeLayout relHomePageListing;
 
 
     @Override
@@ -38,11 +57,20 @@ public class MainActivity extends BaseActivity {
     private void initView() {
         toolbarMain = findViewById(R.id.toolbarMain);
         imgSearch = toolbarMain.findViewById(R.id.imgSearch);
+        videoViewPager = findViewById(R.id.videoViewPager);
+        relHomePageListing = findViewById(R.id.relHomePageListing);
 
 
     }
 
     private void loadData() {
+        if (cd.isConnectingToInternet()) {
+            Functions.dialogShow(MainActivity.this);
+            callHomeExploreListingDataApi();
+        } else {
+            Snackbar snackbar = Snackbar.make(relHomePageListing, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
 
     }
 
@@ -90,6 +118,37 @@ public class MainActivity extends BaseActivity {
         builder.show();
 
 
+    }
+
+
+    private void callHomeExploreListingDataApi() {
+
+        apiInterface = ApiClient.getClient(MainActivity.this).create(ApiInterface.class);
+        final Call<HomeExploreApiResponse> loginApiResponseCall = apiInterface.HomeExploreApiResponse();
+        loginApiResponseCall.enqueue(new Callback<HomeExploreApiResponse>() {
+            @Override
+            public void onResponse(Call<HomeExploreApiResponse> call, Response<HomeExploreApiResponse> response) {
+                try {
+                    if (response.isSuccessful()) {
+                        Functions.dialogHide();
+
+                        HomeExploreList = new ArrayList<>();
+                        HomeExploreList.addAll(response.body().getData());
+
+                        videoViewPager.setAdapter(new HomeViewPagerAdapter(MainActivity.this, HomeExploreList));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<HomeExploreApiResponse> call, Throwable t) {
+                Functions.dialogHide();
+            }
+        });
     }
 
 

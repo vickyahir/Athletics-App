@@ -2,31 +2,28 @@ package com.example.athletics.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ProgressBar;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.Athletics.R;
-import com.example.athletics.Activity.VideoViewActivity;
-import com.example.athletics.Model.AthleteProfileVideosItem;
-import com.example.athletics.Utils.Functions;
+import com.example.athletics.Model.HomeExploreDataItem;
 
 import java.util.List;
 
 
 public class HomeViewPagerAdapter extends RecyclerView.Adapter<HomeViewPagerAdapter.Myviewholder> {
     Context context;
-    List<AthleteProfileVideosItem> muscles;
+    List<HomeExploreDataItem> muscles;
 
 
-    public HomeViewPagerAdapter(Activity activity, List<AthleteProfileVideosItem> muscles) {
+    public HomeViewPagerAdapter(Activity activity, List<HomeExploreDataItem> muscles) {
         this.context = activity;
         this.muscles = muscles;
     }
@@ -34,29 +31,61 @@ public class HomeViewPagerAdapter extends RecyclerView.Adapter<HomeViewPagerAdap
     @NonNull
     @Override
     public Myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new Myviewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_profile_home, parent, false));
+        return new Myviewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main_viewpager, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull final Myviewholder holder, final int position) {
-        final AthleteProfileVideosItem bean = muscles.get(position);
+        final HomeExploreDataItem bean = muscles.get(position);
 
-        holder.Tv_Title.setText(bean.getTitle());
-
-//        if (position == 0) {
-//            holder.iv_ProductCategory.setBorderWidth(8);
-//        }
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.videoView.setVideoPath(bean.getVideo());
+        holder.videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
-            public void onClick(View v) {
-                context.startActivity(new Intent(context, VideoViewActivity.class).putExtra("fullScreenInd", "y")
-                        .putExtra("VideoUrl", ""));
-                Functions.animNext(context);
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                holder.videoProgressbar.setVisibility(View.GONE);
+                mediaPlayer.start();
+
+//                float videoratio = mediaPlayer.getVideoWidth() / (float) mediaPlayer.getVideoHeight();
+//                float screenRatio = holder.videoView.getWidth() / (float) holder.videoView.getHeight();
+//
+//                float scale = videoratio / screenRatio;
+//                if (scale >= 1f) {
+//                    holder.videoView.setScaleX(scale);
+//                } else {
+////                    holder.videoView.setScaleY(1f / scale);
+//                    holder.videoView.setScaleY(scale);
+//                }
+
+//                ViewGroup.LayoutParams lp = holder.videoView.getLayoutParams();
+//                int videoWidth = mediaPlayer.getVideoWidth();
+//                int videoHeight = mediaPlayer.getVideoHeight();
+//                float videoProportion = (float) videoWidth / (float) videoHeight;
+//                int screenWidth = holder.videoView.getWidth();
+//                int screenHeight = holder.videoView.getHeight();
+//                float screenProportion = (float) screenWidth / (float) screenHeight;
+//                if (videoProportion > screenProportion) {
+//                    lp.width = screenWidth;
+//                    lp.height = (int) ((float) screenWidth / videoProportion);
+//                } else {
+//                    lp.width = (int) (videoProportion * (float) screenHeight);
+//                    lp.height = screenHeight;
+//                }
+//                holder.videoView.setLayoutParams(lp);
+
+
+//                holder.videoView.setLayoutParams(new FrameLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+
+
             }
+
         });
 
-        Glide.with(context).load(bean.getThumb()).into(holder.ImgAthleteVideo);
+        holder.videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                mediaPlayer.start();
+            }
+        });
 
 
     }
@@ -68,15 +97,15 @@ public class HomeViewPagerAdapter extends RecyclerView.Adapter<HomeViewPagerAdap
 
 
     public class Myviewholder extends RecyclerView.ViewHolder {
-        private TextView Tv_Title, Tv_Details;
-        private ImageView ImgAthleteVideo;
+        private ProgressBar videoProgressbar;
+        private VideoView videoView;
 
 
         public Myviewholder(@NonNull View itemView) {
             super(itemView);
-            Tv_Title = itemView.findViewById(R.id.Tv_Title);
-            Tv_Details = itemView.findViewById(R.id.Tv_Details);
-            ImgAthleteVideo = itemView.findViewById(R.id.ImgAthleteVideo);
+
+            videoView = itemView.findViewById(R.id.videoView);
+            videoProgressbar = itemView.findViewById(R.id.videoProgressbar);
 
         }
     }

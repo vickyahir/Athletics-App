@@ -108,7 +108,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_13sdp"
                     android:descendantFocusability="blocksDescendants"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    >
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvExploreData"
@@ -143,6 +145,18 @@
                         <include layout="@layout/activity_nodatafound" />
 
                     </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/videoViewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" />
 
                 </LinearLayout>
 

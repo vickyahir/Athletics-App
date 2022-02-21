@@ -25,11 +25,13 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.Athletics.R;
 import com.example.athletics.Adapter.HomeAthleteCategoryAdapter;
 import com.example.athletics.Adapter.HomeCoachCategoryAdapter;
 import com.example.athletics.Adapter.HomeExploreCategoryAdapter;
+import com.example.athletics.Adapter.HomeViewPagerAdapter;
 import com.example.athletics.Adapter.ProductCategoryAdapter;
 import com.example.athletics.Model.HomeAthleteApiResponse;
 import com.example.athletics.Model.HomeAthleteDataItem;
@@ -66,6 +68,8 @@ public class HomeActivity extends BaseActivity {
     public static final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 123;
     public boolean result;
     public HomeExploreCategoryAdapter homeExploreCategoryAdapter;
+    private ViewPager2 videoViewPager;
+
 
 
     @Override
@@ -98,6 +102,7 @@ public class HomeActivity extends BaseActivity {
         tvAthletics = findViewById(R.id.tvAthletics);
         tvCoaches = findViewById(R.id.tvCoaches);
         TvNodataFound = findViewById(R.id.TvNodataFound);
+        videoViewPager = findViewById(R.id.videoViewPager);
 
         SwipeHomePage = (SwipeRefreshLayout) findViewById(R.id.SwipeHomePage);
 
@@ -407,6 +412,8 @@ public class HomeActivity extends BaseActivity {
                             rvAthleteData.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.VERTICAL, false));
                             rvAthleteData.setAdapter(new HomeAthleteCategoryAdapter(activity, HomeAthleteList));
 
+                            videoViewPager.setAdapter(new HomeAthleteCategoryAdapter(HomeActivity.this, HomeAthleteList));
+
                         } else {
                             rvAthleteData.setVisibility(View.GONE);
                             TvNodataFound.setVisibility(View.VISIBLE);
@@ -458,6 +465,8 @@ public class HomeActivity extends BaseActivity {
                             homeExploreCategoryAdapter = new HomeExploreCategoryAdapter(activity, HomeExploreList);
                             rvExploreData.setAdapter(homeExploreCategoryAdapter);
 
+                            videoViewPager.setAdapter(new HomeViewPagerAdapter(HomeActivity.this, HomeExploreList));
+
                         } else {
                             rvExploreData.setVisibility(View.GONE);
                             TvNodataFound.setVisibility(View.VISIBLE);
@@ -505,6 +514,8 @@ public class HomeActivity extends BaseActivity {
 
                             rvCoachData.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.VERTICAL, false));
                             rvCoachData.setAdapter(new HomeCoachCategoryAdapter(activity, HomeCoachList));
+
+                            videoViewPager.setAdapter(new HomeCoachCategoryAdapter(HomeActivity.this, HomeCoachList));
 
                         } else {
                             rvCoachData.setVisibility(View.GONE);
