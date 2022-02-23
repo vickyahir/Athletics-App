@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaPlayer;
 import android.media.MediaScannerConnection;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -19,16 +18,15 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.PowerManager;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -48,8 +46,10 @@ import com.example.athletics.Retrofit.ApiInterface;
 import com.example.athletics.Utils.ConnectionDetector;
 import com.example.athletics.Utils.Functions;
 import com.example.athletics.Utils.SessionManager;
-import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.snackbar.Snackbar;
+import com.jaedongchicken.ytplayer.YoutubePlayerView;
+import com.jaedongchicken.ytplayer.model.PlaybackQuality;
+import com.jaedongchicken.ytplayer.model.YTParams;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -98,6 +98,7 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
 
         holder.Tv_Username.setText(bean.getAthlete().getName());
         holder.Tv_PostTitle.setText(bean.getTitle());
+        holder.Tv_UserType.setText(bean.getTitle());
         holder.TvViewCount.setText(String.valueOf(bean.getViews()));
 
         if (bean.getLikes().size() > 0) {
@@ -112,96 +113,200 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
             holder.TvLikeCount.setTextColor(context.getResources().getColor(R.color.colorPrimary));
         } else {
             holder.imgLike.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_heart));
-            holder.TvLikeCount.setTextColor(context.getResources().getColor(R.color.black));
+            holder.TvLikeCount.setTextColor(context.getResources().getColor(R.color.white));
         }
 
 
         Glide.with(context).load(bean.getThumb()).into(holder.iv_User);
 
 
+        YTParams params = new YTParams();
+        params.setControls(0); // hide control
+        params.setVolume(100); // volume control
+        params.setPlaybackQuality(PlaybackQuality.small); //
+
+        holder.simpleVideoView.initializeWithCustomURL(bean.getVideo(), params, new YoutubePlayerView.YouTubeListener() {
+            @Override
+            public void onReady() {
+
+            }
+
+            @Override
+            public void onStateChange(YoutubePlayerView.STATE state) {
+
+            }
+
+            @Override
+            public void onPlaybackQualityChange(String arg) {
+
+            }
+
+            @Override
+            public void onPlaybackRateChange(String arg) {
+
+            }
+
+            @Override
+            public void onError(String arg) {
+
+            }
+
+            @Override
+            public void onApiChange(String arg) {
+
+            }
+
+            @Override
+            public void onCurrentSecond(double second) {
+
+            }
+
+            @Override
+            public void onDuration(double duration) {
+
+            }
+
+            @Override
+            public void logs(String log) {
+
+            }
+        });
+
+        holder.simpleVideoView.play();
+
+
+//        holder.videoProgressbar.setVisibility(View.VISIBLE);
+//        holder.surfaceHolder = holder.simpleVideoView.getHolder();
+//        holder.surfaceHolder.addCallback(new SurfaceHolder.Callback() {
+//            @Override
+//            public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
+//                holder.mediaPlayer = new MediaPlayer();
+//                holder.mediaPlayer.setDisplay(holder.surfaceHolder);
+//
+//                try {
+//
+//                    holder.mediaPlayer.setDataSource(bean.getVideo());
+//                    holder.mediaPlayer.prepare();
+//                    holder.mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//                    holder.mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//                        @Override
+//                        public void onPrepared(MediaPlayer mediaPlayer) {
+//                            holder.mediaPlayer.start();
+//                            holder.videoProgressbar.setVisibility(View.GONE);
+//
+//                        }
+//                    });
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void surfaceChanged(@NonNull SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {
+//
+//            }
+//        });
+
+
+//        holder.imgPlay.setVisibility(View.GONE);
+//        holder.simpleVideoView.setVideoURI(Uri.parse(bean.getVideo()));
+//        holder.videoProgressbar.setVisibility(View.VISIBLE);
+//        holder.simpleVideoView.setAutoPlayerHeight(context);
+
+
+//
+
+
 //        holder.simpleVideoView.setVideoURI(Uri.parse(bean.getVideo()));
 
 //        holder.simpleVideoView.start();
 
-        holder.imgPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+//        holder.imgPlay.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//
+////                holder.VideoProgress.setVisibility(View.VISIBLE);
+//
+////                holder.LLVideoProgress.setVisibility(View.VISIBLE);
+////                holder.simpleVideoView.start();
+//
+//
+//            }
+//        });
 
-                holder.imgPlay.setVisibility(View.GONE);
-                holder.simpleVideoView.setVideoURI(Uri.parse(bean.getVideo()));
-//                holder.VideoProgress.setVisibility(View.VISIBLE);
-                holder.RoundProgress.setVisibility(View.VISIBLE);
-//                holder.LLVideoProgress.setVisibility(View.VISIBLE);
+
+//        holder.simpleVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//            @Override
+//            public void onCompletion(MediaPlayer mediaPlayer) {
+////                holder.imgPlay.setVisibility(View.GONE);
+//                holder.videoProgressbar.setVisibility(View.GONE);
+//            }
+//        });
+//
+//
+//        holder.simpleVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//            @Override
+//            public void onPrepared(MediaPlayer mediaPlayer) {
+////                holder.VideoProgress.setVisibility(View.GONE);
+//                holder.videoProgressbar.setVisibility(View.GONE);
 //                holder.simpleVideoView.start();
+//                if (cd.isConnectingToInternet()) {
+//                    CallVideoCounIncrementResponse(String.valueOf(bean.getId()));
+//                    int viewCount = bean.getViews() + 1;
+//                    holder.TvViewCount.setText(String.valueOf(viewCount));
+//
+//                } else {
+//                    Snackbar snackbar = Snackbar.make(holder.LLExploreItem, context.getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
+//                    snackbar.show();
+//                }
+//            }
+//        });
 
-
-            }
-        });
-
-
-        holder.simpleVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                holder.imgPlay.setVisibility(View.VISIBLE);
-                holder.RoundProgress.setVisibility(View.GONE);
-            }
-        });
-
-
-        holder.simpleVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-//                holder.VideoProgress.setVisibility(View.GONE);
-                holder.RoundProgress.setVisibility(View.GONE);
-                holder.simpleVideoView.start();
-                if (cd.isConnectingToInternet()) {
-                    CallVideoCounIncrementResponse(String.valueOf(bean.getId()));
-                    int viewCount = bean.getViews() + 1;
-                    holder.TvViewCount.setText(String.valueOf(viewCount));
-
-                } else {
-                    Snackbar snackbar = Snackbar.make(holder.LLExploreItem, context.getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                }
-            }
-        });
-        holder.ImgMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(context, holder.ImgMenu);
-
-                // Inflating popup menu from popup_menu.xml file
-                popupMenu.getMenuInflater().inflate(R.menu.home_menu, popupMenu.getMenu());
-                popupMenu.getMenu().findItem(R.id.MenuShareVideo).setVisible(true);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        // Toast message on menu item clicked
-//                        Toast.makeText(context, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
-
-
-                        if (menuItem.getItemId() == R.id.MenuShareVideo) {
-
-                            Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-                            intent.setType("text/plain");
-                            intent.putExtra(Intent.EXTRA_SUBJECT, "Athletic App");
-                            intent.putExtra(Intent.EXTRA_TEXT, bean.getVideo());
-                            context.startActivity(Intent.createChooser(intent, "Share Video"));
-
-                        } else if (menuItem.getItemId() == R.id.MenuDownloadVideo) {
-
-//                            Toast.makeText(context, "Downloading", Toast.LENGTH_SHORT).show();
-                            newDownload(bean.getVideo());
-
-                        } else if (menuItem.getItemId() == R.id.MenuPictureInPicture) {
-                        }
-                        return true;
-                    }
-                });
-                // Showing the popup menu
-                popupMenu.show();
-            }
-        });
+//        holder.ImgMenu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                PopupMenu popupMenu = new PopupMenu(context, holder.ImgMenu);
+//
+//                // Inflating popup menu from popup_menu.xml file
+//                popupMenu.getMenuInflater().inflate(R.menu.home_menu, popupMenu.getMenu());
+//                popupMenu.getMenu().findItem(R.id.MenuShareVideo).setVisible(true);
+//                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//                    @Override
+//                    public boolean onMenuItemClick(MenuItem menuItem) {
+//                        // Toast message on menu item clicked
+////                        Toast.makeText(context, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+//
+//
+//                        if (menuItem.getItemId() == R.id.MenuShareVideo) {
+//
+//                            Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+//                            intent.setType("text/plain");
+//                            intent.putExtra(Intent.EXTRA_SUBJECT, "Athletic App");
+//                            intent.putExtra(Intent.EXTRA_TEXT, bean.getVideo());
+//                            context.startActivity(Intent.createChooser(intent, "Share Video"));
+//
+//                        } else if (menuItem.getItemId() == R.id.MenuDownloadVideo) {
+//
+////                            Toast.makeText(context, "Downloading", Toast.LENGTH_SHORT).show();
+//                            newDownload(bean.getVideo());
+//
+//                        } else if (menuItem.getItemId() == R.id.MenuPictureInPicture) {
+//                        }
+//                        return true;
+//                    }
+//                });
+//                // Showing the popup menu
+//                popupMenu.show();
+//            }
+//        });
 
 
         holder.imgView.setOnClickListener(new View.OnClickListener() {
@@ -232,7 +337,7 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
         holder.ImgShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
                 intent.putExtra(Intent.EXTRA_SUBJECT, "Athletic App");
                 intent.putExtra(Intent.EXTRA_TEXT, bean.getVideo());
@@ -318,11 +423,15 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
 
 
     public class Myviewholder extends RecyclerView.ViewHolder {
-        public ImageView iv_User, imgLike, imgView, ImgMenu, imgFullscreen, imgPlay, ImgShare;
+        public ImageView iv_User, imgLike, imgView, imgFullscreen, ImgShare;
         public TextView Tv_Username, TvLikeCount, TvViewCount, Tv_UserType, Tv_PostTitle;
-        public LinearLayout LLUserProfile, LLExploreItem, LLVideoProgress;
-        public VideoView simpleVideoView;
-        public CircularProgressIndicator RoundProgress;
+        public LinearLayout LLUserProfile, LLVideoProgress;
+        public YoutubePlayerView simpleVideoView;
+        //        public SurfaceView simpleVideoView;
+//        public SurfaceHolder surfaceHolder;
+//        public MediaPlayer mediaPlayer;
+        private RelativeLayout LLExploreItem;
+        public ProgressBar videoProgressbar;
 
         public Myviewholder(@NonNull View itemView) {
             super(itemView);
@@ -333,15 +442,15 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
             imgLike = itemView.findViewById(R.id.imgLike);
             imgView = itemView.findViewById(R.id.imgView);
             ImgShare = itemView.findViewById(R.id.ImgShare);
-            ImgMenu = itemView.findViewById(R.id.ImgMenu);
-            imgPlay = itemView.findViewById(R.id.imgPlay);
+//            ImgMenu = itemView.findViewById(R.id.ImgMenu);
+//            imgPlay = itemView.findViewById(R.id.imgPlay);
             imgFullscreen = itemView.findViewById(R.id.imgFullscreen);
             TvLikeCount = itemView.findViewById(R.id.TvLikeCount);
             TvViewCount = itemView.findViewById(R.id.TvViewCount);
             LLUserProfile = itemView.findViewById(R.id.LLUserProfile);
             LLExploreItem = itemView.findViewById(R.id.LLExploreItem);
             simpleVideoView = itemView.findViewById(R.id.simpleVideoView);
-            RoundProgress = itemView.findViewById(R.id.RoundProgress);
+            videoProgressbar = itemView.findViewById(R.id.videoProgressbar);
 
         }
     }
@@ -580,7 +689,7 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
                             tvLikeCount.setText(String.valueOf(count));
                         } else {
                             imgLike.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_heart));
-                            tvLikeCount.setTextColor(context.getResources().getColor(R.color.black));
+                            tvLikeCount.setTextColor(context.getResources().getColor(R.color.white));
                             int count = Integer.parseInt(tvLikeCount.getText().toString()) - 1;
                             tvLikeCount.setText(String.valueOf(count));
                         }

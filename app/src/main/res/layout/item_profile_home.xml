@@ -19,7 +19,7 @@
             android:layout_height="wrap_content">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/transperrent"
                 app:cardCornerRadius="@dimen/_10sdp">
@@ -30,7 +30,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_200sdp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/dummy_two" />
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/dummy_two"
+                    tools:ignore="NewApi" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

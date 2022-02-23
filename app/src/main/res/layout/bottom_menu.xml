@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_50sdp"
-    >
+    android:layout_height="@dimen/_50sdp">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -17,8 +16,10 @@
             android:layout_height="@dimen/_40sdp"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_menu_plus"
-            android:visibility="visible" />
+            android:visibility="visible"
+            tools:ignore="NewApi" />
 
 
         <LinearLayout
@@ -36,8 +37,10 @@
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/_5sdp"
                 android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/_5sdp"
-                android:src="@drawable/ic_menu_home" />
+                android:src="@drawable/ic_menu_home"
+                tools:ignore="NewApi" />
 
             <ImageView
                 android:id="@+id/imgSettingMenu"
@@ -47,9 +50,11 @@
                 android:layout_marginLeft="@dimen/_5sdp"
                 android:layout_marginRight="@dimen/_5sdp"
                 android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/app_name"
                 android:padding="@dimen/_5sdp"
-                android:src="@drawable/ic_menu_setting" />
+                android:src="@drawable/ic_menu_setting"
+                tools:ignore="NewApi" />
 
             <ImageView
                 android:layout_width="@dimen/_20sdp"
@@ -58,7 +63,9 @@
                 android:layout_marginLeft="@dimen/_5sdp"
                 android:layout_marginRight="@dimen/_5sdp"
                 android:layout_weight="1"
-                android:visibility="invisible" />
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:visibility="invisible"
+                tools:ignore="NewApi" />
 
             <ImageView
                 android:id="@+id/imgNotificationMenu"
@@ -68,8 +75,10 @@
                 android:layout_marginLeft="@dimen/_5sdp"
                 android:layout_marginRight="@dimen/_5sdp"
                 android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/_5sdp"
-                android:src="@drawable/ic_menu_notification" />
+                android:src="@drawable/ic_menu_notification"
+                tools:ignore="NewApi" />
 
 
             <ImageView
@@ -79,8 +88,10 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/_5sdp"
                 android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/_5sdp"
-                android:src="@drawable/ic_menu_profile" />
+                android:src="@drawable/ic_menu_profile"
+                tools:ignore="NewApi" />
 
         </LinearLayout>
 

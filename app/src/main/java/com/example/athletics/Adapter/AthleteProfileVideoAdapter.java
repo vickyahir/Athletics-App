@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.Athletics.R;
-import com.example.athletics.Activity.VideoViewActivity;
+import com.example.athletics.Activity.LikeVideoActivity;
 import com.example.athletics.Model.AthleteProfileVideosItem;
 import com.example.athletics.Utils.Functions;
 
@@ -42,6 +42,7 @@ public class AthleteProfileVideoAdapter extends RecyclerView.Adapter<AthleteProf
         final AthleteProfileVideosItem bean = muscles.get(position);
 
         holder.Tv_Title.setText(bean.getTitle());
+        holder.Tv_Details.setText(bean.getTitle());
 
 //        if (position == 0) {
 //            holder.iv_ProductCategory.setBorderWidth(8);
@@ -50,9 +51,16 @@ public class AthleteProfileVideoAdapter extends RecyclerView.Adapter<AthleteProf
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, VideoViewActivity.class).putExtra("fullScreenInd", "y")
-                        .putExtra("VideoUrl", ""));
+//                context.startActivity(new Intent(context, VideoViewActivity.class).putExtra("fullScreenInd", "y")
+//                        .putExtra("VideoUrl", ""));
+//                Functions.animNext(context);
+
+                context.startActivity(new Intent(context, LikeVideoActivity.class)
+                        .putExtra("Id", String.valueOf(bean.getUserId()))
+                        .putExtra("position", String.valueOf(position))
+                );
                 Functions.animNext(context);
+
             }
         });
 

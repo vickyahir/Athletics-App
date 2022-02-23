@@ -9,163 +9,68 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbarsimple" />
+        layout="@layout/toolbar_with_button" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/SwipeHomePage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bootomMenu"
-        android:layout_below="@+id/toolbar">
+        android:layout_below="@+id/toolbar"
 
-        <androidx.core.widget.NestedScrollView
+        >
+
+        <LinearLayout
+            android:id="@+id/LLHomeMain"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bootomMenu"
+            android:layout_below="@+id/toolbar"
+            android:orientation="vertical">
 
+            <!--        <LinearLayout-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_marginTop="@dimen/_5sdp"-->
+            <!--            android:orientation="vertical">-->
+
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/_8sdp"-->
+            <!--                android:layout_marginEnd="@dimen/_8sdp">-->
+
+            <!--                <androidx.recyclerview.widget.RecyclerView-->
+            <!--                    android:id="@+id/rvAthlete"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:visibility="gone"-->
+            <!--                    tools:itemCount="2"-->
+            <!--                    tools:listitem="@layout/item_category" />-->
+
+            <!--            </LinearLayout>-->
+
+
+            <!--        </LinearLayout>-->
 
             <LinearLayout
-                android:id="@+id/LLHomeMain"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="visible">
+                android:layout_height="match_parent">
 
-
-                <LinearLayout
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/videoViewPager2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_8sdp"
-                    android:layout_marginEnd="@dimen/_8sdp"
-
-                    >
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvAthlete"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:itemCount="2"
-                        tools:listitem="@layout/item_category" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_13sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_13sdp"
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:id="@+id/tvExplore"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ic_category_bg_selected"
-                        android:fontFamily="@font/rubik_regular"
-                        android:paddingLeft="@dimen/_16sdp"
-                        android:paddingTop="@dimen/_8sdp"
-                        android:paddingRight="@dimen/_16sdp"
-                        android:paddingBottom="@dimen/_8sdp"
-                        android:text="@string/explore"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_11ssp" />
-
-                    <TextView
-                        android:id="@+id/tvAthletics"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:background="@drawable/ic_category_bg"
-                        android:fontFamily="@font/rubik_regular"
-                        android:paddingLeft="@dimen/_16sdp"
-                        android:paddingTop="@dimen/_8sdp"
-                        android:paddingRight="@dimen/_16sdp"
-                        android:paddingBottom="@dimen/_8sdp"
-                        android:text="@string/athletics"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_11ssp" />
-
-                    <TextView
-                        android:id="@+id/tvCoaches"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ic_category_bg"
-                        android:fontFamily="@font/rubik_regular"
-                        android:paddingLeft="@dimen/_16sdp"
-                        android:paddingTop="@dimen/_8sdp"
-                        android:paddingRight="@dimen/_16sdp"
-                        android:paddingBottom="@dimen/_8sdp"
-                        android:text="@string/coaches"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_11ssp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_13sdp"
-                    android:descendantFocusability="blocksDescendants"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    >
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvExploreData"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        tools:itemCount="5"
-                        tools:listitem="@layout/item_explore_list" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvAthleteData"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        tools:itemCount="5"
-                        tools:listitem="@layout/item_athlete_list" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvCoachData"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        tools:itemCount="5"
-                        tools:listitem="@layout/item_coach_list" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_150sdp"
-                        android:visibility="gone">
-
-                        <include layout="@layout/activity_nodatafound" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <androidx.viewpager2.widget.ViewPager2
-                        android:id="@+id/videoViewPager"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical" />
-
-                </LinearLayout>
-
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" />
 
             </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
+            <include layout="@layout/activity_nodatafound" />
+
+        </LinearLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     <LinearLayout
         android:id="@+id/bootomMenu"

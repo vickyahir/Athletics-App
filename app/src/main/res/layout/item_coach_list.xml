@@ -1,20 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/_15sdp"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/LLCoachMain"
-    >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transperrent">
+
+            <FrameLayout
+                android:id="@+id/video_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black">
+
+                <VideoView
+                    android:id="@+id/simpleVideoView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
+                <ImageView
+                    android:id="@+id/imgPlay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_play"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/videoProgressbarCoach"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:indeterminateTint="@color/colorPrimary" />
+
+                <!--                <com.google.android.material.progressindicator.CircularProgressIndicator-->
+                <!--                    android:id="@+id/RoundProgress"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:indeterminate="true"-->
+                <!--                    android:visibility="gone" />-->
+                <!--                app:indicatorColor="@color/colorPrimary"-->
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom|end"
+                    android:gravity="end"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+
+                    <ImageView
+                        android:id="@+id/imgFullscreen"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        android:src="@drawable/ic_fullscreen"
+                        android:tint="@color/white"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+
+            </FrameLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/_50sdp">
 
 
         <androidx.cardview.widget.CardView
@@ -28,9 +110,10 @@
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
                 android:scaleType="fitXY"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/dummy_three"
 
-                />
+                tools:ignore="NewApi" />
 
         </androidx.cardview.widget.CardView>
 
@@ -51,7 +134,8 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/rubik_medium"
                 android:text="Robert Phan"
-                android:textColor="@color/black"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp" />
 
             <TextView
@@ -93,7 +177,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_7sdp">
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_15sdp">
 
 
         <TextView
@@ -103,83 +190,11 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:fontFamily="@font/rubik_regular"
             android:text="This is so amazing"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/_11ssp" />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
-
-        android:orientation="vertical">
-
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/transperrent"
-            app:cardCornerRadius="@dimen/_10sdp">
-
-            <FrameLayout
-                android:id="@+id/video_layout"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_300sdp"
-                android:background="@color/black">
-
-                <VideoView
-                    android:id="@+id/simpleVideoView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
-
-                <ImageView
-                    android:id="@+id/imgPlay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_play" />
-
-                <com.google.android.material.progressindicator.CircularProgressIndicator
-                    android:id="@+id/RoundProgress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:indeterminate="true"
-                    android:visibility="gone" />
-                <!--                app:indicatorColor="@color/colorPrimary"-->
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|bottom|end"
-                    android:gravity="end"
-                    android:orientation="horizontal">
-
-
-                    <ImageView
-                        android:id="@+id/imgFullscreen"
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_8sdp"
-                        android:src="@drawable/ic_fullscreen"
-                        android:tint="@color/white"
-                        android:visibility="visible" />
-
-                </LinearLayout>
-
-
-            </FrameLayout>
-
-        </androidx.cardview.widget.CardView>
-
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -230,4 +245,4 @@
     </LinearLayout>
 
 
-</LinearLayout>
+</RelativeLayout>

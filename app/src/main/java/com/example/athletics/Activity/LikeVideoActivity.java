@@ -8,12 +8,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.Athletics.R;
+import com.example.athletics.Adapter.AthleteVideoAdapter;
 import com.example.athletics.Adapter.LikeVideoCategoryAdapter;
+import com.example.athletics.Model.AthleteProfileResponse;
+import com.example.athletics.Model.AthleteProfileVideosItem;
 import com.example.athletics.Model.UserLikeVideoApiResponse;
 import com.example.athletics.Model.UserLikeVideoDataItem;
 import com.example.athletics.Retrofit.ApiClient;
@@ -34,9 +37,13 @@ public class LikeVideoActivity extends BaseActivity {
     private TextView TvTitle;
     private RecyclerView rvLikevideo;
     private List<UserLikeVideoDataItem> HomeVideoCategory;
+    private List<AthleteProfileVideosItem> athleteProfileVideosItems;
     private RelativeLayout LLLikeVideoMain;
     private TextView TvNodataFound;
     private SwipeRefreshLayout SwipeLikeVideoPage;
+    private ViewPager2 LikeVideoViewpager;
+    private String AthleteId = "", Position = "";
+    private int ViewpagerPos = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +52,20 @@ public class LikeVideoActivity extends BaseActivity {
         super.onCreateMenu();
         super.onMenuSelect(5);
 
+        getIntentData();
         initView();
         setClickListener();
+    }
+
+    private void getIntentData() {
+        try {
+            AthleteId = getIntent().getStringExtra("Id");
+            Position = getIntent().getStringExtra("position");
+            ViewpagerPos = Integer.parseInt(Position);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -57,26 +76,40 @@ public class LikeVideoActivity extends BaseActivity {
         imgBack = toolbarMain.findViewById(R.id.imgBack);
         imgMenu = toolbarMain.findViewById(R.id.imgMenu);
         TvTitle = toolbarMain.findViewById(R.id.TvTitle);
-        rvLikevideo = (RecyclerView) findViewById(R.id.rvLikevideo);
+        LikeVideoViewpager = (ViewPager2) findViewById(R.id.LikeVideoViewpager);
         SwipeLikeVideoPage = (SwipeRefreshLayout) findViewById(R.id.SwipeLikeVideoPage);
-        TvTitle.setText(getResources().getString(R.string.like_video));
 
-    }
+        if (AthleteId.equalsIgnoreCase("")) {
+            TvTitle.setText(getResources().getString(R.string.like_video));
+        } else {
+            TvTitle.setText(getResources().getString(R.string.videos));
+        }
 
-    @Override
-    protected void onResume() {
+
         loadData();
-        super.onResume();
     }
+
 
     private void loadData() {
-        if (cd.isConnectingToInternet()) {
-            Functions.dialogShow(LikeVideoActivity.this);
-            callLikeVideoApiResponse();
+
+        if (AthleteId.equalsIgnoreCase("")) {
+            if (cd.isConnectingToInternet()) {
+                Functions.dialogShow(LikeVideoActivity.this);
+                callLikeVideoApiResponse();
+            } else {
+                Snackbar snackbar = Snackbar.make(LLLikeVideoMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
         } else {
-            Snackbar snackbar = Snackbar.make(LLLikeVideoMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
-            snackbar.show();
+            if (cd.isConnectingToInternet()) {
+                Functions.dialogShow(LikeVideoActivity.this);
+                CallMyFollowingApiResponse();
+            } else {
+                Snackbar snackbar = Snackbar.make(LLLikeVideoMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
         }
+
     }
 
 
@@ -96,17 +129,19 @@ public class LikeVideoActivity extends BaseActivity {
                         }
 
                         if (response.body().getData().size() > 0) {
-                            rvLikevideo.setVisibility(View.VISIBLE);
+//                            rvLikevideo.setVisibility(View.VISIBLE);
                             TvNodataFound.setVisibility(View.GONE);
-
+//
                             HomeVideoCategory = new ArrayList<>();
                             HomeVideoCategory.addAll(response.body().getData());
-                            rvLikevideo.setLayoutManager(new LinearLayoutManager(LikeVideoActivity.this));
-                            rvLikevideo.setAdapter(new LikeVideoCategoryAdapter(LikeVideoActivity.this, HomeVideoCategory));
+//                            rvLikevideo.setLayoutManager(new LinearLayoutManager(LikeVideoActivity.this));
+//                            rvLikevideo.setAdapter(new LikeVideoCategoryAdapter(LikeVideoActivity.this, HomeVideoCategory));
+
+                            LikeVideoViewpager.setAdapter(new LikeVideoCategoryAdapter(LikeVideoActivity.this, HomeVideoCategory));
 
                         } else {
                             TvNodataFound.setVisibility(View.VISIBLE);
-                            rvLikevideo.setVisibility(View.GONE);
+//                            rvLikevideo.setVisibility(View.GONE);
                         }
 
                     }
@@ -118,6 +153,47 @@ public class LikeVideoActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<UserLikeVideoApiResponse> call, Throwable t) {
+                Functions.dialogHide();
+            }
+        });
+    }
+
+    public void CallMyFollowingApiResponse() {
+
+        apiInterface = ApiClient.getClient(this).create(ApiInterface.class);
+        Call<AthleteProfileResponse> loginApiResponseCall = apiInterface.GetAthleteProfileApiResponse(AthleteId);
+        loginApiResponseCall.enqueue(new Callback<AthleteProfileResponse>() {
+            @Override
+            public void onResponse(Call<AthleteProfileResponse> call, Response<AthleteProfileResponse> response) {
+                try {
+                    if (response.isSuccessful()) {
+
+                        Functions.dialogHide();
+
+                        if (response.body().getData().getVideos().size() > 0) {
+                            TvNodataFound.setVisibility(View.GONE);
+
+                            athleteProfileVideosItems = new ArrayList<>();
+                            athleteProfileVideosItems.addAll(response.body().getData().getVideos());
+
+                            LikeVideoViewpager.setAdapter(new AthleteVideoAdapter(LikeVideoActivity.this, athleteProfileVideosItems));
+
+                            LikeVideoViewpager.setCurrentItem(ViewpagerPos, true);
+
+                        } else {
+                            TvNodataFound.setVisibility(View.VISIBLE);
+                        }
+
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<AthleteProfileResponse> call, Throwable t) {
                 Functions.dialogHide();
             }
         });

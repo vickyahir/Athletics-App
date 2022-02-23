@@ -62,8 +62,10 @@
             android:fontFamily="@font/rubik_regular"
             android:gravity="center"
             android:padding="@dimen/_5sdp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:text="@string/cancel"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            tools:ignore="NewApi" />
 
         <View
             android:layout_width="1dp"
@@ -78,8 +80,10 @@
             android:layout_weight="1"
             android:fontFamily="@font/rubik_regular"
             android:gravity="center"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:text="@string/login"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            tools:ignore="NewApi" />
 
 
     </LinearLayout>

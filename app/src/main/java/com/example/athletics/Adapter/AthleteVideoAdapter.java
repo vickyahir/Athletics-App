@@ -24,6 +24,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -44,7 +46,6 @@ import com.example.athletics.Retrofit.ApiInterface;
 import com.example.athletics.Utils.ConnectionDetector;
 import com.example.athletics.Utils.Functions;
 import com.example.athletics.Utils.SessionManager;
-import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
@@ -83,7 +84,7 @@ public class AthleteVideoAdapter extends RecyclerView.Adapter<AthleteVideoAdapte
     @NonNull
     @Override
     public Myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new Myviewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_athlete_video_list, parent, false));
+        return new Myviewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_explore_list, parent, false));
     }
 
     @Override
@@ -106,7 +107,7 @@ public class AthleteVideoAdapter extends RecyclerView.Adapter<AthleteVideoAdapte
             holder.TvLikeCount.setTextColor(context.getResources().getColor(R.color.colorPrimary));
         } else {
             holder.imgLike.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_heart));
-            holder.TvLikeCount.setTextColor(context.getResources().getColor(R.color.black));
+            holder.TvLikeCount.setTextColor(context.getResources().getColor(R.color.white));
         }
 
 
@@ -117,22 +118,27 @@ public class AthleteVideoAdapter extends RecyclerView.Adapter<AthleteVideoAdapte
 
 //        holder.simpleVideoView.start();
 
-        holder.imgPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                holder.imgPlay.setVisibility(View.GONE);
-                holder.simpleVideoView.setVideoURI(Uri.parse(bean.getVideo()));
+//        holder.imgPlay.setVisibility(View.GONE);
+        holder.simpleVideoView.setVideoURI(Uri.parse(bean.getVideo()));
 //                holder.simpleVideoView.start();
-                holder.RoundProgress.setVisibility(View.VISIBLE);
+        holder.videoProgressbar.setVisibility(View.VISIBLE);
 
-
-//                context.startActivity(new Intent(context, VideoViewActivity.class).putExtra("fullScreenInd", "y").putExtra("VideoUrl", bean.getVideo()));
-//                Functions.animNext(context);
-
-            }
-        });
+//        holder.imgPlay.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//
+//                holder.imgPlay.setVisibility(View.GONE);
+//                holder.simpleVideoView.setVideoURI(Uri.parse(bean.getVideo()));
+////                holder.simpleVideoView.start();
+//                holder.videoProgressbarAthleteVideo.setVisibility(View.VISIBLE);
+//
+//
+////                context.startActivity(new Intent(context, VideoViewActivity.class).putExtra("fullScreenInd", "y").putExtra("VideoUrl", bean.getVideo()));
+////                Functions.animNext(context);
+//
+//            }
+//        });
 
 
         holder.imgLike.setOnClickListener(new View.OnClickListener() {
@@ -159,8 +165,8 @@ public class AthleteVideoAdapter extends RecyclerView.Adapter<AthleteVideoAdapte
         holder.simpleVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-                holder.imgPlay.setVisibility(View.VISIBLE);
-                holder.RoundProgress.setVisibility(View.GONE);
+//                holder.imgPlay.setVisibility(View.VISIBLE);
+                holder.videoProgressbar.setVisibility(View.GONE);
             }
         });
 
@@ -169,7 +175,7 @@ public class AthleteVideoAdapter extends RecyclerView.Adapter<AthleteVideoAdapte
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
 //                holder.VideoProgress.setVisibility(View.GONE);
-                holder.RoundProgress.setVisibility(View.GONE);
+                holder.videoProgressbar.setVisibility(View.GONE);
                 holder.simpleVideoView.start();
 
                 if (cd.isConnectingToInternet()) {
@@ -240,9 +246,11 @@ public class AthleteVideoAdapter extends RecyclerView.Adapter<AthleteVideoAdapte
     public class Myviewholder extends RecyclerView.ViewHolder {
         public ImageView imgLike, imgView, imgFullscreen, imgPlay, ImgShare;
         public TextView TvLikeCount, TvViewCount, Tv_PostTitle;
-        public LinearLayout LLUserProfile, LLItemAthlete;
+        public LinearLayout LLUserProfile;
         public VideoView simpleVideoView;
-        public CircularProgressIndicator RoundProgress;
+        private RelativeLayout LLItemAthlete;
+        //        public CircularProgressIndicator RoundProgress;
+        public ProgressBar videoProgressbar;
 
         public Myviewholder(@NonNull View itemView) {
             super(itemView);
@@ -250,14 +258,15 @@ public class AthleteVideoAdapter extends RecyclerView.Adapter<AthleteVideoAdapte
             imgLike = itemView.findViewById(R.id.imgLike);
             imgView = itemView.findViewById(R.id.imgView);
             ImgShare = itemView.findViewById(R.id.ImgShare);
-            imgPlay = itemView.findViewById(R.id.imgPlay);
+//            imgPlay = itemView.findViewById(R.id.imgPlay);
             imgFullscreen = itemView.findViewById(R.id.imgFullscreen);
             TvLikeCount = itemView.findViewById(R.id.TvLikeCount);
             TvViewCount = itemView.findViewById(R.id.TvViewCount);
             LLUserProfile = itemView.findViewById(R.id.LLUserProfile);
             LLItemAthlete = itemView.findViewById(R.id.LLItemAthlete);
             simpleVideoView = itemView.findViewById(R.id.simpleVideoView);
-            RoundProgress = itemView.findViewById(R.id.RoundProgress);
+//            RoundProgress = itemView.findViewById(R.id.RoundProgress);
+            videoProgressbar = itemView.findViewById(R.id.videoProgressbar);
 
         }
     }
@@ -497,7 +506,7 @@ public class AthleteVideoAdapter extends RecyclerView.Adapter<AthleteVideoAdapte
                             tvLikeCount.setText(String.valueOf(count));
                         } else {
                             imgLike.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_heart));
-                            tvLikeCount.setTextColor(context.getResources().getColor(R.color.black));
+                            tvLikeCount.setTextColor(context.getResources().getColor(R.color.white));
                             int count = Integer.parseInt(tvLikeCount.getText().toString()) - 1;
                             tvLikeCount.setText(String.valueOf(count));
                         }

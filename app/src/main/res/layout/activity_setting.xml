@@ -252,7 +252,9 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginBottom="@dimen/_5sdp"
-                        android:gravity="center">
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center"
+                        tools:ignore="NewApi">
 
 
                         <TextView
@@ -281,7 +283,9 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginBottom="@dimen/_5sdp"
-                        android:gravity="center">
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center"
+                        tools:ignore="NewApi">
 
 
                         <TextView
@@ -310,7 +314,9 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginBottom="@dimen/_5sdp"
-                        android:gravity="center">
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center"
+                        tools:ignore="NewApi">
 
 
                         <TextView
@@ -339,7 +345,9 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginBottom="@dimen/_5sdp"
-                        android:gravity="center">
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center"
+                        tools:ignore="NewApi">
 
 
                         <TextView
@@ -368,7 +376,9 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginBottom="@dimen/_5sdp"
-                        android:gravity="center">
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center"
+                        tools:ignore="NewApi">
 
 
                         <TextView
@@ -397,7 +407,9 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginBottom="@dimen/_5sdp"
-                        android:gravity="center">
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center"
+                        tools:ignore="NewApi">
 
 
                         <TextView

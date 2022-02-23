@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/RelLoginMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -181,6 +182,7 @@
                         android:id="@+id/TvForgotPassword"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
                         android:fontFamily="@font/rubik_italic"
                         android:letterSpacing="0.05"
                         android:paddingLeft="@dimen/_5sdp"
@@ -189,7 +191,8 @@
                         android:paddingBottom="@dimen/_5sdp"
                         android:text="@string/forgot_password"
                         android:textColor="@color/blur_color_dark"
-                        android:textSize="@dimen/_10ssp" />
+                        android:textSize="@dimen/_10ssp"
+                        tools:ignore="NewApi" />
 
 
                 </LinearLayout>
@@ -243,6 +246,7 @@
                         android:id="@+id/TvSignup"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
                         android:fontFamily="@font/rubik_medium"
                         android:letterSpacing="0.05"
                         android:paddingLeft="@dimen/_3sdp"
@@ -269,6 +273,7 @@
                         android:id="@+id/TvSkipLogin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
                         android:fontFamily="@font/rubik_medium"
                         android:letterSpacing="0.05"
                         android:paddingLeft="@dimen/_3sdp"
@@ -278,7 +283,8 @@
                         android:text="@string/skip_login"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="@dimen/_11ssp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="NewApi" />
 
 
                 </LinearLayout>

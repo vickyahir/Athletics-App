@@ -1,16 +1,9 @@
 package com.example.athletics.Activity;
 
-import android.Manifest;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -20,8 +13,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -31,7 +22,6 @@ import com.example.Athletics.R;
 import com.example.athletics.Adapter.HomeAthleteCategoryAdapter;
 import com.example.athletics.Adapter.HomeCoachCategoryAdapter;
 import com.example.athletics.Adapter.HomeExploreCategoryAdapter;
-import com.example.athletics.Adapter.HomeViewPagerAdapter;
 import com.example.athletics.Adapter.ProductCategoryAdapter;
 import com.example.athletics.Model.HomeAthleteApiResponse;
 import com.example.athletics.Model.HomeAthleteDataItem;
@@ -44,7 +34,6 @@ import com.example.athletics.Retrofit.ApiInterface;
 import com.example.athletics.Utils.Functions;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,8 +57,8 @@ public class HomeActivity extends BaseActivity {
     public static final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 123;
     public boolean result;
     public HomeExploreCategoryAdapter homeExploreCategoryAdapter;
-    private ViewPager2 videoViewPager;
-
+    public HomeExploreApiResponse homeExploreApiResponse;
+    private ViewPager2 videoViewPager2;
 
 
     @Override
@@ -93,23 +82,19 @@ public class HomeActivity extends BaseActivity {
         toolbarMain = findViewById(R.id.toolbarMain);
         LLHomeMain = findViewById(R.id.LLHomeMain);
         imgSearch = toolbarMain.findViewById(R.id.imgSearch);
-        rvAthlete = (RecyclerView) findViewById(R.id.rvAthlete);
-        rvAthleteData = (RecyclerView) findViewById(R.id.rvAthleteData);
-        rvExploreData = (RecyclerView) findViewById(R.id.rvExploreData);
-        rvCoachData = (RecyclerView) findViewById(R.id.rvCoachData);
+//        rvAthlete = (RecyclerView) findViewById(R.id.rvAthlete);
+//        rvAthleteData = (RecyclerView) findViewById(R.id.rvAthleteData);
+//        rvExploreData = (RecyclerView) findViewById(R.id.rvExploreData);
+//        rvCoachData = (RecyclerView) findViewById(R.id.rvCoachData);
         relHomePageListing = findViewById(R.id.relHomePageListing);
-        tvExplore = findViewById(R.id.tvExplore);
-        tvAthletics = findViewById(R.id.tvAthletics);
-        tvCoaches = findViewById(R.id.tvCoaches);
+        tvExplore = toolbarMain.findViewById(R.id.tvExplore);
+        tvAthletics = toolbarMain.findViewById(R.id.tvAthletics);
+        tvCoaches = toolbarMain.findViewById(R.id.tvCoaches);
         TvNodataFound = findViewById(R.id.TvNodataFound);
-        videoViewPager = findViewById(R.id.videoViewPager);
+        videoViewPager2 = findViewById(R.id.videoViewPager2);
 
         SwipeHomePage = (SwipeRefreshLayout) findViewById(R.id.SwipeHomePage);
 
-//        if (ContextCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//            result = checkPermission(activity);
-//        }
-//        checkFolder();
 
     }
 
@@ -119,7 +104,7 @@ public class HomeActivity extends BaseActivity {
             Functions.dialogShow(HomeActivity.this);
             LLHomeMain.setVisibility(View.GONE);
 
-            callAthleteListApi();
+//            callAthleteListApi();
 
             if (MenuClicked.equalsIgnoreCase("Explore")) {
                 callHomeExploreListingDataApi();
@@ -130,6 +115,7 @@ public class HomeActivity extends BaseActivity {
             if (MenuClicked.equalsIgnoreCase("Coach")) {
                 callHomeCoachListingDataApi();
             }
+
 
         } else {
             Snackbar snackbar = Snackbar.make(relHomePageListing, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
@@ -179,8 +165,8 @@ public class HomeActivity extends BaseActivity {
                     Functions.dialogShow(HomeActivity.this);
                     callHomeExploreListingDataApi();
 
-                    rvAthleteData.setVisibility(View.GONE);
-                    rvCoachData.setVisibility(View.GONE);
+//                    rvAthleteData.setVisibility(View.GONE);
+//                    rvCoachData.setVisibility(View.GONE);
 
                 } else {
                     Snackbar snackbar = Snackbar.make(relHomePageListing, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
@@ -205,8 +191,8 @@ public class HomeActivity extends BaseActivity {
                 if (cd.isConnectingToInternet()) {
                     Functions.dialogShow(HomeActivity.this);
                     callHomeAthleteListingDataApi();
-                    rvExploreData.setVisibility(View.GONE);
-                    rvCoachData.setVisibility(View.GONE);
+//                    rvExploreData.setVisibility(View.GONE);
+//                    rvCoachData.setVisibility(View.GONE);
                 } else {
                     Snackbar snackbar = Snackbar.make(relHomePageListing, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
                     snackbar.show();
@@ -229,8 +215,8 @@ public class HomeActivity extends BaseActivity {
                     Functions.dialogShow(HomeActivity.this);
                     callHomeCoachListingDataApi();
 
-                    rvAthleteData.setVisibility(View.GONE);
-                    rvExploreData.setVisibility(View.GONE);
+//                    rvAthleteData.setVisibility(View.GONE);
+//                    rvExploreData.setVisibility(View.GONE);
 
                 } else {
                     Snackbar snackbar = Snackbar.make(relHomePageListing, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
@@ -279,63 +265,6 @@ public class HomeActivity extends BaseActivity {
         builder.setContentView(view1);
         builder.show();
 
-
-    }
-
-    public boolean checkPermission(Activity activity) {
-        int currentAPIVersion = Build.VERSION.SDK_INT;
-        if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(HomeActivity.this);
-                    alertBuilder.setCancelable(true);
-                    alertBuilder.setTitle("Permission necessary");
-                    alertBuilder.setMessage("Write Storage permission is necessary to Download Videos!!!");
-                    alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-                        public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
-                        }
-                    });
-                    AlertDialog alert = alertBuilder.create();
-                    alert.show();
-                } else {
-                    ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
-                }
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            return true;
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_WRITE_STORAGE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    checkFolder();
-                } else {
-                    //code for deny
-//                    checkAgain();
-                }
-                break;
-        }
-
-    }
-
-    public void checkFolder() {
-//        String path = Environment.getExternalStorageDirectory() + "/" + Constant.DownloadFileName + "/";
-//        String path = Environment.getExternalStorageDirectory().toString();
-        // Create the parent path
-//        File dir = new File(Environment.getExternalStorageDirectory(), "Athletic");
-        File dir = new File(Environment.getExternalStorageDirectory() + "/DCIM/Camera/");
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
 
     }
 
@@ -404,18 +333,18 @@ public class HomeActivity extends BaseActivity {
 
                         if (response.body().getData().size() > 0) {
                             TvNodataFound.setVisibility(View.GONE);
-                            rvAthleteData.setVisibility(View.VISIBLE);
+//                            rvAthleteData.setVisibility(View.VISIBLE);
 
                             HomeAthleteList = new ArrayList<>();
                             HomeAthleteList.addAll(response.body().getData());
+//
+//                            rvAthleteData.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.VERTICAL, false));
+//                            rvAthleteData.setAdapter(new HomeAthleteCategoryAdapter(activity, HomeAthleteList));
 
-                            rvAthleteData.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.VERTICAL, false));
-                            rvAthleteData.setAdapter(new HomeAthleteCategoryAdapter(activity, HomeAthleteList));
-
-                            videoViewPager.setAdapter(new HomeAthleteCategoryAdapter(HomeActivity.this, HomeAthleteList));
+                            videoViewPager2.setAdapter(new HomeAthleteCategoryAdapter(HomeActivity.this, HomeAthleteList));
 
                         } else {
-                            rvAthleteData.setVisibility(View.GONE);
+//                            rvAthleteData.setVisibility(View.GONE);
                             TvNodataFound.setVisibility(View.VISIBLE);
                         }
 
@@ -453,22 +382,30 @@ public class HomeActivity extends BaseActivity {
                             SwipeHomePage.setRefreshing(false);
                         }
 
+                        homeExploreApiResponse = response.body();
+
                         if (response.body().getData().size() > 0) {
                             TvNodataFound.setVisibility(View.GONE);
-                            rvExploreData.setVisibility(View.VISIBLE);
+//                            rvExploreData.setVisibility(View.VISIBLE);
 
                             HomeExploreList = new ArrayList<>();
                             HomeExploreList.addAll(response.body().getData());
 
-                            rvExploreData.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.VERTICAL, false));
+//                            rvExploreData.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.VERTICAL, false));
+
+//                            homeExploreCategoryAdapter = new HomeExploreCategoryAdapter(activity, HomeExploreList);
+//                            rvExploreData.setAdapter(homeExploreCategoryAdapter);
+
 
                             homeExploreCategoryAdapter = new HomeExploreCategoryAdapter(activity, HomeExploreList);
-                            rvExploreData.setAdapter(homeExploreCategoryAdapter);
+//                            videoViewPager2.setAdapter(new HomeExploreCategoryAdapter(HomeActivity.this, HomeExploreList));
+                            videoViewPager2.setAdapter(homeExploreCategoryAdapter);
 
-                            videoViewPager.setAdapter(new HomeViewPagerAdapter(HomeActivity.this, HomeExploreList));
+//                            Content content = new Content();
+//                            content.execute();
 
                         } else {
-                            rvExploreData.setVisibility(View.GONE);
+//                            rvExploreData.setVisibility(View.GONE);
                             TvNodataFound.setVisibility(View.VISIBLE);
                         }
 
@@ -499,7 +436,9 @@ public class HomeActivity extends BaseActivity {
                 try {
                     if (response.isSuccessful()) {
                         Functions.dialogHide();
+
                         LLHomeMain.setVisibility(View.VISIBLE);
+
                         if (SwipeHomePage.isRefreshing()) {
                             SwipeHomePage.setRefreshing(false);
                         }
@@ -507,18 +446,18 @@ public class HomeActivity extends BaseActivity {
 
                         if (response.body().getData().size() > 0) {
                             TvNodataFound.setVisibility(View.GONE);
-                            rvCoachData.setVisibility(View.VISIBLE);
+//                            rvCoachData.setVisibility(View.VISIBLE);
 
                             HomeCoachList = new ArrayList<>();
                             HomeCoachList.addAll(response.body().getData());
 
-                            rvCoachData.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.VERTICAL, false));
-                            rvCoachData.setAdapter(new HomeCoachCategoryAdapter(activity, HomeCoachList));
+//                            rvCoachData.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.VERTICAL, false));
+//                            rvCoachData.setAdapter(new HomeCoachCategoryAdapter(activity, HomeCoachList));
 
-                            videoViewPager.setAdapter(new HomeCoachCategoryAdapter(HomeActivity.this, HomeCoachList));
+                            videoViewPager2.setAdapter(new HomeCoachCategoryAdapter(HomeActivity.this, HomeCoachList));
 
                         } else {
-                            rvCoachData.setVisibility(View.GONE);
+//                            rvCoachData.setVisibility(View.GONE);
                             TvNodataFound.setVisibility(View.VISIBLE);
                         }
 
@@ -538,4 +477,30 @@ public class HomeActivity extends BaseActivity {
     }
 
 
+    private class Content extends AsyncTask<Void, Void, Void> {
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        protected void onPostExecute(Void avoid) {
+            super.onPostExecute(avoid);
+            homeExploreCategoryAdapter.notifyDataSetChanged();
+        }
+
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            try {
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
 }

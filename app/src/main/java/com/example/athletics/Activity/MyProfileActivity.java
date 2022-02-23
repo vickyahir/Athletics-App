@@ -347,6 +347,7 @@ public class MyProfileActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MyProfileActivity.this, LikeVideoActivity.class);
+                intent.putExtra("Id", "");
                 startActivity(intent);
                 Functions.animNext(MyProfileActivity.this);
             }
@@ -356,6 +357,7 @@ public class MyProfileActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MyProfileActivity.this, LikeVideoActivity.class);
+                intent.putExtra("Id", "");
                 startActivity(intent);
                 Functions.animNext(MyProfileActivity.this);
             }

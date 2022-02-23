@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -27,8 +28,10 @@
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:src="@drawable/dummy"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
                 app:civ_border_color="@color/colorPrimaryDark"
-                app:civ_circle_background_color="@color/white" />
+                app:civ_circle_background_color="@color/white"
+                tools:ignore="NewApi" />
 
 
         </FrameLayout>
@@ -53,8 +56,10 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/rubik_medium"
             android:text="Robert Phan"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:textColor="@color/black"
-            android:textSize="@dimen/_12ssp" />
+            android:textSize="@dimen/_12ssp"
+            tools:ignore="NewApi" />
 
         <TextView
             android:id="@+id/Tv_UserType"
@@ -63,9 +68,11 @@
             android:layout_marginTop="@dimen/_2sdp"
             android:fontFamily="@font/rubik_regular"
             android:maxLines="2"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:text="Coach"
             android:textColor="@color/gray"
-            android:textSize="@dimen/_11ssp" />
+            android:textSize="@dimen/_11ssp"
+            tools:ignore="NewApi" />
 
     </LinearLayout>
 

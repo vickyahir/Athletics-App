@@ -96,8 +96,10 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/_5sdp"
+                                        android:background="?android:attr/selectableItemBackgroundBorderless"
                                         android:padding="@dimen/_10sdp"
-                                        android:src="@drawable/ic_user" />
+                                        android:src="@drawable/ic_user"
+                                        tools:ignore="NewApi" />
 
 
                                 </LinearLayout>
@@ -282,8 +284,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
+                                android:background="?android:attr/selectableItemBackgroundBorderless"
                                 android:padding="@dimen/_6sdp"
-                                android:src="@drawable/ic_interface" />
+                                android:src="@drawable/ic_interface"
+                                tools:ignore="NewApi" />
 
                             <ImageView
                                 android:id="@+id/ImgHome"
@@ -291,8 +295,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
+                                android:background="?android:attr/selectableItemBackgroundBorderless"
                                 android:padding="@dimen/_6sdp"
-                                android:src="@drawable/ic_layout_home_filled" />
+                                android:src="@drawable/ic_layout_home_filled"
+                                tools:ignore="NewApi" />
 
 
                         </LinearLayout>
@@ -314,7 +320,7 @@
                                 android:layout_height="wrap_content"
                                 android:visibility="visible"
                                 tools:itemCount="2"
-                                tools:listitem="@layout/item_athlete_video_list" />
+                                tools:listitem="@layout/item_profile_home" />
 
 
                             <TextView

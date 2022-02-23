@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -32,7 +33,9 @@
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/dummy_three" />
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/dummy_three"
+                    tools:ignore="NewApi" />
 
             </androidx.cardview.widget.CardView>
 
@@ -50,9 +53,11 @@
             android:fontFamily="@font/rubik_regular"
             android:gravity="center"
             android:maxLines="2"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:text="Animal Food"
             android:textColor="@color/black"
-            android:textSize="@dimen/_10ssp" />
+            android:textSize="@dimen/_10ssp"
+            tools:ignore="NewApi" />
 
 
     </LinearLayout>

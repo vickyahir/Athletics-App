@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -30,7 +32,6 @@ import com.example.athletics.Retrofit.ApiClient;
 import com.example.athletics.Retrofit.ApiInterface;
 import com.example.athletics.Utils.ConnectionDetector;
 import com.example.athletics.Utils.Functions;
-import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -87,25 +88,30 @@ public class HomeCoachCategoryAdapter extends RecyclerView.Adapter<HomeCoachCate
 
 //        holder.simpleVideoView.start();
 
-        holder.imgPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                holder.imgPlay.setVisibility(View.GONE);
-                holder.simpleVideoView.setVideoURI(Uri.parse(bean.getCoach().getProfileVideo()));
+//        holder.imgPlay.setVisibility(View.GONE);
+        holder.simpleVideoView.setVideoURI(Uri.parse(bean.getCoach().getProfileVideo()));
 //                holder.simpleVideoView.start();
-                holder.RoundProgress.setVisibility(View.VISIBLE);
+        holder.videoProgressbarCoach.setVisibility(View.VISIBLE);
 
-
-            }
-        });
+//        holder.imgPlay.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                holder.imgPlay.setVisibility(View.GONE);
+//                holder.simpleVideoView.setVideoURI(Uri.parse(bean.getCoach().getProfileVideo()));
+////                holder.simpleVideoView.start();
+//                holder.videoProgressbarCoach.setVisibility(View.VISIBLE);
+//
+//
+//            }
+//        });
 
 
         holder.simpleVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-                holder.imgPlay.setVisibility(View.VISIBLE);
-                holder.RoundProgress.setVisibility(View.GONE);
+//                holder.imgPlay.setVisibility(View.VISIBLE);
+                holder.videoProgressbarCoach.setVisibility(View.GONE);
             }
         });
 
@@ -114,7 +120,7 @@ public class HomeCoachCategoryAdapter extends RecyclerView.Adapter<HomeCoachCate
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
 //                holder.VideoProgress.setVisibility(View.GONE);
-                holder.RoundProgress.setVisibility(View.GONE);
+                holder.videoProgressbarCoach.setVisibility(View.GONE);
                 holder.simpleVideoView.start();
                 if (cd.isConnectingToInternet()) {
                     CallVideoCounIncrementResponse(String.valueOf(bean.getId()));
@@ -229,9 +235,11 @@ public class HomeCoachCategoryAdapter extends RecyclerView.Adapter<HomeCoachCate
     public class Myviewholder extends RecyclerView.ViewHolder {
         private ImageView iv_User, imgLike, imgShare, ImgMenu, imgFullscreen, imgPlay;
         private TextView Tv_Username, Tv_UserType, Tv_CoachGame;
-        private LinearLayout LLUserProfile, LLCoachMain;
+        private LinearLayout LLUserProfile;
         private VideoView simpleVideoView;
-        public CircularProgressIndicator RoundProgress;
+        private RelativeLayout LLCoachMain;
+        //        public CircularProgressIndicator RoundProgress;
+        public ProgressBar videoProgressbarCoach;
 
         public Myviewholder(@NonNull View itemView) {
             super(itemView);
@@ -241,13 +249,14 @@ public class HomeCoachCategoryAdapter extends RecyclerView.Adapter<HomeCoachCate
             Tv_CoachGame = itemView.findViewById(R.id.Tv_CoachGame);
             imgLike = itemView.findViewById(R.id.imgLike);
             imgShare = itemView.findViewById(R.id.imgShare);
-            imgPlay = itemView.findViewById(R.id.imgPlay);
+//            imgPlay = itemView.findViewById(R.id.imgPlay);
             ImgMenu = itemView.findViewById(R.id.ImgMenu);
             imgFullscreen = itemView.findViewById(R.id.imgFullscreen);
             LLUserProfile = itemView.findViewById(R.id.LLUserProfile);
             LLCoachMain = itemView.findViewById(R.id.LLCoachMain);
             simpleVideoView = itemView.findViewById(R.id.simpleVideoView);
-            RoundProgress = itemView.findViewById(R.id.RoundProgress);
+//            RoundProgress = itemView.findViewById(R.id.RoundProgress);
+            videoProgressbarCoach = itemView.findViewById(R.id.videoProgressbarCoach);
 
         }
     }

@@ -22,7 +22,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.Athletics.R;
-import com.example.athletics.Adapter.AthleteVideoAdapter;
+import com.example.athletics.Adapter.AthleteProfileVideoAdapter;
 import com.example.athletics.Adapter.ProfileSportAdapter;
 import com.example.athletics.Adapter.ProfileSportNameAdapter;
 import com.example.athletics.Model.AthleteProfileResponse;
@@ -190,21 +190,6 @@ public class AthleteProfileActivity extends BaseActivity {
                         }
 
 
-                        if (response.body().getData().getVideos().size() > 0) {
-                            TvNodataFound.setVisibility(View.GONE);
-                            rvProfileHome.setVisibility(View.VISIBLE);
-
-                            AthleteProfileVideoCategory = new ArrayList<>();
-                            AthleteProfileVideoCategory.addAll(response.body().getData().getVideos());
-                            rvProfileHome.setLayoutManager(new LinearLayoutManager(AthleteProfileActivity.this));
-                            rvProfileHome.setAdapter(new AthleteVideoAdapter(AthleteProfileActivity.this, AthleteProfileVideoCategory));
-
-                        } else {
-                            TvNodataFound.setVisibility(View.VISIBLE);
-                            rvProfileHome.setVisibility(View.GONE);
-                        }
-
-
                         if (response.body().getData().getAthlete().isIsFollowing()) {
                             imgFollow.setColorFilter(getResources().getColor(R.color.colorPrimary));
                         } else {
@@ -258,14 +243,13 @@ public class AthleteProfileActivity extends BaseActivity {
 
 
                         if (response.body().getData().getVideos().size() > 0) {
-
                             TvNodataFound.setVisibility(View.GONE);
                             rvProfileHome.setVisibility(View.VISIBLE);
 
                             AthleteProfileVideoCategory = new ArrayList<>();
                             AthleteProfileVideoCategory.addAll(response.body().getData().getVideos());
-                            rvProfileHome.setLayoutManager(new LinearLayoutManager(AthleteProfileActivity.this));
-                            rvProfileHome.setAdapter(new AthleteVideoAdapter(AthleteProfileActivity.this, AthleteProfileVideoCategory));
+                            rvProfileHome.setLayoutManager(new GridLayoutManager(AthleteProfileActivity.this, 2));
+                            rvProfileHome.setAdapter(new AthleteProfileVideoAdapter(AthleteProfileActivity.this, AthleteProfileVideoCategory));
 
                         } else {
                             TvNodataFound.setVisibility(View.VISIBLE);
@@ -363,7 +347,6 @@ public class AthleteProfileActivity extends BaseActivity {
             AthleteSportNameList.addAll(athleteProfileResponse.getData().getAthlete().getState().get(pos).getStat());
             RvStateSportNameList.setLayoutManager(new GridLayoutManager(AthleteProfileActivity.this, 2));
             RvStateSportNameList.setAdapter(new ProfileSportNameAdapter(AthleteProfileActivity.this, AthleteSportNameList));
-
         } else {
             RvStateSportNameList.setVisibility(View.GONE);
         }

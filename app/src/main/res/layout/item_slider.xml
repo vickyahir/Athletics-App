@@ -64,7 +64,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_details"
                     android:layout_marginTop="@dimen/_15sdp"
-                    android:gravity="center">
+                    android:gravity="center"
+                    >
 
                     <TextView
                         android:id="@+id/tvNext"

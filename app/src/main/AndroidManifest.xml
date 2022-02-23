@@ -59,9 +59,8 @@
 
         <activity
             android:name="com.example.athletics.Activity.HomeActivity"
-            android:theme="@style/NavigationDrawerAppTheme"
-
-            />
+            android:screenOrientation="portrait"
+            android:theme="@style/NavigationDrawerAppTheme" />
 
         <activity
             android:name="com.example.athletics.Activity.NotificationActivity"
@@ -134,11 +133,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/NavigationDrawerAppTheme"
             android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name="com.example.athletics.Activity.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/NavigationDrawerAppTheme" />
 
 
     </application>

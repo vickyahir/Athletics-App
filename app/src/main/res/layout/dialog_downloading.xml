@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -88,9 +89,11 @@
             android:layout_weight="1"
             android:fontFamily="@font/rubik_regular"
             android:gravity="center"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:text="@string/cancel"
             android:textColor="@color/black"
-            android:textSize="@dimen/_12ssp" />
+            android:textSize="@dimen/_12ssp"
+            tools:ignore="NewApi" />
 
         <View
             android:layout_width="0.5dp"
@@ -106,9 +109,11 @@
             android:layout_weight="1"
             android:fontFamily="@font/rubik_regular"
             android:gravity="center"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:text="Background"
             android:textColor="@color/black"
-            android:textSize="@dimen/_12ssp" />
+            android:textSize="@dimen/_12ssp"
+            tools:ignore="NewApi" />
 
 
     </LinearLayout>

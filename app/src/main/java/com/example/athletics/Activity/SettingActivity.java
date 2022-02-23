@@ -205,6 +205,7 @@ public class SettingActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SettingActivity.this, LikeVideoActivity.class);
+                intent.putExtra("Id","");
                 startActivity(intent);
                 Functions.animNext(SettingActivity.this);
             }

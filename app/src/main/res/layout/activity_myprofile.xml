@@ -33,7 +33,7 @@
                 android:layout_height="match_parent"
                 android:descendantFocusability="blocksDescendants"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -166,8 +166,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
+                                android:background="?android:attr/selectableItemBackgroundBorderless"
                                 android:gravity="center"
-                                android:orientation="vertical">
+                                android:orientation="vertical"
+                                tools:ignore="NewApi">
 
 
                                 <TextView
@@ -202,8 +204,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
+                                android:background="?android:attr/selectableItemBackgroundBorderless"
                                 android:gravity="center"
-                                android:orientation="vertical">
+                                android:orientation="vertical"
+                                tools:ignore="NewApi">
 
 
                                 <TextView
@@ -239,9 +243,11 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
+                                android:background="?android:attr/selectableItemBackgroundBorderless"
                                 android:gravity="center"
                                 android:orientation="vertical"
-                                android:visibility="visible">
+                                android:visibility="visible"
+                                tools:ignore="NewApi">
 
 
                                 <TextView
@@ -314,6 +320,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="@dimen/_15sdp"
+                                android:background="?android:attr/selectableItemBackgroundBorderless"
                                 android:fontFamily="@font/rubik_medium"
                                 android:gravity="center|start"
                                 android:letterSpacing="0.05"
@@ -321,7 +328,8 @@
                                 android:paddingBottom="@dimen/_10sdp"
                                 android:text="@string/profie"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/_12ssp" />
+                                android:textSize="@dimen/_12ssp"
+                                tools:ignore="NewApi" />
                         </LinearLayout>
 
 
@@ -348,6 +356,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="@dimen/_15sdp"
+                                android:background="?android:attr/selectableItemBackgroundBorderless"
                                 android:fontFamily="@font/rubik_medium"
                                 android:gravity="center|start"
                                 android:letterSpacing="0.05"
@@ -355,7 +364,8 @@
                                 android:paddingBottom="@dimen/_10sdp"
                                 android:text="@string/like_video"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/_12ssp" />
+                                android:textSize="@dimen/_12ssp"
+                                tools:ignore="NewApi" />
                         </LinearLayout>
 
 

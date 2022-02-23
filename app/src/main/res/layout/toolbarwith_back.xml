@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+
+    >
 
 
     <LinearLayout
@@ -25,8 +27,10 @@
                     android:id="@+id/imgBack"
                     android:layout_width="@dimen/_28sdp"
                     android:layout_height="@dimen/_28sdp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:padding="@dimen/_3sdp"
-                    android:src="@drawable/ic_back" />
+                    android:src="@drawable/ic_back"
+                    tools:ignore="NewApi" />
 
                 <TextView
                     android:id="@+id/TvTitle"
