@@ -121,7 +121,7 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
 
 
         YTParams params = new YTParams();
-        params.setControls(0); // hide control
+        //  params.setControls(0); // hide control
         params.setVolume(100); // volume control
         params.setPlaybackQuality(PlaybackQuality.small); //
 
@@ -435,19 +435,19 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
 
         public Myviewholder(@NonNull View itemView) {
             super(itemView);
-            iv_User = itemView.findViewById(R.id.iv_User);
-            Tv_Username = itemView.findViewById(R.id.Tv_Username);
-            Tv_UserType = itemView.findViewById(R.id.Tv_UserType);
-            Tv_PostTitle = itemView.findViewById(R.id.Tv_PostTitle);
-            imgLike = itemView.findViewById(R.id.imgLike);
-            imgView = itemView.findViewById(R.id.imgView);
-            ImgShare = itemView.findViewById(R.id.ImgShare);
+            iv_User = (ImageView) itemView.findViewById(R.id.iv_User);
+            Tv_Username = (TextView) itemView.findViewById(R.id.Tv_Username);
+            Tv_UserType = (TextView) itemView.findViewById(R.id.Tv_UserType);
+            Tv_PostTitle = (TextView) itemView.findViewById(R.id.Tv_PostTitle);
+            imgLike = (ImageView) itemView.findViewById(R.id.imgLike);
+            imgView = (ImageView) itemView.findViewById(R.id.imgView);
+            ImgShare = (ImageView) itemView.findViewById(R.id.ImgShare);
 //            ImgMenu = itemView.findViewById(R.id.ImgMenu);
 //            imgPlay = itemView.findViewById(R.id.imgPlay);
-            imgFullscreen = itemView.findViewById(R.id.imgFullscreen);
-            TvLikeCount = itemView.findViewById(R.id.TvLikeCount);
-            TvViewCount = itemView.findViewById(R.id.TvViewCount);
-            LLUserProfile = itemView.findViewById(R.id.LLUserProfile);
+            imgFullscreen = (ImageView) itemView.findViewById(R.id.imgFullscreen);
+            TvLikeCount = (TextView) itemView.findViewById(R.id.TvLikeCount);
+            TvViewCount = (TextView) itemView.findViewById(R.id.TvViewCount);
+            LLUserProfile = (LinearLayout) itemView.findViewById(R.id.LLUserProfile);
             LLExploreItem = itemView.findViewById(R.id.LLExploreItem);
             simpleVideoView = itemView.findViewById(R.id.simpleVideoView);
             videoProgressbar = itemView.findViewById(R.id.videoProgressbar);

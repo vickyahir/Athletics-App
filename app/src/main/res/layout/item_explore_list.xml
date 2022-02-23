@@ -35,7 +35,8 @@
                 <com.jaedongchicken.ytplayer.YoutubePlayerView
                     android:id="@+id/simpleVideoView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center" />
 
 
                 <!--                <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView-->
