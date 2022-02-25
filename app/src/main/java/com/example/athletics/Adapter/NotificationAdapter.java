@@ -67,24 +67,24 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.Tv_Username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, AthleteProfileActivity.class));
-                Functions.animNext(context);
+//                context.startActivity(new Intent(context, AthleteProfileActivity.class));
+//                Functions.animNext(context);
             }
         });
 
         holder.Tv_UserType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, AthleteProfileActivity.class));
-                Functions.animNext(context);
+//                context.startActivity(new Intent(context, AthleteProfileActivity.class));
+//                Functions.animNext(context);
             }
         });
 
         holder.iv_UserProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, AthleteProfileActivity.class));
-                Functions.animNext(context);
+//                context.startActivity(new Intent(context, AthleteProfileActivity.class));
+//                Functions.animNext(context);
             }
         });
 

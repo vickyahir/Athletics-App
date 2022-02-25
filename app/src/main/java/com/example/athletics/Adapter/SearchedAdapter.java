@@ -2,7 +2,6 @@ package com.example.athletics.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Athletics.R;
-import com.example.athletics.Activity.AthleteProfileActivity;
-import com.example.athletics.Utils.Functions;
 
 import java.util.List;
 
@@ -67,8 +64,8 @@ public class SearchedAdapter extends RecyclerView.Adapter<SearchedAdapter.Myview
         holder.Tv_Username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, AthleteProfileActivity.class));
-                Functions.animNext(context);
+//                context.startActivity(new Intent(context, AthleteProfileActivity.class));
+//                Functions.animNext(context);
 
             }
         });
@@ -76,8 +73,8 @@ public class SearchedAdapter extends RecyclerView.Adapter<SearchedAdapter.Myview
         holder.Tv_UserType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, AthleteProfileActivity.class));
-                Functions.animNext(context);
+//                context.startActivity(new Intent(context, AthleteProfileActivity.class));
+//                Functions.animNext(context);
 
             }
         });
@@ -85,8 +82,8 @@ public class SearchedAdapter extends RecyclerView.Adapter<SearchedAdapter.Myview
         holder.iv_UserProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, AthleteProfileActivity.class));
-                Functions.animNext(context);
+//                context.startActivity(new Intent(context, AthleteProfileActivity.class));
+//                Functions.animNext(context);
 
             }
         });

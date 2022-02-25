@@ -88,13 +88,24 @@ public class MyFollowingActivity extends AppCompatActivity {
 
     public void loadData() {
 
-        if (cd.isConnectingToInternet()) {
-            Functions.dialogShow(MyFollowingActivity.this);
-            CallMyFollowingApiResponse();
+        if (Title.equalsIgnoreCase(getResources().getString(R.string.follower))) {
+            if (cd.isConnectingToInternet()) {
+                Functions.dialogShow(MyFollowingActivity.this);
+                CallMyFollowerApiResponse();
+            } else {
+                Snackbar snackbar = Snackbar.make(LLFollowingMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
         } else {
-            Snackbar snackbar = Snackbar.make(LLFollowingMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
-            snackbar.show();
+            if (cd.isConnectingToInternet()) {
+                Functions.dialogShow(MyFollowingActivity.this);
+                CallMyFollowingApiResponse();
+            } else {
+                Snackbar snackbar = Snackbar.make(LLFollowingMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
         }
+
     }
 
 
@@ -150,7 +161,50 @@ public class MyFollowingActivity extends AppCompatActivity {
                             rvFollowingList.setVisibility(View.GONE);
                         }
 
-                        if (Title.equalsIgnoreCase(getResources().getString(R.string.follower))) {
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<FollowingApiResponse> call, Throwable t) {
+                Functions.dialogHide();
+            }
+        });
+    }
+
+
+    public void CallMyFollowerApiResponse() {
+
+        apiInterface = ApiClient.getClient(this).create(ApiInterface.class);
+        Call<FollowingApiResponse> loginApiResponseCall = apiInterface.GetMyFollowerApi();
+        loginApiResponseCall.enqueue(new Callback<FollowingApiResponse>() {
+            @Override
+            public void onResponse(Call<FollowingApiResponse> call, Response<FollowingApiResponse> response) {
+                try {
+                    if (response.isSuccessful()) {
+                        Functions.dialogHide();
+
+                        if (SwipFollowingPage.isRefreshing()) {
+                            SwipFollowingPage.setRefreshing(false);
+                        }
+
+                        if (response.body().getData().size() > 0) {
+
+
+                            TvNoDataFound.setVisibility(View.GONE);
+                            rvFollowingList.setVisibility(View.VISIBLE);
+
+                            FollowingList = new ArrayList<>();
+                            FollowingList.addAll(response.body().getData());
+
+                            rvFollowingList.setLayoutManager(new LinearLayoutManager(MyFollowingActivity.this, RecyclerView.VERTICAL, false));
+                            rvFollowingList.setAdapter(new MyFollowingAdapter(MyFollowingActivity.this, FollowingList));
+
+                        } else {
                             TvNoDataFound.setVisibility(View.VISIBLE);
                             rvFollowingList.setVisibility(View.GONE);
                         }

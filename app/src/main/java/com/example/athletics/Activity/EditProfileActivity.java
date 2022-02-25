@@ -412,7 +412,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
 
     public void SelectImageDialog(Boolean isRemoveProfile) {
-        final Dialog builder = new Dialog(EditProfileActivity.this);
+        final Dialog builder = new Dialog(EditProfileActivity.this, R.style.Theme_Dialog);
         builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
         View view1 = LayoutInflater.from(EditProfileActivity.this).inflate(R.layout.image_dialog, null);
         LinearLayout lnr_gallery = view1.findViewById(R.id.lnr_gallery);
@@ -464,6 +464,8 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
+        builder.setCancelable(true);
+        builder.setCanceledOnTouchOutside(true);
         builder.setContentView(view1);
         builder.show();
 

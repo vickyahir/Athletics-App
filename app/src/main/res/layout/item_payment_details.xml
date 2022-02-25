@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toold="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow android:layout_marginTop="@dimen/_5sdp">
+
+
+            <TextView
+                android:id="@+id/TvPaymentType"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/rubik_regular"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp"
+                toold:text="Paypal" />
+
+            <TextView
+                android:id="@+id/TvReferralCode"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/rubik_regular"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp"
+                toold:text="Referral Code" />
+
+            <TextView
+                android:id="@+id/TvDate"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/rubik_regular"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp"
+                toold:text="5 February 2022" />
+
+            <TextView
+                android:id="@+id/TvStatus"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/rubik_medium"
+                android:singleLine="true"
+                android:textColor="@color/Order_Placed"
+                android:textSize="@dimen/_10ssp"
+                toold:text="Complete" />
+
+            <TextView
+                android:id="@+id/TvDatAmount"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/rubik_regular"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp"
+                toold:text="$ 0for 165 days" />
+
+
+        </TableRow>
+
+    </TableLayout>
+
+
+</LinearLayout>

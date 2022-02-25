@@ -17,7 +17,7 @@
 <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
 </head>
 <body>
-<video  preload="auto"  id="video" poster="https://54athletics.s3.amazonaws.com/upload/thumb/621329d23b67c.jpg">
+<video  preload="auto"  id="video" poster="[IMAGE_PATH]" style="height:100%;width:100%">
   <source src="[VIDEO_ID]" type="video/mp4">
   Your browser does not support the video tag.
 </video>

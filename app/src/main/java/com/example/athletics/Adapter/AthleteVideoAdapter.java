@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaPlayer;
 import android.media.MediaScannerConnection;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -28,7 +27,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -47,6 +45,9 @@ import com.example.athletics.Utils.ConnectionDetector;
 import com.example.athletics.Utils.Functions;
 import com.example.athletics.Utils.SessionManager;
 import com.google.android.material.snackbar.Snackbar;
+import com.jaedongchicken.ytplayer.YoutubePlayerView;
+import com.jaedongchicken.ytplayer.model.PlaybackQuality;
+import com.jaedongchicken.ytplayer.model.YTParams;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -111,34 +112,69 @@ public class AthleteVideoAdapter extends RecyclerView.Adapter<AthleteVideoAdapte
         }
 
 
-//        Glide.with(context).load(bean.getThumb()).into(holder.iv_User);
-//        Glide.with(context).load(bean.getThumb()).into(holder.simpleVideoView);
+        YTParams params = new YTParams();
+        //  params.setControls(0); // hide control
+        params.setVolume(100); // volume control
+        params.setPlaybackQuality(PlaybackQuality.small); //
 
-//        holder.simpleVideoView.setVideoURI(Uri.parse(bean.getVideo()));
+        holder.simpleVideoView.initializeWithCustomURL(bean.getVideo(), bean.getThumb(), params, new YoutubePlayerView.YouTubeListener() {
+            @Override
+            public void onReady() {
+                holder.simpleVideoView.reload();
+                holder.simpleVideoView.requestLayout();
+                holder.simpleVideoView.play();
 
-//        holder.simpleVideoView.start();
 
-//        holder.imgPlay.setVisibility(View.GONE);
-        holder.simpleVideoView.setVideoURI(Uri.parse(bean.getVideo()));
-//                holder.simpleVideoView.start();
-        holder.videoProgressbar.setVisibility(View.VISIBLE);
+            }
 
-//        holder.imgPlay.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//
-//                holder.imgPlay.setVisibility(View.GONE);
-//                holder.simpleVideoView.setVideoURI(Uri.parse(bean.getVideo()));
-////                holder.simpleVideoView.start();
-//                holder.videoProgressbarAthleteVideo.setVisibility(View.VISIBLE);
-//
-//
-////                context.startActivity(new Intent(context, VideoViewActivity.class).putExtra("fullScreenInd", "y").putExtra("VideoUrl", bean.getVideo()));
-////                Functions.animNext(context);
-//
-//            }
-//        });
+            @Override
+            public void onStateChange(YoutubePlayerView.STATE state) {
+
+            }
+
+            @Override
+            public void onPlaybackQualityChange(String arg) {
+
+            }
+
+            @Override
+            public void onPlaybackRateChange(String arg) {
+
+            }
+
+            @Override
+            public void onError(String arg) {
+
+            }
+
+            @Override
+            public void onApiChange(String arg) {
+
+            }
+
+            @Override
+            public void onCurrentSecond(double second) {
+
+            }
+
+            @Override
+            public void onDuration(double duration) {
+
+            }
+
+            @Override
+            public void logs(String log) {
+
+            }
+        });
+
+        holder.simpleVideoView.play();
+        if (cd.isConnectingToInternet()) {
+            CallVideoCounIncrementResponse(String.valueOf(bean.getId()), bean.getViews(), holder.TvViewCount);
+        } else {
+            Snackbar snackbar = Snackbar.make(holder.LLItemAthlete, context.getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
 
 
         holder.imgLike.setOnClickListener(new View.OnClickListener() {
@@ -161,32 +197,6 @@ public class AthleteVideoAdapter extends RecyclerView.Adapter<AthleteVideoAdapte
 
             }
         });
-
-        holder.simpleVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-//                holder.imgPlay.setVisibility(View.VISIBLE);
-                holder.videoProgressbar.setVisibility(View.GONE);
-            }
-        });
-
-
-        holder.simpleVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-//                holder.VideoProgress.setVisibility(View.GONE);
-                holder.videoProgressbar.setVisibility(View.GONE);
-                holder.simpleVideoView.start();
-
-                if (cd.isConnectingToInternet()) {
-                    CallVideoCounIncrementResponse(String.valueOf(bean.getId()), bean.getViews(), holder.TvViewCount);
-                } else {
-                    Snackbar snackbar = Snackbar.make(holder.LLItemAthlete, context.getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                }
-            }
-        });
-
 
         holder.imgView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -247,7 +257,7 @@ public class AthleteVideoAdapter extends RecyclerView.Adapter<AthleteVideoAdapte
         public ImageView imgLike, imgView, imgFullscreen, imgPlay, ImgShare;
         public TextView TvLikeCount, TvViewCount, Tv_PostTitle;
         public LinearLayout LLUserProfile;
-        public VideoView simpleVideoView;
+        public YoutubePlayerView simpleVideoView;
         private RelativeLayout LLItemAthlete;
         //        public CircularProgressIndicator RoundProgress;
         public ProgressBar videoProgressbar;
@@ -354,7 +364,7 @@ public class AthleteVideoAdapter extends RecyclerView.Adapter<AthleteVideoAdapte
             mWakeLock.acquire();
             LayoutInflater dialogLayout = LayoutInflater.from(context);
             View DialogView = dialogLayout.inflate(R.layout.dialog_downloading, null);
-            downloadDialog = new Dialog(context);
+            downloadDialog = new Dialog(context, R.style.Theme_Dialog);
             downloadDialog.getWindow().setBackgroundDrawable(context.getResources().getDrawable(R.drawable.dialog_round));
             downloadDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             downloadDialog.setContentView(DialogView);
@@ -526,7 +536,7 @@ public class AthleteVideoAdapter extends RecyclerView.Adapter<AthleteVideoAdapte
     }
 
     public void LoginAlertDialog() {
-        final Dialog builder = new Dialog(context);
+        final Dialog builder = new Dialog(context, R.style.Theme_Dialog);
         builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
         View view1 = LayoutInflater.from(context).inflate(R.layout.dialog_customise, null);
 

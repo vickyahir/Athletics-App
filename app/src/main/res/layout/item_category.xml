@@ -32,8 +32,8 @@
                     android:id="@+id/iv_AthleticProfile"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
-                    android:scaleType="fitXY"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:scaleType="fitXY"
                     android:src="@drawable/dummy_three"
                     tools:ignore="NewApi" />
 
@@ -49,11 +49,11 @@
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/_3sdp"
             android:layout_marginBottom="@dimen/_3sdp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:ellipsize="end"
             android:fontFamily="@font/rubik_regular"
             android:gravity="center"
             android:maxLines="2"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:text="Animal Food"
             android:textColor="@color/black"
             android:textSize="@dimen/_10ssp"

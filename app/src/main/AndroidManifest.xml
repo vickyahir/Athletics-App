@@ -113,26 +113,32 @@
         <activity
             android:name="com.example.athletics.Activity.EditProfileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/NavigationDrawerAppTheme"
-            android:windowSoftInputMode="adjustResize" />
+            android:theme="@style/NavigationDrawerAppTheme" />
 
         <activity
             android:name="com.example.athletics.Activity.MyFollowingActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/NavigationDrawerAppTheme"
-            android:windowSoftInputMode="adjustResize" />
+            android:theme="@style/NavigationDrawerAppTheme" />
 
         <activity
             android:name="com.example.athletics.Activity.AthleteProfileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/NavigationDrawerAppTheme"
-            android:windowSoftInputMode="adjustResize" />
+            android:theme="@style/NavigationDrawerAppTheme" />
 
         <activity
             android:name="com.example.athletics.Activity.CoachProfileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/NavigationDrawerAppTheme"
-            android:windowSoftInputMode="adjustResize" />
+            android:theme="@style/NavigationDrawerAppTheme" />
+
+        <activity
+            android:name="com.example.athletics.Activity.PaymentInformationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NavigationDrawerAppTheme" />
+
+        <activity
+            android:name="com.example.athletics.Activity.PaymentActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NavigationDrawerAppTheme" />
 
 
     </application>

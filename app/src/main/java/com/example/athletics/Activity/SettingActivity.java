@@ -87,9 +87,11 @@ public class SettingActivity extends BaseActivity {
         if (new SessionManager(SettingActivity.this).getUserID().equalsIgnoreCase("")) {
             TvLogout.setText(getResources().getString(R.string.login));
             LLProfileView.setVisibility(View.GONE);
+            LLPackageDetail.setVisibility(View.GONE);
         } else {
             TvLogout.setText(getResources().getString(R.string.logout));
             LLProfileView.setVisibility(View.VISIBLE);
+            LLPackageDetail.setVisibility(View.VISIBLE);
         }
 
     }
@@ -205,7 +207,7 @@ public class SettingActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SettingActivity.this, LikeVideoActivity.class);
-                intent.putExtra("Id","");
+                intent.putExtra("Id", "");
                 startActivity(intent);
                 Functions.animNext(SettingActivity.this);
             }
@@ -279,7 +281,7 @@ public class SettingActivity extends BaseActivity {
     }
 
     public void showLogoutDialog() {
-        final Dialog builder = new Dialog(activity);
+        final Dialog builder = new Dialog(activity, R.style.Theme_Dialog);
         builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
         View view1 = LayoutInflater.from(activity).inflate(R.layout.dialog_logout, null);
 
@@ -315,7 +317,8 @@ public class SettingActivity extends BaseActivity {
             }
         });
 
-        builder.setCancelable(false);
+        builder.setCancelable(true);
+        builder.setCanceledOnTouchOutside(true);
         builder.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_round));
         // builder.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
         builder.setContentView(view1);

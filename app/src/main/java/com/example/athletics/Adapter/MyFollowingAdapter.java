@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.Athletics.R;
 import com.example.athletics.Activity.AthleteProfileActivity;
+import com.example.athletics.Activity.CoachProfileActivity;
 import com.example.athletics.Model.FollowingDataItem;
 import com.example.athletics.Utils.Functions;
 
@@ -44,7 +45,17 @@ public class MyFollowingAdapter extends RecyclerView.Adapter<MyFollowingAdapter.
 
 
         holder.Tv_Username.setText(bean.getName());
-        holder.Tv_UserType.setText(bean.getName());
+//        holder.Tv_UserType.setText(bean.getName());
+        if (bean.getRole() == 1) {
+            holder.Tv_UserType.setText(context.getResources().getString(R.string.visitor));
+        } else if (bean.getRole() == 2) {
+            holder.Tv_UserType.setText(context.getResources().getString(R.string.athlete));
+        } else if (bean.getRole() == 3) {
+            holder.Tv_UserType.setText(context.getResources().getString(R.string.school_club));
+        } else if (bean.getRole() == 4) {
+            holder.Tv_UserType.setText(context.getResources().getString(R.string.coach));
+        }
+
 
 //        holder.TvProductAverageRating.setText(String.valueOf(bean.getRating()));
 //        holder.RecentlyRatingBar.setNumStars(5);
@@ -67,32 +78,48 @@ public class MyFollowingAdapter extends RecyclerView.Adapter<MyFollowingAdapter.
         });
 
 
-        holder.Tv_Username.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                context.startActivity(new Intent(context, AthleteProfileActivity.class).putExtra("Id", String.valueOf(bean.getId())));
-                Functions.animNext(context);
+            public void onClick(View view) {
+                if (bean.getRole() == 2) {
+                    context.startActivity(new Intent(context, AthleteProfileActivity.class).putExtra("Id", String.valueOf(bean.getId())));
+                    Functions.animNext(context);
+                } else if (bean.getRole() == 4) {
+                    context.startActivity(new Intent(context, CoachProfileActivity.class).putExtra("Id", String.valueOf(bean.getId())));
+                    Functions.animNext(context);
+                }
 
             }
         });
 
-        holder.Tv_UserType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                context.startActivity(new Intent(context, AthleteProfileActivity.class).putExtra("Id", String.valueOf(bean.getId())));
-                Functions.animNext(context);
 
-            }
-        });
-
-        holder.iv_UserProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                context.startActivity(new Intent(context, AthleteProfileActivity.class).putExtra("Id", String.valueOf(bean.getId())));
-                Functions.animNext(context);
-
-            }
-        });
+//        holder.Tv_Username.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                context.startActivity(new Intent(context, AthleteProfileActivity.class).putExtra("Id", String.valueOf(bean.getId())));
+//                Functions.animNext(context);
+//
+//            }
+//        });
+//
+//        holder.Tv_UserType.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                context.startActivity(new Intent(context, AthleteProfileActivity.class).putExtra("Id", String.valueOf(bean.getId())));
+//                Functions.animNext(context);
+//
+//            }
+//        });
+//
+//        holder.iv_UserProfile.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                context.startActivity(new Intent(context, AthleteProfileActivity.class).putExtra("Id", String.valueOf(bean.getId())));
+//                Functions.animNext(context);
+//
+//            }
+//        });
 
 
     }

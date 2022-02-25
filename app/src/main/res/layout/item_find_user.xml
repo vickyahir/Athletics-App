@@ -28,10 +28,8 @@
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:src="@drawable/dummy"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
                 app:civ_border_color="@color/colorPrimaryDark"
-                app:civ_circle_background_color="@color/white"
-                tools:ignore="NewApi" />
+                app:civ_circle_background_color="@color/white" />
 
 
         </FrameLayout>
@@ -54,9 +52,9 @@
             android:id="@+id/Tv_Username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:fontFamily="@font/rubik_medium"
             android:text="Robert Phan"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
             tools:ignore="NewApi" />
@@ -69,10 +67,8 @@
             android:fontFamily="@font/rubik_regular"
             android:maxLines="2"
             android:text="Coach"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:textColor="@color/gray"
-            android:textSize="@dimen/_11ssp"
-            tools:ignore="NewApi" />
+            android:textSize="@dimen/_11ssp" />
 
     </LinearLayout>
 

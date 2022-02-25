@@ -94,7 +94,7 @@ public class UploadVideoActivity extends BaseActivity {
 
 
     public void UploadVideoAlertDialog() {
-        final Dialog builder = new Dialog(activity);
+        final Dialog builder = new Dialog(activity, R.style.Theme_Dialog);
         builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
         View view1 = LayoutInflater.from(activity).inflate(R.layout.dialog_customise, null);
 

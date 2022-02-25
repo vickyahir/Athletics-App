@@ -125,9 +125,13 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
         params.setVolume(100); // volume control
         params.setPlaybackQuality(PlaybackQuality.small); //
 
-        holder.simpleVideoView.initializeWithCustomURL(bean.getVideo(), params, new YoutubePlayerView.YouTubeListener() {
+        holder.simpleVideoView.initializeWithCustomURL(bean.getVideo(), bean.getThumb(), params, new YoutubePlayerView.YouTubeListener() {
             @Override
             public void onReady() {
+                holder.simpleVideoView.reload();
+                holder.simpleVideoView.requestLayout();
+                holder.simpleVideoView.play();
+
 
             }
 
@@ -173,6 +177,12 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
         });
 
         holder.simpleVideoView.play();
+        if (cd.isConnectingToInternet()) {
+            CallVideoCounIncrementResponse(bean, holder.TvViewCount);
+        } else {
+            Snackbar snackbar = Snackbar.make(holder.LLExploreItem, context.getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
 
 
 //        holder.videoProgressbar.setVisibility(View.VISIBLE);
@@ -538,7 +548,7 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
             mWakeLock.acquire();
             LayoutInflater dialogLayout = LayoutInflater.from(context);
             View DialogView = dialogLayout.inflate(R.layout.dialog_downloading, null);
-            downloadDialog = new Dialog(context);
+            downloadDialog = new Dialog(context, R.style.Theme_Dialog);
             downloadDialog.getWindow().setBackgroundDrawable(context.getResources().getDrawable(R.drawable.dialog_round));
             downloadDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             downloadDialog.setContentView(DialogView);
@@ -647,16 +657,17 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
 
     }
 
-    public void CallVideoCounIncrementResponse(String VideoId) {
+    public void CallVideoCounIncrementResponse(HomeExploreDataItem homeExploreDataItem, TextView tvViewCount) {
 
         apiInterface = ApiClient.getClient(context).create(ApiInterface.class);
-        Call<VideoCountIncrementResponse> loginApiResponseCall = apiInterface.GetVideoIncrementCount(VideoId);
+        Call<VideoCountIncrementResponse> loginApiResponseCall = apiInterface.GetVideoIncrementCount(String.valueOf(homeExploreDataItem.getId()));
         loginApiResponseCall.enqueue(new Callback<VideoCountIncrementResponse>() {
             @Override
             public void onResponse(Call<VideoCountIncrementResponse> call, Response<VideoCountIncrementResponse> response) {
                 try {
                     if (response.isSuccessful()) {
-
+                        int viewCount = homeExploreDataItem.getViews() + 1;
+                        tvViewCount.setText(String.valueOf(viewCount));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -709,7 +720,7 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
     }
 
     public void LoginAlertDialog() {
-        final Dialog builder = new Dialog(context);
+        final Dialog builder = new Dialog(context, R.style.Theme_Dialog);
         builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
         View view1 = LayoutInflater.from(context).inflate(R.layout.dialog_customise, null);
 

@@ -3,8 +3,6 @@ package com.example.athletics.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +15,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +30,9 @@ import com.example.athletics.Retrofit.ApiInterface;
 import com.example.athletics.Utils.ConnectionDetector;
 import com.example.athletics.Utils.Functions;
 import com.google.android.material.snackbar.Snackbar;
+import com.jaedongchicken.ytplayer.YoutubePlayerView;
+import com.jaedongchicken.ytplayer.model.PlaybackQuality;
+import com.jaedongchicken.ytplayer.model.YTParams;
 
 import java.util.List;
 
@@ -84,53 +84,73 @@ public class HomeCoachCategoryAdapter extends RecyclerView.Adapter<HomeCoachCate
 
         Glide.with(context).load(bean.getImage()).into(holder.iv_User);
 
-//        holder.simpleVideoView.setVideoURI(Uri.parse(bean.getCoach().getProfileVideo()));
 
-//        holder.simpleVideoView.start();
+        YTParams params = new YTParams();
+        //  params.setControls(0); // hide control
+        params.setVolume(100); // volume control
+        params.setPlaybackQuality(PlaybackQuality.small); //
 
-//        holder.imgPlay.setVisibility(View.GONE);
-        holder.simpleVideoView.setVideoURI(Uri.parse(bean.getCoach().getProfileVideo()));
-//                holder.simpleVideoView.start();
-        holder.videoProgressbarCoach.setVisibility(View.VISIBLE);
-
-//        holder.imgPlay.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                holder.imgPlay.setVisibility(View.GONE);
-//                holder.simpleVideoView.setVideoURI(Uri.parse(bean.getCoach().getProfileVideo()));
-////                holder.simpleVideoView.start();
-//                holder.videoProgressbarCoach.setVisibility(View.VISIBLE);
-//
-//
-//            }
-//        });
-
-
-        holder.simpleVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        holder.simpleVideoView.initializeWithCustomURL(bean.getCoach().getProfileVideo(), bean.getImage(), params, new YoutubePlayerView.YouTubeListener() {
             @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-//                holder.imgPlay.setVisibility(View.VISIBLE);
-                holder.videoProgressbarCoach.setVisibility(View.GONE);
+            public void onReady() {
+                holder.simpleVideoView.reload();
+                holder.simpleVideoView.requestLayout();
+                holder.simpleVideoView.play();
+
+
+            }
+
+            @Override
+            public void onStateChange(YoutubePlayerView.STATE state) {
+
+            }
+
+            @Override
+            public void onPlaybackQualityChange(String arg) {
+
+            }
+
+            @Override
+            public void onPlaybackRateChange(String arg) {
+
+            }
+
+            @Override
+            public void onError(String arg) {
+
+            }
+
+            @Override
+            public void onApiChange(String arg) {
+
+            }
+
+            @Override
+            public void onCurrentSecond(double second) {
+
+            }
+
+            @Override
+            public void onDuration(double duration) {
+
+            }
+
+            @Override
+            public void logs(String log) {
+
             }
         });
 
+        holder.simpleVideoView.play();
 
-        holder.simpleVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-//                holder.VideoProgress.setVisibility(View.GONE);
-                holder.videoProgressbarCoach.setVisibility(View.GONE);
-                holder.simpleVideoView.start();
-                if (cd.isConnectingToInternet()) {
-                    CallVideoCounIncrementResponse(String.valueOf(bean.getId()));
+        if (cd.isConnectingToInternet()) {
+            CallVideoCounIncrementResponse(String.valueOf(bean.getId()));
 
-                } else {
-                    Snackbar snackbar = Snackbar.make(holder.LLCoachMain, context.getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                }
-            }
-        });
+        } else {
+            Snackbar snackbar = Snackbar.make(holder.LLCoachMain, context.getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
+
 
         holder.ImgMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,7 +256,7 @@ public class HomeCoachCategoryAdapter extends RecyclerView.Adapter<HomeCoachCate
         private ImageView iv_User, imgLike, imgShare, ImgMenu, imgFullscreen, imgPlay;
         private TextView Tv_Username, Tv_UserType, Tv_CoachGame;
         private LinearLayout LLUserProfile;
-        private VideoView simpleVideoView;
+        private YoutubePlayerView simpleVideoView;
         private RelativeLayout LLCoachMain;
         //        public CircularProgressIndicator RoundProgress;
         public ProgressBar videoProgressbarCoach;

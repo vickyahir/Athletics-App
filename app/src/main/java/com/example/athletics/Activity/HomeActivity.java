@@ -131,6 +131,7 @@ public class HomeActivity extends BaseActivity {
 
     private void setClickListener() {
 
+
         SwipeHomePage.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -233,7 +234,7 @@ public class HomeActivity extends BaseActivity {
 
     public void showBackPressDialog() {
 
-        final Dialog builder = new Dialog(HomeActivity.this);
+        final Dialog builder = new Dialog(HomeActivity.this, R.style.Theme_Dialog);
         builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
         View view1 = LayoutInflater.from(HomeActivity.this).inflate(R.layout.dialog_logout, null);
 
@@ -259,7 +260,8 @@ public class HomeActivity extends BaseActivity {
         });
 
 
-        builder.setCancelable(false);
+        builder.setCancelable(true);
+        builder.setCanceledOnTouchOutside(true);
         builder.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_round));
         // builder.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
         builder.setContentView(view1);
@@ -342,6 +344,7 @@ public class HomeActivity extends BaseActivity {
 //                            rvAthleteData.setAdapter(new HomeAthleteCategoryAdapter(activity, HomeAthleteList));
 
                             videoViewPager2.setAdapter(new HomeAthleteCategoryAdapter(HomeActivity.this, HomeAthleteList));
+
 
                         } else {
 //                            rvAthleteData.setVisibility(View.GONE);

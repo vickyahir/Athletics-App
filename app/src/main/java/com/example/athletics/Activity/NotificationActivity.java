@@ -25,7 +25,7 @@ public class NotificationActivity extends BaseActivity {
     private Toolbar toolbarMain;
     private RecyclerView rvNotifications;
     private List<String> NotificationList;
-    private TextView TvTitle;
+    private TextView TvTitle, TvNodataFound;
     private RelativeLayout RelNotificationMain;
     private SwipeRefreshLayout SwipNotificationPage;
 
@@ -48,6 +48,7 @@ public class NotificationActivity extends BaseActivity {
         imgBack = toolbarMain.findViewById(R.id.imgBack);
         imgMenu = toolbarMain.findViewById(R.id.imgMenu);
         TvTitle = toolbarMain.findViewById(R.id.TvTitle);
+        TvNodataFound = findViewById(R.id.TvNodataFound);
         RelNotificationMain = findViewById(R.id.RelNotificationMain);
         rvNotifications = (RecyclerView) findViewById(R.id.rvNotifications);
         SwipNotificationPage = (SwipeRefreshLayout) findViewById(R.id.SwipNotificationPage);
@@ -83,15 +84,26 @@ public class NotificationActivity extends BaseActivity {
         }
 
         NotificationList = new ArrayList<>();
-        NotificationList.add("Tom Willson");
-        NotificationList.add("Wade Jone");
-        NotificationList.add("Phane Ball");
-        NotificationList.add("Jan Phame");
-        NotificationList.add("Code Fox");
-        NotificationList.add("Mark Henry");
+//        NotificationList.add("Tom Willson");
+//        NotificationList.add("Wade Jone");
+//        NotificationList.add("Phane Ball");
+//        NotificationList.add("Jan Phame");
+//        NotificationList.add("Code Fox");
+//        NotificationList.add("Mark Henry");
 
-        rvNotifications.setLayoutManager(new LinearLayoutManager(NotificationActivity.this, RecyclerView.VERTICAL, false));
-        rvNotifications.setAdapter(new NotificationAdapter(NotificationActivity.this, NotificationList));
+
+        if (NotificationList.size() > 0) {
+            rvNotifications.setVisibility(View.VISIBLE);
+            TvNodataFound.setVisibility(View.GONE);
+
+            rvNotifications.setLayoutManager(new LinearLayoutManager(NotificationActivity.this, RecyclerView.VERTICAL, false));
+            rvNotifications.setAdapter(new NotificationAdapter(NotificationActivity.this, NotificationList));
+        } else {
+            rvNotifications.setVisibility(View.GONE);
+            TvNodataFound.setVisibility(View.VISIBLE);
+        }
+
+
     }
 
 

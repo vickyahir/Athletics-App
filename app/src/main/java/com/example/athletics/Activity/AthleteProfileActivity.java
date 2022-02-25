@@ -227,20 +227,6 @@ public class AthleteProfileActivity extends BaseActivity {
                             }
                         }
 
-                        if (response.body().getData().getAthlete().getPosition().size() > 0) {
-                            TvPosition.setVisibility(View.VISIBLE);
-                            String Sportname = "";
-                            for (int i = 0; i < response.body().getData().getAthlete().getPosition().size(); i++) {
-                                for (int j = 0; j < response.body().getData().getAthlete().getPosition().get(i).getPos().size(); j++) {
-                                    Sportname = Sportname + ", " + response.body().getData().getAthlete().getPosition().get(i).getPos().get(j);
-                                }
-                            }
-                            TvPosition.setText(Sportname.substring(1));
-
-                        } else {
-                            TvPosition.setVisibility(View.GONE);
-                        }
-
 
                         if (response.body().getData().getVideos().size() > 0) {
                             TvNodataFound.setVisibility(View.GONE);
@@ -293,11 +279,42 @@ public class AthleteProfileActivity extends BaseActivity {
                         if (response.body().getData().getAthlete().getGpa() != null) {
                             TvGPA.setText(response.body().getData().getAthlete().getGpa());
                         }
+                        if (String.valueOf(response.body().getData().getAthlete().getAge()) != null) {
+                            TvAge.setText(String.valueOf(response.body().getData().getAthlete().getAge()));
+                        }
+                        if (String.valueOf(response.body().getData().getAthlete().getYearComplete()) != null) {
+                            TvSchoolComplete.setText(String.valueOf(response.body().getData().getAthlete().getYearComplete()));
+                        }
+                        if (String.valueOf(response.body().getData().getAthlete().getYear()) != null) {
+                            TvStateYear.setText(getResources().getString(R.string.state_of) + " " + String.valueOf(response.body().getData().getAthlete().getYear() + " :"));
+                        }
 
-                        TvAge.setText(String.valueOf(response.body().getData().getAthlete().getAge()));
-                        TvSchoolComplete.setText(String.valueOf(response.body().getData().getAthlete().getYearComplete()));
-                        TvStateYear.setText(getResources().getString(R.string.state_of) + " " + String.valueOf(response.body().getData().getAthlete().getYear() + " :"));
 
+                        if (new SessionManager(AthleteProfileActivity.this).getUserID().equalsIgnoreCase("")) {
+                            LLJoinToView.setVisibility(View.VISIBLE);
+                            rvProfileHome.setVisibility(View.GONE);
+                            imgFollow.setVisibility(View.GONE);
+                            Tv_UserType.setVisibility(View.GONE);
+                        } else {
+                            LLJoinToView.setVisibility(View.GONE);
+                            imgFollow.setVisibility(View.VISIBLE);
+                            Tv_UserType.setVisibility(View.VISIBLE);
+                        }
+
+
+                        if (response.body().getData().getAthlete().getPosition().size() > 0) {
+                            TvPosition.setVisibility(View.VISIBLE);
+                            String Sportname = "";
+                            for (int i = 0; i < response.body().getData().getAthlete().getPosition().size(); i++) {
+                                for (int j = 0; j < response.body().getData().getAthlete().getPosition().get(i).getPos().size(); j++) {
+                                    Sportname = Sportname + ", " + response.body().getData().getAthlete().getPosition().get(i).getPos().get(j);
+                                }
+                            }
+                            TvPosition.setText(Sportname.substring(1));
+
+                        } else {
+                            TvPosition.setVisibility(View.GONE);
+                        }
 
                         if (response.body().getData().getAthlete().getState().size() > 0) {
 
@@ -311,18 +328,6 @@ public class AthleteProfileActivity extends BaseActivity {
                         } else {
                             RvAthleteStateList.setVisibility(View.GONE);
                         }
-
-                        if (new SessionManager(AthleteProfileActivity.this).getUserID().equalsIgnoreCase("")) {
-                            LLJoinToView.setVisibility(View.VISIBLE);
-                            rvProfileHome.setVisibility(View.GONE);
-                            imgFollow.setVisibility(View.GONE);
-                            Tv_UserType.setVisibility(View.GONE);
-                        } else {
-                            LLJoinToView.setVisibility(View.GONE);
-                            imgFollow.setVisibility(View.VISIBLE);
-                            Tv_UserType.setVisibility(View.VISIBLE);
-                        }
-
 
                     }
                 } catch (Exception e) {
@@ -523,7 +528,7 @@ public class AthleteProfileActivity extends BaseActivity {
     }
 
     public void showLogoutDialog() {
-        final Dialog builder = new Dialog(activity);
+        final Dialog builder = new Dialog(activity, R.style.Theme_Dialog);
         builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
         View view1 = LayoutInflater.from(activity).inflate(R.layout.dialog_logout, null);
 
@@ -557,7 +562,8 @@ public class AthleteProfileActivity extends BaseActivity {
             }
         });
 
-        builder.setCancelable(false);
+        builder.setCancelable(true);
+        builder.setCanceledOnTouchOutside(true);
         builder.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_round));
         // builder.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
         builder.setContentView(view1);

@@ -229,7 +229,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void showBackPressDialog() {
 
-        final Dialog builder = new Dialog(LoginActivity.this);
+        final Dialog builder = new Dialog(LoginActivity.this, R.style.Theme_Dialog);
         builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
         View view1 = LayoutInflater.from(LoginActivity.this).inflate(R.layout.dialog_logout, null);
 
@@ -255,7 +255,8 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-        builder.setCancelable(false);
+        builder.setCancelable(true);
+        builder.setCanceledOnTouchOutside(true);
         builder.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_round));
         // builder.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
         builder.setContentView(view1);

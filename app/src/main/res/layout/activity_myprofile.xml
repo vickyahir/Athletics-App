@@ -31,7 +31,6 @@
                 android:id="@+id/LLProfile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:descendantFocusability="blocksDescendants"
                 android:orientation="vertical"
                 android:visibility="visible">
 
@@ -281,14 +280,14 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_20sdp"
                     android:layout_marginEnd="@dimen/_10sdp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_15sdp"
                         android:layout_marginRight="@dimen/_10sdp"
@@ -332,6 +331,41 @@
                                 tools:ignore="NewApi" />
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:id="@+id/LLMyVideoMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|center"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:background="@drawable/bg_button"
+                            android:gravity="start|center">
+
+                            <ImageView
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:layout_marginLeft="@dimen/_15sdp"
+                                android:src="@drawable/ic_video_outline"
+                                android:tint="@color/white"
+
+                                />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_15sdp"
+                                android:background="?android:attr/selectableItemBackgroundBorderless"
+                                android:fontFamily="@font/rubik_medium"
+                                android:gravity="center|start"
+                                android:letterSpacing="0.05"
+                                android:paddingTop="@dimen/_10sdp"
+                                android:paddingBottom="@dimen/_10sdp"
+                                android:text="@string/my_video"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_12ssp"
+                                tools:ignore="NewApi" />
+                        </LinearLayout>
+
 
                         <LinearLayout
                             android:id="@+id/LLLikeVideoMenu"
@@ -363,6 +397,41 @@
                                 android:paddingTop="@dimen/_10sdp"
                                 android:paddingBottom="@dimen/_10sdp"
                                 android:text="@string/like_video"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_12ssp"
+                                tools:ignore="NewApi" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/LLPaymentMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|center"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:background="@drawable/bg_button"
+                            android:gravity="start|center">
+
+                            <ImageView
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:layout_marginLeft="@dimen/_15sdp"
+                                android:src="@drawable/ic_credit_cart"
+                                android:tint="@color/white"
+
+                                />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_15sdp"
+                                android:background="?android:attr/selectableItemBackgroundBorderless"
+                                android:fontFamily="@font/rubik_medium"
+                                android:gravity="center|start"
+                                android:letterSpacing="0.05"
+                                android:paddingTop="@dimen/_10sdp"
+                                android:paddingBottom="@dimen/_10sdp"
+                                android:text="@string/payments"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/_12ssp"
                                 tools:ignore="NewApi" />

@@ -54,7 +54,7 @@ public class YoutubePlayerView extends WebView {
     }
 
     @SuppressLint("JavascriptInterface")
-    public void initialize(String videoId, YouTubeListener youTubeListener) {
+    public void initialize(String videoId, YouTubeListener youTubeListener, String ImagePath) {
         WebSettings set = this.getSettings();
         set.setJavaScriptEnabled(true);
         set.setUseWideViewPort(true);
@@ -91,18 +91,18 @@ public class YoutubePlayerView extends WebView {
         if (isCustomDomain) {
             System.out.println("video id is :::" + videoId);
             // this.loadUrl(videoId);
-            this.loadDataWithBaseURL("", getVideoHTML(videoId), "text/html", "utf-8", null);
+            this.loadDataWithBaseURL("", getVideoHTML(videoId, ImagePath), "text/html", "utf-8", null);
 
         } else {
 //            this.loadDataWithBaseURL("http://www.youtube.com", getVideoHTML(videoId), "text/html", "utf-8", null);
         }
     }
 
-    public void initialize(String videoId, YTParams params, YouTubeListener youTubeListener) {
+    public void initialize(String videoId, YTParams params, YouTubeListener youTubeListener, String ImagePath) {
         if (params != null) {
             this.params = params;
         }
-        initialize(videoId, youTubeListener);
+        initialize(videoId, youTubeListener, ImagePath);
     }
 
     public void initializeWithUrl(String videoUrl, YTParams params, YouTubeListener youTubeListener) {
@@ -110,10 +110,10 @@ public class YoutubePlayerView extends WebView {
             this.params = params;
         }
         String videoId = videoUrl.substring(videoUrl.indexOf('=') + 1);
-        initialize(videoId, youTubeListener);
+//        initialize(videoId, youTubeListener,ImagePath);
     }
 
-    public void initializeWithCustomURL(String videoId, YTParams params, YouTubeListener youTubeListener) {
+    public void initializeWithCustomURL(String videoId, String ImagePath, YTParams params, YouTubeListener youTubeListener) {
         if (params != null) {
             this.params = params;
         }
@@ -122,7 +122,7 @@ public class YoutubePlayerView extends WebView {
         if (videoId.startsWith("http") || videoId.startsWith("https")) {
             webCustomUrl = videoId;
         }
-        initialize(webCustomUrl.concat(params.toString()), youTubeListener);
+        initialize(webCustomUrl.concat(params.toString()), youTubeListener, ImagePath);
     }
 
     public void setWhiteBackgroundColor() {
@@ -408,7 +408,7 @@ public class YoutubePlayerView extends WebView {
     }
 
 
-    private String getVideoHTML(String videoId) {
+    private String getVideoHTML(String videoId, String ImagePath) {
         try {
             InputStream in = getResources().openRawResource(R.raw.players);
             if (in != null) {
@@ -423,7 +423,7 @@ public class YoutubePlayerView extends WebView {
 
                 in.close();
 
-                String html = sb.toString().replace("[VIDEO_ID]", videoId).replace("[BG_COLOR]", backgroundColor);
+                String html = sb.toString().replace("[VIDEO_ID]", videoId).replace("[IMAGE_PATH]", ImagePath).replace("[BG_COLOR]", backgroundColor);
                 PlaybackQuality playbackQuality = params.getPlaybackQuality();
                 html = html;
                 System.out.println("html is ::::::::::" + html);

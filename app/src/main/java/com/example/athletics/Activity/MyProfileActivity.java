@@ -39,7 +39,8 @@ public class MyProfileActivity extends BaseActivity {
     private RecyclerView rvProfileHome;
     private List<String> HomeVideoCategory;
     private LinearLayout FrmProfileBg;
-    private LinearLayout LLVideoData, LLPersonalData, LLFollowing, LLFollower, LLProfile, LLLikeVideo, LLProfileMenu, LLLikeVideoMenu;
+    private LinearLayout LLVideoData, LLPersonalData, LLFollowing, LLFollower,
+            LLProfile, LLLikeVideo, LLProfileMenu, LLLikeVideoMenu, LLPaymentMenu, LLMyVideoMenu;
     private RelativeLayout RelMyProfileMain;
     private SwipeRefreshLayout SwipeProfilePage;
 
@@ -73,6 +74,8 @@ public class MyProfileActivity extends BaseActivity {
         LLLikeVideo = findViewById(R.id.LLLikeVideo);
         LLProfileMenu = findViewById(R.id.LLProfileMenu);
         LLLikeVideoMenu = findViewById(R.id.LLLikeVideoMenu);
+        LLPaymentMenu = findViewById(R.id.LLPaymentMenu);
+        LLMyVideoMenu = findViewById(R.id.LLMyVideoMenu);
         Tv_UserType = findViewById(R.id.Tv_UserType);
         Tv_Username = findViewById(R.id.Tv_Username);
         Tv_UserEmail = findViewById(R.id.Tv_UserEmail);
@@ -101,6 +104,7 @@ public class MyProfileActivity extends BaseActivity {
             Functions.dialogShow(MyProfileActivity.this);
             callProfileApiResponse();
             CallMyFollowingApiResponse();
+            CallMyFollowerApiResponse();
             callLikeVideoApiResponse();
         } else {
             Snackbar snackbar1 = Snackbar.make(RelMyProfileMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
@@ -116,7 +120,7 @@ public class MyProfileActivity extends BaseActivity {
 
 
     public void LoginAlertDialog() {
-        final Dialog builder = new Dialog(activity);
+        final Dialog builder = new Dialog(activity, R.style.Theme_Dialog);
         builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
         View view1 = LayoutInflater.from(activity).inflate(R.layout.dialog_customise, null);
 
@@ -142,8 +146,8 @@ public class MyProfileActivity extends BaseActivity {
         });
 
 
-        builder.setCancelable(false);
-        builder.setCanceledOnTouchOutside(false);
+        builder.setCancelable(true);
+        builder.setCanceledOnTouchOutside(true);
         builder.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_round));
         // builder.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
         builder.setContentView(view1);
@@ -221,6 +225,42 @@ public class MyProfileActivity extends BaseActivity {
                             TvFollowing.setText(String.valueOf(response.body().getData().size()));
                         } else {
                             TvFollowing.setText("0");
+                        }
+
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<FollowingApiResponse> call, Throwable t) {
+                Functions.dialogHide();
+            }
+        });
+    }
+
+
+    public void CallMyFollowerApiResponse() {
+
+        apiInterface = ApiClient.getClient(this).create(ApiInterface.class);
+        Call<FollowingApiResponse> loginApiResponseCall = apiInterface.GetMyFollowerApi();
+        loginApiResponseCall.enqueue(new Callback<FollowingApiResponse>() {
+            @Override
+            public void onResponse(Call<FollowingApiResponse> call, Response<FollowingApiResponse> response) {
+                try {
+                    if (response.isSuccessful()) {
+
+                        if (SwipeProfilePage.isRefreshing()) {
+                            SwipeProfilePage.setRefreshing(false);
+                        }
+
+                        if (response.body().getData().size() > 0) {
+                            TvFollower.setText(String.valueOf(response.body().getData().size()));
+                        } else {
+                            TvFollower.setText("0");
                         }
 
 
@@ -363,6 +403,25 @@ public class MyProfileActivity extends BaseActivity {
             }
         });
 
+        LLPaymentMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MyProfileActivity.this, PaymentInformationActivity.class);
+                startActivity(intent);
+                Functions.animNext(MyProfileActivity.this);
+            }
+        });
+
+        LLMyVideoMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MyProfileActivity.this, MyVideoActivity.class);
+                intent.putExtra("Id", "");
+                startActivity(intent);
+                Functions.animNext(MyProfileActivity.this);
+            }
+        });
+
         LLProfileMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -377,7 +436,7 @@ public class MyProfileActivity extends BaseActivity {
     }
 
     public void showLogoutDialog() {
-        final Dialog builder = new Dialog(activity);
+        final Dialog builder = new Dialog(activity, R.style.Theme_Dialog);
         builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
         View view1 = LayoutInflater.from(activity).inflate(R.layout.dialog_logout, null);
 
@@ -411,7 +470,8 @@ public class MyProfileActivity extends BaseActivity {
             }
         });
 
-        builder.setCancelable(false);
+        builder.setCancelable(true);
+        builder.setCanceledOnTouchOutside(true);
         builder.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_round));
         // builder.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
         builder.setContentView(view1);
