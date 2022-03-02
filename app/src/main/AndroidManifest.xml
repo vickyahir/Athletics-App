@@ -141,6 +141,22 @@
             android:theme="@style/NavigationDrawerAppTheme" />
 
 
+        <activity
+            android:name="com.example.athletics.Activity.MyVideoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NavigationDrawerAppTheme" />
+
+        <activity
+            android:name="com.example.athletics.Activity.CoachInformationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NavigationDrawerAppTheme" />
+
+        <activity
+            android:name="com.example.athletics.Activity.ProfileVideoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NavigationDrawerAppTheme" />
+
+
     </application>
 
 </manifest>

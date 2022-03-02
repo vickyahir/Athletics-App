@@ -280,6 +280,19 @@
                 android:tint="@color/white"
                 tools:ignore="NewApi" />
 
+
+            <ImageView
+                android:id="@+id/ImgDelete"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:padding="@dimen/_3sdp"
+                android:src="@drawable/ic_delete"
+                android:tint="@color/white"
+                tools:ignore="NewApi" />
+
         </LinearLayout>
 
 

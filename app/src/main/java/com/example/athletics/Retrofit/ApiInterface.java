@@ -2,13 +2,18 @@ package com.example.athletics.Retrofit;
 
 
 import com.example.athletics.Model.AthleteProfileResponse;
+import com.example.athletics.Model.CategoryPositionResponse;
+import com.example.athletics.Model.CoachCategoryResponse;
+import com.example.athletics.Model.CoachInformationApiResponse;
 import com.example.athletics.Model.CoachProfileApiResponse;
+import com.example.athletics.Model.DefaultApiResponse;
 import com.example.athletics.Model.FollowingApiResponse;
 import com.example.athletics.Model.GetAthleteFollowUnFollowResponse;
 import com.example.athletics.Model.HomeAthleteApiResponse;
 import com.example.athletics.Model.HomeCoachApiResponse;
 import com.example.athletics.Model.HomeExploreApiResponse;
 import com.example.athletics.Model.LikeVideoApiResponse;
+import com.example.athletics.Model.MyVideoApiResponse;
 import com.example.athletics.Model.PackageDetailApiResponse;
 import com.example.athletics.Model.PaymentDetailsApiResponse;
 import com.example.athletics.Model.ProfileUpdateApiResponse;
@@ -19,6 +24,7 @@ import com.example.athletics.Model.UserLikeVideoApiResponse;
 import com.example.athletics.Model.VideoCountIncrementResponse;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -60,6 +66,9 @@ public interface ApiInterface {
 
     @GET("like-video")
     Call<UserLikeVideoApiResponse> GetUserLikeVideoApi();
+
+    @GET("my-video")
+    Call<MyVideoApiResponse> GetMyVideoApi();
 
 
     @FormUrlEncoded
@@ -116,5 +125,28 @@ public interface ApiInterface {
     @POST("validate-code")
     Call<ResponseBody> GetValidationCode(@Field("code") String code);
 
+
+    @GET("delete-video/{id}")
+    Call<DefaultApiResponse> GetDeleteMyVideo(@Path(value = "id") String id);
+
+    @GET("coach-information")
+    Call<CoachInformationApiResponse> GetCoachInformationApi();
+
+    @GET("category")
+    Call<CoachCategoryResponse> GetCoachCategoryApi();
+
+    @FormUrlEncoded
+    @POST("categorys/positions")
+    Call<CategoryPositionResponse> GetCoachCategoryPositionApi(@Field("ids") String ids);
+
+    @Multipart
+    @POST("coach/profile-update")
+    Call<DefaultApiResponse> CoachProfileUpdateApiResponse(@Part("sports") RequestBody sports,
+                                                           @Part("position") RequestBody position,
+                                                           @Part("details") RequestBody details,
+                                                           @Part MultipartBody.Part image,
+                                                           @Part MultipartBody.Part profile_video,
+                                                           @Part MultipartBody.Part resume
+    );
 
 }

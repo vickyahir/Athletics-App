@@ -25,7 +25,7 @@
 setTimeout(() => {
 var vid=document.getElementById('video');
  vid.play();
-} , 300);
+} , 100);
 </script>
 </body>
 </html>

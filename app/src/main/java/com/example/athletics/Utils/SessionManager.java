@@ -15,6 +15,8 @@ public class SessionManager {
     public static final String KEY_CART_COUNT = "keycartcount";
     public static final String KEY_SEARCH_PRODUCT = "keysearchproduct";
     public static final String KEY_USER_ROLE = "keyuserrole";
+    public static final String KEY_COACH_SPORTSIDS = "keycoachsportsids";
+    public static final String KEY_COACH_POSITIONSTRINGS = "keycoachpositionstrings";
 
 
     // Shared Preferences
@@ -41,6 +43,28 @@ public class SessionManager {
         editor.putString(KEY_ID, id);
         editor.commit();
     }
+
+
+    public String getKeyCoachSportsids() {
+        String value = pref.getString(KEY_COACH_SPORTSIDS, "");
+        return value;
+    }
+
+    public void setKeyCoachSportsids(String id) {
+        editor.putString(KEY_COACH_SPORTSIDS, id);
+        editor.commit();
+    }
+
+    public String getKeyCoachPositionstrings() {
+        String value = pref.getString(KEY_COACH_POSITIONSTRINGS, "");
+        return value;
+    }
+
+    public void setKeyCoachPositionstrings(String positionstrings) {
+        editor.putString(KEY_COACH_POSITIONSTRINGS, positionstrings);
+        editor.commit();
+    }
+
 
     public String getUserRole() {
         String value = pref.getString(KEY_USER_ROLE, "");

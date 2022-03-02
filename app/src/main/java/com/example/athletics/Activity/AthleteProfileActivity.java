@@ -375,7 +375,7 @@ public class AthleteProfileActivity extends BaseActivity {
                         } else {
                             imgFollow.setColorFilter(getResources().getColor(R.color.black));
                         }
-
+                        CallMyFollowingApiResponse();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

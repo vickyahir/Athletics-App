@@ -13,12 +13,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.Athletics.R;
-import com.example.athletics.Adapter.AthleteVideoAdapter;
-import com.example.athletics.Adapter.LikeVideoCategoryAdapter;
-import com.example.athletics.Model.AthleteProfileResponse;
+import com.example.athletics.Adapter.MyVideoCategoryAdapter;
 import com.example.athletics.Model.AthleteProfileVideosItem;
-import com.example.athletics.Model.UserLikeVideoApiResponse;
-import com.example.athletics.Model.UserLikeVideoDataItem;
+import com.example.athletics.Model.MyVideoApiResponse;
+import com.example.athletics.Model.MyVideoDataItem;
 import com.example.athletics.Retrofit.ApiClient;
 import com.example.athletics.Retrofit.ApiInterface;
 import com.example.athletics.Utils.Functions;
@@ -35,13 +33,11 @@ public class MyVideoActivity extends BaseActivity {
     private ImageView imgBack, imgMenu;
     private Toolbar toolbarMain;
     private TextView TvTitle;
-    private RecyclerView rvLikevideo;
-    private List<UserLikeVideoDataItem> HomeVideoCategory;
-    private List<AthleteProfileVideosItem> athleteProfileVideosItems;
-    private RelativeLayout LLLikeVideoMain;
+    private List<MyVideoDataItem> HomeVideoCategory;
+    private RelativeLayout LLMyVideoMain;
     private TextView TvNodataFound;
-    private SwipeRefreshLayout SwipeLikeVideoPage;
-    private ViewPager2 LikeVideoViewpager;
+    private SwipeRefreshLayout SwipeMyVideoPage;
+    private ViewPager2 MyVideoViewpager;
     private String AthleteId = "", Position = "";
     private int ViewpagerPos = 0;
 
@@ -60,8 +56,6 @@ public class MyVideoActivity extends BaseActivity {
     private void getIntentData() {
         try {
             AthleteId = getIntent().getStringExtra("Id");
-            Position = getIntent().getStringExtra("position");
-            ViewpagerPos = Integer.parseInt(Position);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,19 +65,15 @@ public class MyVideoActivity extends BaseActivity {
 
     private void initView() {
         toolbarMain = findViewById(R.id.toolbarMain);
-        LLLikeVideoMain = findViewById(R.id.LLLikeVideoMain);
+        LLMyVideoMain = findViewById(R.id.LLMyVideoMain);
         TvNodataFound = findViewById(R.id.TvNodataFound);
         imgBack = toolbarMain.findViewById(R.id.imgBack);
         imgMenu = toolbarMain.findViewById(R.id.imgMenu);
         TvTitle = toolbarMain.findViewById(R.id.TvTitle);
-        LikeVideoViewpager = (ViewPager2) findViewById(R.id.LikeVideoViewpager);
-        SwipeLikeVideoPage = (SwipeRefreshLayout) findViewById(R.id.SwipeLikeVideoPage);
+        MyVideoViewpager = (ViewPager2) findViewById(R.id.MyVideoViewpager);
+        SwipeMyVideoPage = (SwipeRefreshLayout) findViewById(R.id.SwipeMyVideoPage);
 
-        if (AthleteId.equalsIgnoreCase("")) {
-            TvTitle.setText(getResources().getString(R.string.like_video));
-        } else {
-            TvTitle.setText(getResources().getString(R.string.videos));
-        }
+        TvTitle.setText(getResources().getString(R.string.my_video));
 
 
         loadData();
@@ -92,56 +82,43 @@ public class MyVideoActivity extends BaseActivity {
 
     private void loadData() {
 
-        if (AthleteId.equalsIgnoreCase("")) {
-            if (cd.isConnectingToInternet()) {
-                Functions.dialogShow(MyVideoActivity.this);
-                callLikeVideoApiResponse();
-            } else {
-                Snackbar snackbar = Snackbar.make(LLLikeVideoMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
-                snackbar.show();
-            }
+        if (cd.isConnectingToInternet()) {
+            Functions.dialogShow(MyVideoActivity.this);
+            callMyVideoApiResponse();
         } else {
-            if (cd.isConnectingToInternet()) {
-                Functions.dialogShow(MyVideoActivity.this);
-                CallMyFollowingApiResponse();
-            } else {
-                Snackbar snackbar = Snackbar.make(LLLikeVideoMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
-                snackbar.show();
-            }
+            Snackbar snackbar = Snackbar.make(LLMyVideoMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
+            snackbar.show();
         }
+
 
     }
 
 
-    public void callLikeVideoApiResponse() {
+    public void callMyVideoApiResponse() {
 
         apiInterface = ApiClient.getClient(this).create(ApiInterface.class);
-        Call<UserLikeVideoApiResponse> loginApiResponseCall = apiInterface.GetUserLikeVideoApi();
-        loginApiResponseCall.enqueue(new Callback<UserLikeVideoApiResponse>() {
+        Call<MyVideoApiResponse> loginApiResponseCall = apiInterface.GetMyVideoApi();
+        loginApiResponseCall.enqueue(new Callback<MyVideoApiResponse>() {
             @Override
-            public void onResponse(Call<UserLikeVideoApiResponse> call, Response<UserLikeVideoApiResponse> response) {
+            public void onResponse(Call<MyVideoApiResponse> call, Response<MyVideoApiResponse> response) {
                 try {
                     if (response.isSuccessful()) {
                         Functions.dialogHide();
 
-                        if (SwipeLikeVideoPage.isRefreshing()) {
-                            SwipeLikeVideoPage.setRefreshing(false);
+                        if (SwipeMyVideoPage.isRefreshing()) {
+                            SwipeMyVideoPage.setRefreshing(false);
                         }
 
                         if (response.body().getData().size() > 0) {
-//                            rvLikevideo.setVisibility(View.VISIBLE);
                             TvNodataFound.setVisibility(View.GONE);
 //
                             HomeVideoCategory = new ArrayList<>();
                             HomeVideoCategory.addAll(response.body().getData());
-//                            rvLikevideo.setLayoutManager(new LinearLayoutManager(LikeVideoActivity.this));
-//                            rvLikevideo.setAdapter(new LikeVideoCategoryAdapter(LikeVideoActivity.this, HomeVideoCategory));
 
-                            LikeVideoViewpager.setAdapter(new LikeVideoCategoryAdapter(MyVideoActivity.this, HomeVideoCategory));
+                            MyVideoViewpager.setAdapter(new MyVideoCategoryAdapter(MyVideoActivity.this, HomeVideoCategory));
 
                         } else {
                             TvNodataFound.setVisibility(View.VISIBLE);
-//                            rvLikevideo.setVisibility(View.GONE);
                         }
 
                     }
@@ -152,48 +129,7 @@ public class MyVideoActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<UserLikeVideoApiResponse> call, Throwable t) {
-                Functions.dialogHide();
-            }
-        });
-    }
-
-    public void CallMyFollowingApiResponse() {
-
-        apiInterface = ApiClient.getClient(this).create(ApiInterface.class);
-        Call<AthleteProfileResponse> loginApiResponseCall = apiInterface.GetAthleteProfileApiResponse(AthleteId);
-        loginApiResponseCall.enqueue(new Callback<AthleteProfileResponse>() {
-            @Override
-            public void onResponse(Call<AthleteProfileResponse> call, Response<AthleteProfileResponse> response) {
-                try {
-                    if (response.isSuccessful()) {
-
-                        Functions.dialogHide();
-
-                        if (response.body().getData().getVideos().size() > 0) {
-                            TvNodataFound.setVisibility(View.GONE);
-
-                            athleteProfileVideosItems = new ArrayList<>();
-                            athleteProfileVideosItems.addAll(response.body().getData().getVideos());
-
-                            LikeVideoViewpager.setAdapter(new AthleteVideoAdapter(MyVideoActivity.this, athleteProfileVideosItems));
-
-                            LikeVideoViewpager.setCurrentItem(ViewpagerPos, true);
-
-                        } else {
-                            TvNodataFound.setVisibility(View.VISIBLE);
-                        }
-
-
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<AthleteProfileResponse> call, Throwable t) {
+            public void onFailure(Call<MyVideoApiResponse> call, Throwable t) {
                 Functions.dialogHide();
             }
         });
@@ -209,7 +145,7 @@ public class MyVideoActivity extends BaseActivity {
 
     private void setClickListener() {
 
-        SwipeLikeVideoPage.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        SwipeMyVideoPage.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 loadData();

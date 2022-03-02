@@ -1,8 +1,20 @@
 package com.example.athletics.Activity;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DownloadManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -10,13 +22,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.Athletics.R;
+import com.example.athletics.Model.CoachInformationApiResponse;
 import com.example.athletics.Model.FollowingApiResponse;
 import com.example.athletics.Model.SignInData;
 import com.example.athletics.Model.UserLikeVideoApiResponse;
@@ -26,6 +42,7 @@ import com.example.athletics.Utils.Functions;
 import com.example.athletics.Utils.SessionManager;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
 import java.util.List;
 
 import retrofit2.Call;
@@ -33,16 +50,20 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MyProfileActivity extends BaseActivity {
-    private ImageView imgBack, ImgProfile, ImgHome, iv_User;
+    private ImageView imgBack, ImgProfile, ImgHome, iv_User, ImgProfileVideo;
     private Toolbar toolbarMain;
     private TextView TvTitle, TvNodataFound, Tv_Username, Tv_UserType, Tv_UserEmail, TvFollower, TvFollowing, TvLikeVideo;
     private RecyclerView rvProfileHome;
     private List<String> HomeVideoCategory;
     private LinearLayout FrmProfileBg;
     private LinearLayout LLVideoData, LLPersonalData, LLFollowing, LLFollower,
-            LLProfile, LLLikeVideo, LLProfileMenu, LLLikeVideoMenu, LLPaymentMenu, LLMyVideoMenu;
+            LLProfile, LLLikeVideo, LLProfileMenu, LLLikeVideoMenu,
+            LLPaymentMenu, LLMyVideoMenu, LLMyInformationMenu, LLCoachProfile, LLCoachResume;
     private RelativeLayout RelMyProfileMain;
     private SwipeRefreshLayout SwipeProfilePage;
+    public static final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 123;
+    private DownloadManager dm;
+    private String CoachResume = "", CoachProfileVideo = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +73,7 @@ public class MyProfileActivity extends BaseActivity {
         super.onMenuSelect(5);
 
         initView();
+        LoadData();
         setClickListener();
     }
 
@@ -63,6 +85,7 @@ public class MyProfileActivity extends BaseActivity {
         rvProfileHome = (RecyclerView) findViewById(R.id.rvProfileHome);
         ImgProfile = findViewById(R.id.ImgProfile);
         iv_User = findViewById(R.id.iv_User);
+        ImgProfileVideo = findViewById(R.id.ImgProfileVideo);
         ImgHome = findViewById(R.id.ImgHome);
         FrmProfileBg = findViewById(R.id.FrmProfileBg);
         LLVideoData = findViewById(R.id.LLVideoData);
@@ -76,6 +99,9 @@ public class MyProfileActivity extends BaseActivity {
         LLLikeVideoMenu = findViewById(R.id.LLLikeVideoMenu);
         LLPaymentMenu = findViewById(R.id.LLPaymentMenu);
         LLMyVideoMenu = findViewById(R.id.LLMyVideoMenu);
+        LLMyInformationMenu = findViewById(R.id.LLMyInformationMenu);
+        LLCoachProfile = findViewById(R.id.LLCoachProfile);
+        LLCoachResume = findViewById(R.id.LLCoachResume);
         Tv_UserType = findViewById(R.id.Tv_UserType);
         Tv_Username = findViewById(R.id.Tv_Username);
         Tv_UserEmail = findViewById(R.id.Tv_UserEmail);
@@ -85,6 +111,62 @@ public class MyProfileActivity extends BaseActivity {
         RelMyProfileMain = findViewById(R.id.RelMyProfileMain);
         SwipeProfilePage = (SwipeRefreshLayout) findViewById(R.id.SwipeProfilePage);
         TvTitle.setText(getResources().getString(R.string.profie));
+
+    }
+
+    private void LoadData() {
+
+        if (new SessionManager(MyProfileActivity.this).getUserRole().equalsIgnoreCase("1")) {
+            LLProfileMenu.setVisibility(View.VISIBLE);
+            LLLikeVideoMenu.setVisibility(View.VISIBLE);
+            LLMyVideoMenu.setVisibility(View.GONE);
+            LLPaymentMenu.setVisibility(View.GONE);
+            LLMyInformationMenu.setVisibility(View.GONE);
+            LLCoachProfile.setVisibility(View.GONE);
+
+
+            LLFollower.setClickable(false);
+            LLFollower.setEnabled(false);
+
+        } else if (new SessionManager(MyProfileActivity.this).getUserRole().equalsIgnoreCase("2")) {
+            LLProfileMenu.setVisibility(View.VISIBLE);
+            LLLikeVideoMenu.setVisibility(View.VISIBLE);
+            LLMyVideoMenu.setVisibility(View.VISIBLE);
+            LLPaymentMenu.setVisibility(View.VISIBLE);
+            LLMyInformationMenu.setVisibility(View.VISIBLE);
+            LLCoachProfile.setVisibility(View.GONE);
+
+            LLFollower.setClickable(true);
+            LLFollower.setEnabled(true);
+
+        } else if (new SessionManager(MyProfileActivity.this).getUserRole().equalsIgnoreCase("3")) {
+
+            LLProfileMenu.setVisibility(View.VISIBLE);
+            LLLikeVideoMenu.setVisibility(View.VISIBLE);
+            LLMyVideoMenu.setVisibility(View.GONE);
+            LLPaymentMenu.setVisibility(View.VISIBLE);
+            LLMyInformationMenu.setVisibility(View.GONE);
+            LLCoachProfile.setVisibility(View.GONE);
+
+            LLFollower.setClickable(false);
+            LLFollower.setEnabled(false);
+
+        } else if (new SessionManager(MyProfileActivity.this).getUserRole().equalsIgnoreCase("4")) {
+            LLProfileMenu.setVisibility(View.VISIBLE);
+            LLLikeVideoMenu.setVisibility(View.VISIBLE);
+            LLMyVideoMenu.setVisibility(View.GONE);
+            LLPaymentMenu.setVisibility(View.VISIBLE);
+            LLMyInformationMenu.setVisibility(View.VISIBLE);
+            LLCoachProfile.setVisibility(View.VISIBLE);
+
+            LLFollower.setClickable(false);
+            LLFollower.setEnabled(false);
+
+        }
+
+        if (ContextCompat.checkSelfPermission(MyProfileActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            checkPermission(MyProfileActivity.this);
+        }
 
     }
 
@@ -110,12 +192,95 @@ public class MyProfileActivity extends BaseActivity {
             Snackbar snackbar1 = Snackbar.make(RelMyProfileMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
             snackbar1.show();
         }
+        if (new SessionManager(MyProfileActivity.this).getUserRole().equalsIgnoreCase("4")) {
+            CallCoachInformationApiResponse();
+        }
+
+
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         Functions.animBack(MyProfileActivity.this);
+    }
+
+
+    public boolean checkPermission(Activity activity) {
+        int currentAPIVersion = Build.VERSION.SDK_INT;
+        if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(MyProfileActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(MyProfileActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MyProfileActivity.this);
+                    alertBuilder.setCancelable(true);
+                    alertBuilder.setTitle("Permission necessary");
+                    alertBuilder.setMessage("Write Storage permission is necessary to Download Resume!!!");
+                    alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions(MyProfileActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
+                        }
+                    });
+                    AlertDialog alert = alertBuilder.create();
+                    alert.show();
+                } else {
+                    ActivityCompat.requestPermissions(MyProfileActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
+                }
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_STORAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    checkFolder();
+                } else {
+                    //code for deny
+//                    checkAgain();
+
+
+                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MyProfileActivity.this);
+                    alertBuilder.setCancelable(true);
+                    alertBuilder.setTitle("Permission necessary");
+                    alertBuilder.setMessage("Write Storage permission is necessary to Download Resume!!!");
+                    alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package", getPackageName(), null);
+                            intent.setData(uri);
+                            startActivity(intent);
+                        }
+                    });
+                    AlertDialog alert = alertBuilder.create();
+                    alert.show();
+
+
+                }
+                break;
+        }
+
+    }
+
+    public void checkFolder() {
+//        String path = Environment.getExternalStorageDirectory() + "/" + Constant.DownloadFileName + "/";
+//        String path = Environment.getExternalStorageDirectory().toString();
+        // Create the parent path
+//        File dir = new File(Environment.getExternalStorageDirectory(), "Athletic");
+        File dir = new File(Environment.getExternalStorageDirectory() + "/Athlete/");
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
     }
 
 
@@ -206,6 +371,36 @@ public class MyProfileActivity extends BaseActivity {
             }
         });
     }
+
+
+    public void CallCoachInformationApiResponse() {
+
+        apiInterface = ApiClient.getClient(this).create(ApiInterface.class);
+        Call<CoachInformationApiResponse> loginApiResponseCall = apiInterface.GetCoachInformationApi();
+        loginApiResponseCall.enqueue(new Callback<CoachInformationApiResponse>() {
+            @Override
+            public void onResponse(Call<CoachInformationApiResponse> call, Response<CoachInformationApiResponse> response) {
+                try {
+                    if (response.isSuccessful()) {
+                        Functions.dialogHide();
+
+                        CoachResume = response.body().getData().getResume();
+                        CoachProfileVideo = response.body().getData().getProfileVideo();
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<CoachInformationApiResponse> call, Throwable t) {
+                Functions.dialogHide();
+            }
+        });
+    }
+
 
     public void CallMyFollowingApiResponse() {
 
@@ -318,6 +513,73 @@ public class MyProfileActivity extends BaseActivity {
 
 
     private void setClickListener() {
+
+
+        ImgProfileVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MyProfileActivity.this, ProfileVideoActivity.class);
+                intent.putExtra("video", CoachProfileVideo);
+                startActivity(intent);
+                Functions.animNext(MyProfileActivity.this);
+
+            }
+        });
+
+
+        LLCoachResume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (checkPermission(MyProfileActivity.this)) {
+
+                    if (!CoachResume.equalsIgnoreCase("")) {
+                        try {
+
+                            Toast.makeText(MyProfileActivity.this, "Downloading...", Toast.LENGTH_SHORT).show();
+                            checkFolder();
+                            String filename = CoachResume;
+                            filename = filename.substring(filename.lastIndexOf('/') + 1);
+
+                            Uri uri = Uri.parse(CoachResume);
+
+                            dm = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+                            DownloadManager.Request request = new DownloadManager.Request(uri);
+                            request.setTitle(filename);
+//                request.setMimeType("application/pdf");
+//                request.allowScanningByMediaScanner();
+//                request.setAllowedOverMetered(true);
+                            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                            request.setDestinationInExternalFilesDir(MyProfileActivity.this, Environment.getExternalStorageDirectory() + "/Athlete/", filename);
+                            dm.enqueue(request);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Toast.makeText(MyProfileActivity.this, "Resume not found !", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                }
+
+            }
+        });
+
+
+        LLMyInformationMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (new SessionManager(MyProfileActivity.this).getUserRole().equalsIgnoreCase("4")) {
+                    Intent intent = new Intent(MyProfileActivity.this, CoachInformationActivity.class);
+                    startActivity(intent);
+                    Functions.animNext(MyProfileActivity.this);
+                } else {
+
+                }
+            }
+        });
+
 
         SwipeProfilePage.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

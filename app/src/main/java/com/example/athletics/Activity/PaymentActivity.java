@@ -1,11 +1,9 @@
 package com.example.athletics.Activity;
 
-import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -55,6 +53,9 @@ public class PaymentActivity extends AppCompatActivity {
         iv_Back = toolbarMain.findViewById(R.id.imgBack);
         tvTitle = findViewById(R.id.TvTitle);
         tvTitle.setText(getResources().getString(R.string.payments));
+
+        Functions.dialogShowNotCancellable(PaymentActivity.this);
+
     }
 
 
@@ -74,12 +75,6 @@ public class PaymentActivity extends AppCompatActivity {
         payment_webview.getSettings().setUseWideViewPort(true);
         payment_webview.requestFocus();
 
-
-        final ProgressDialog progressDialog1 = new ProgressDialog(PaymentActivity.this, R.style.progressdialog);
-        progressDialog1.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        progressDialog1.setMessage(getResources().getString(R.string.loading));
-        progressDialog1.setCanceledOnTouchOutside(false);
-        progressDialog1.show();
 
         payment_webview.loadUrl(authlink);
         payment_webview.setWebViewClient(new WebViewClient() {
@@ -125,7 +120,7 @@ public class PaymentActivity extends AppCompatActivity {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 if (loader == true) {
-                    progressDialog1.dismiss();
+                    Functions.dialogHide();
                 } else {
                     view.loadUrl(url);
                 }

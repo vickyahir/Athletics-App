@@ -56,6 +56,21 @@ public class Functions {
 
     }
 
+    public static void dialogShowNotCancellable(Context context) {
+        progressDialog = new Dialog(context);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Display display = ((Activity) context).getWindowManager().getDefaultDisplay();
+        int screenWidth = display.getWidth();
+        progressDialog.setContentView(R.layout.contain_progress);
+        progressDialog.show();
+        progressDialog.getWindow().setLayout((int) (screenWidth / 1.1), LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+    }
+
     public static void dialogHide() {
         progressDialog.dismiss();
     }

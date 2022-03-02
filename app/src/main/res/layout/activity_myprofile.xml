@@ -104,7 +104,7 @@
                                 </LinearLayout>
 
                                 <LinearLayout
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="start|center"
                                     android:layout_marginStart="@dimen/_10sdp"
@@ -143,6 +143,55 @@
                                         android:textColor="@color/gray"
                                         android:textSize="@dimen/_9ssp"
                                         tools:text="Coach" />
+
+
+                                    <LinearLayout
+                                        android:id="@+id/LLCoachProfile"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/_2sdp"
+                                        android:orientation="horizontal"
+                                        android:visibility="visible">
+
+                                        <ImageView
+                                            android:id="@+id/ImgProfileVideo"
+                                            android:layout_width="@dimen/_20sdp"
+                                            android:layout_height="@dimen/_20sdp"
+                                            android:background="?android:attr/selectableItemBackgroundBorderless"
+                                            android:src="@drawable/ic_video_outline"
+                                            tools:ignore="NewApi" />
+
+                                        <LinearLayout
+                                            android:id="@+id/LLCoachResume"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginLeft="@dimen/_10sdp"
+                                            android:gravity="center"
+                                            android:background="?android:attr/selectableItemBackgroundBorderless"
+                                            android:orientation="horizontal"
+                                            tools:ignore="NewApi">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginRight="@dimen/_5sdp"
+                                                android:fontFamily="@font/rubik_medium"
+                                                android:maxLines="2"
+                                                android:text="@string/download_resume"
+                                                android:textColor="@color/gray"
+                                                android:textSize="@dimen/_9ssp" />
+
+                                            <ImageView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:src="@drawable/ic_download" />
+
+
+                                        </LinearLayout>
+
+
+                                    </LinearLayout>
 
                                 </LinearLayout>
 
@@ -332,13 +381,49 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/LLMyVideoMenu"
+                            android:id="@+id/LLMyInformationMenu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:layout_marginTop="@dimen/_15sdp"
                             android:background="@drawable/bg_button"
                             android:gravity="start|center">
+
+                            <ImageView
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:layout_marginLeft="@dimen/_15sdp"
+                                android:src="@drawable/ic_info"
+                                android:tint="@color/white"
+
+                                />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_15sdp"
+                                android:background="?android:attr/selectableItemBackgroundBorderless"
+                                android:fontFamily="@font/rubik_medium"
+                                android:gravity="center|start"
+                                android:letterSpacing="0.05"
+                                android:paddingTop="@dimen/_10sdp"
+                                android:paddingBottom="@dimen/_10sdp"
+                                android:text="@string/my_information"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_12ssp"
+                                tools:ignore="NewApi" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/LLMyVideoMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|center"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:background="@drawable/bg_button"
+                            android:gravity="start|center"
+                            android:visibility="gone">
 
                             <ImageView
                                 android:layout_width="@dimen/_15sdp"
@@ -409,7 +494,8 @@
                             android:layout_gravity="start|center"
                             android:layout_marginTop="@dimen/_15sdp"
                             android:background="@drawable/bg_button"
-                            android:gravity="start|center">
+                            android:gravity="start|center"
+                            android:visibility="gone">
 
                             <ImageView
                                 android:layout_width="@dimen/_15sdp"
