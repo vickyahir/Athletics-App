@@ -1,6 +1,7 @@
 package com.example.athletics.Retrofit;
 
 
+import com.example.athletics.Model.AthleteInformationApiResponse;
 import com.example.athletics.Model.AthleteProfileResponse;
 import com.example.athletics.Model.CategoryPositionResponse;
 import com.example.athletics.Model.CoachCategoryResponse;
@@ -132,6 +133,9 @@ public interface ApiInterface {
     @GET("coach-information")
     Call<CoachInformationApiResponse> GetCoachInformationApi();
 
+    @GET("athlete-information")
+    Call<AthleteInformationApiResponse> GetAthleteInformationApi();
+
     @GET("category")
     Call<CoachCategoryResponse> GetCoachCategoryApi();
 
@@ -148,5 +152,12 @@ public interface ApiInterface {
                                                            @Part MultipartBody.Part profile_video,
                                                            @Part MultipartBody.Part resume
     );
+
+
+    @Multipart
+    @POST("athlete/video/post")
+    Call<DefaultApiResponse> GetAthleteVideoUpload(@Part("title") RequestBody title,
+                                                   @Part MultipartBody.Part thumb,
+                                                   @Part MultipartBody.Part video);
 
 }

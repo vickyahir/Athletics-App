@@ -130,7 +130,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public String getVideoPath(Uri uri) {
+    private String getVideoPath(Uri uri) {
         String[] projection = { MediaStore.Video.Media.DATA, MediaStore.Video.Media.SIZE, MediaStore.Video.Media.DURATION};
         Cursor cursor = managedQuery(uri, projection, null, null, null);
         cursor.moveToFirst();

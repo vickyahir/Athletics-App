@@ -32,6 +32,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.Athletics.R;
+import com.example.athletics.Model.AthleteInformationApiResponse;
 import com.example.athletics.Model.CoachInformationApiResponse;
 import com.example.athletics.Model.FollowingApiResponse;
 import com.example.athletics.Model.SignInData;
@@ -134,7 +135,8 @@ public class MyProfileActivity extends BaseActivity {
             LLMyVideoMenu.setVisibility(View.VISIBLE);
             LLPaymentMenu.setVisibility(View.VISIBLE);
             LLMyInformationMenu.setVisibility(View.VISIBLE);
-            LLCoachProfile.setVisibility(View.GONE);
+            LLCoachProfile.setVisibility(View.VISIBLE);
+            LLCoachResume.setVisibility(View.GONE);
 
             LLFollower.setClickable(true);
             LLFollower.setEnabled(true);
@@ -158,6 +160,8 @@ public class MyProfileActivity extends BaseActivity {
             LLPaymentMenu.setVisibility(View.VISIBLE);
             LLMyInformationMenu.setVisibility(View.VISIBLE);
             LLCoachProfile.setVisibility(View.VISIBLE);
+            LLCoachResume.setVisibility(View.VISIBLE);
+
 
             LLFollower.setClickable(false);
             LLFollower.setEnabled(false);
@@ -192,8 +196,11 @@ public class MyProfileActivity extends BaseActivity {
             Snackbar snackbar1 = Snackbar.make(RelMyProfileMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
             snackbar1.show();
         }
+
         if (new SessionManager(MyProfileActivity.this).getUserRole().equalsIgnoreCase("4")) {
             CallCoachInformationApiResponse();
+        } else if (new SessionManager(MyProfileActivity.this).getUserRole().equalsIgnoreCase("2")) {
+            CallAthleteInformationApiResponse();
         }
 
 
@@ -396,6 +403,34 @@ public class MyProfileActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<CoachInformationApiResponse> call, Throwable t) {
+                Functions.dialogHide();
+            }
+        });
+    }
+
+
+    public void CallAthleteInformationApiResponse() {
+
+        apiInterface = ApiClient.getClient(this).create(ApiInterface.class);
+        Call<AthleteInformationApiResponse> loginApiResponseCall = apiInterface.GetAthleteInformationApi();
+        loginApiResponseCall.enqueue(new Callback<AthleteInformationApiResponse>() {
+            @Override
+            public void onResponse(Call<AthleteInformationApiResponse> call, Response<AthleteInformationApiResponse> response) {
+                try {
+                    if (response.isSuccessful()) {
+                        Functions.dialogHide();
+
+                        CoachProfileVideo = response.body().getData().getProfileVideo();
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<AthleteInformationApiResponse> call, Throwable t) {
                 Functions.dialogHide();
             }
         });

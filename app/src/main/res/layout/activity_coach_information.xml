@@ -288,7 +288,7 @@
                             android:drawableRight="@drawable/ic_info"
                             android:fontFamily="@font/rubik_medium"
                             android:paddingTop="@dimen/_5sdp"
-                            android:paddingRight="@dimen/_3sdp"
+                            android:paddingRight="@dimen/_5sdp"
                             android:paddingBottom="@dimen/_5sdp"
                             android:text="@string/select_resume"
                             android:textColor="@color/black"

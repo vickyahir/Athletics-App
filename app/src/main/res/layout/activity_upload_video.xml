@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelUploadVideoMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_app"
@@ -49,6 +50,7 @@
                         android:textSize="@dimen/_20ssp" />
 
                     <EditText
+                        android:id="@+id/EdtAthleteTitle"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_80sdp"
                         android:layout_gravity="start|center"
@@ -101,6 +103,16 @@
 
                     </LinearLayout>
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/rubik_italic"
+                        android:text="@string/upload_video_max_validation"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/_9ssp"
+                        android:visibility="visible" />
+
                 </LinearLayout>
 
 
@@ -117,6 +129,7 @@
 
 
                 <TextView
+                    android:id="@+id/TvUploadNow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_button"

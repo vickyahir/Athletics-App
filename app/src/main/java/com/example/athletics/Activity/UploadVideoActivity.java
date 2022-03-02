@@ -8,19 +8,19 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.ThumbnailUtils;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,21 +30,40 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.Athletics.R;
+import com.example.athletics.Model.DefaultApiResponse;
+import com.example.athletics.Retrofit.ApiClient;
+import com.example.athletics.Retrofit.ApiInterface;
 import com.example.athletics.Utils.Functions;
 import com.example.athletics.Utils.SessionManager;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.File;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import pub.devrel.easypermissions.EasyPermissions;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UploadVideoActivity extends BaseActivity {
     private ImageView imgSearch, imgBack, imgMenu, imgVideoView, imgVideoUpload;
     private Toolbar toolbarMain;
-    private TextView TvTitle;
-    private static final int SELECT_VIDEO = 3;
+    private TextView TvTitle, TvUploadNow;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 100;
     private FrameLayout frmVideoView;
+    private EditText EdtAthleteTitle;
+    String ImageUri = "", VideoUri = "";
+    private RelativeLayout RelUploadVideoMain;
+    private static final int SELECT_VIDEO = 200;
+    private String[] permissions = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+    };
 
 
     @Override
@@ -72,10 +91,13 @@ public class UploadVideoActivity extends BaseActivity {
         toolbarMain = findViewById(R.id.toolbarMain);
         imgBack = toolbarMain.findViewById(R.id.imgBack);
         TvTitle = toolbarMain.findViewById(R.id.TvTitle);
+        TvUploadNow = findViewById(R.id.TvUploadNow);
         imgMenu = toolbarMain.findViewById(R.id.imgMenu);
         imgVideoView = findViewById(R.id.imgVideoView);
         frmVideoView = findViewById(R.id.frmVideoView);
         imgVideoUpload = findViewById(R.id.imgVideoUpload);
+        EdtAthleteTitle = findViewById(R.id.EdtAthleteTitle);
+        RelUploadVideoMain = findViewById(R.id.RelUploadVideoMain);
 
         TvTitle.setText(getResources().getString(R.string.upload_video));
 
@@ -134,6 +156,33 @@ public class UploadVideoActivity extends BaseActivity {
 
     private void setClickListener() {
 
+        TvUploadNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (EdtAthleteTitle.getText().toString().equalsIgnoreCase("")) {
+                    Snackbar snackbar = Snackbar
+                            .make(RelUploadVideoMain, getResources().getString(R.string.please_enter_your_video_title), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else if (VideoUri.equalsIgnoreCase("")) {
+                    Snackbar snackbar = Snackbar
+                            .make(RelUploadVideoMain, getResources().getString(R.string.please_enter_your_profile_video), Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                } else {
+                    if (cd.isConnectingToInternet()) {
+                        Functions.dialogShow(UploadVideoActivity.this);
+                        CallAthleteProfileVideoUploadApiResponse();
+                    } else {
+                        Snackbar snackbar = Snackbar.make(RelUploadVideoMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                }
+
+
+            }
+        });
+
+
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,32 +202,13 @@ public class UploadVideoActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                            != PackageManager.PERMISSION_GRANTED) {
-
-                        // Should we show an explanation?
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            shouldShowRequestPermissionRationale(
-                                    Manifest.permission.READ_EXTERNAL_STORAGE);// Explain to the user why we need to read the contacts
-                        }
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-                        }
-
-                        // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
-                        // app-defined int constant that should be quite unique
-
-                        return;
-                    } else {
-                        Intent intent = new Intent();
-                        intent.setType("video/*");
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent, "Select a Video "), SELECT_VIDEO);
-
-                    }
+                if (!EasyPermissions.hasPermissions(UploadVideoActivity.this, permissions)) {
+                    EasyPermissions.requestPermissions(UploadVideoActivity.this, getString(R.string.please_allow_app), 1, permissions);
+                } else {
+                    Intent intent = new Intent();
+                    intent.setType("video/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(intent, "Select a Video "), SELECT_VIDEO);
                 }
 
 
@@ -219,88 +249,150 @@ public class UploadVideoActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-
             if (requestCode == SELECT_VIDEO) {
-                Bitmap bmThumbnail;
 
-                System.out.println("SELECT_VIDEO");
-                Uri selectedImageUri = data.getData();
-//                Toast.makeText(activity, "" + selectedImageUri, Toast.LENGTH_SHORT).show();
-                frmVideoView.setVisibility(View.VISIBLE);
-//                Uri myUri = Uri.parse(getRealPathFromURIForVideo(selectedImageUri));
+                Uri selectedVideoUri = data.getData();
 
+                if (getVideoPath(selectedVideoUri)) {
+
+                    Snackbar snackbar = Snackbar.make(RelUploadVideoMain, getResources().getString(R.string.upload_video_max_validation), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
+                } else {
+                    Bitmap bmThumbnail = null;
+                    frmVideoView.setVisibility(View.VISIBLE);
+
+                    VideoUri = getPath(UploadVideoActivity.this, selectedVideoUri);
+
+
+                    MediaMetadataRetriever mMMR = new MediaMetadataRetriever();
+                    mMMR.setDataSource(UploadVideoActivity.this, selectedVideoUri);
+                    bmThumbnail = mMMR.getFrameAtTime();
+                    imgVideoView.setImageBitmap(bmThumbnail);
+
+                    ImageUri = BitMapToString(bmThumbnail);
+                }
+
+            }
+        }
+    }
+
+    public String BitMapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
+    }
+
+
+    public boolean getVideoPath(Uri uri) {
+
+        boolean IsResult = false;
+
+        String[] projection = {MediaStore.Video.Media.DATA, MediaStore.Video.Media.SIZE, MediaStore.Video.Media.DURATION};
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        cursor.moveToFirst();
+        String filePath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA));
+        long fileSize = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.SIZE));
+        long duration = TimeUnit.MILLISECONDS.toSeconds(cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION)));
+
+
+        //some extra potentially useful data to help with filtering if necessary
+        System.out.println("size: " + fileSize);
+        System.out.println("path: " + filePath);
+        System.out.println("duration: " + duration);
+        String size = formatSize(UploadVideoActivity.this, fileSize);
+        int sizeofVideo = 0;
+        if (size.contains("MB")) {
+            sizeofVideo = Integer.parseInt(size.replaceAll("MB", ""));
+        }
+        if (duration > 60) {
+            IsResult = true;
+        } else if (sizeofVideo > 50) {
+            IsResult = true;
+        }
+
+        if (IsResult) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static String formatSize(Context context, long size) {
+        String suffix = null;
+
+        if (size >= 1024) {
+            suffix = "Bytes";
+            size /= 1024;
+            if (size >= 1024) {
+                suffix = "MB";
+                size /= 1024;
+            }
+        }
+        StringBuilder resultBuffer = new StringBuilder(Long.toString(size));
+
+        int commaOffset = resultBuffer.length() - 3;
+        while (commaOffset > 0) {
+            resultBuffer.insert(commaOffset, ',');
+            commaOffset -= 3;
+        }
+        if (suffix != null) resultBuffer.append(suffix);
+        return resultBuffer.toString();
+    }
+
+
+    public void CallAthleteProfileVideoUploadApiResponse() {
+        RequestBody title = null;
+        if (!EdtAthleteTitle.getText().toString().equalsIgnoreCase("")) {
+            title = RequestBody.create(MediaType.parse("multipart/form-data"), EdtAthleteTitle.getText().toString());
+        } else {
+            title = RequestBody.create(MediaType.parse("multipart/form-data"), "");
+        }
+
+
+        MultipartBody.Part thumb = null;
+        if (!ImageUri.equals("")) {
+            File image_banner = new File(ImageUri);
+            RequestBody surveyBody = RequestBody.create(MediaType.parse("*/*"), image_banner);
+            thumb = MultipartBody.Part.createFormData("thumb", image_banner.getName(), surveyBody);
+        }
+
+        MultipartBody.Part video = null;
+        if (!VideoUri.equals("")) {
+            File video_banner = new File(VideoUri);
+            RequestBody surveyBody = RequestBody.create(MediaType.parse("*/*"), video_banner);
+            video = MultipartBody.Part.createFormData("video", video_banner.getName(), surveyBody);
+        }
+
+
+        apiInterface = ApiClient.getClient(this).create(ApiInterface.class);
+        Call<DefaultApiResponse> loginApiResponseCall = apiInterface.GetAthleteVideoUpload(title, thumb, video);
+        loginApiResponseCall.enqueue(new Callback<DefaultApiResponse>() {
+            @Override
+            public void onResponse(Call<DefaultApiResponse> call, Response<DefaultApiResponse> response) {
                 try {
-
-                    String GoogleUrl = selectedImageUri.toString();
-                    if (GoogleUrl.contains("google")) {
-                        Uri myUri = Uri.parse(getImageUrlWithAuthority(UploadVideoActivity.this, selectedImageUri));
-                        imgVideoView.setImageURI(myUri);
-                    } else {
-                        bmThumbnail = ThumbnailUtils.createVideoThumbnail(getRealPathFromURIForVideo(selectedImageUri), MediaStore.Images.Thumbnails.MINI_KIND);
-                        imgVideoView.setImageBitmap(bmThumbnail);
+                    if (response.isSuccessful()) {
+                        Functions.dialogHide();
+                        Toast.makeText(activity, "" + response.body().getMsg(), Toast.LENGTH_SHORT).show();
+//                        Snackbar snackbar = Snackbar.make(RelCoachInformationMain, response.body().getMsg(), Snackbar.LENGTH_LONG);
+//                        snackbar.show();
+                        Intent intent = new Intent(activity, MyProfileActivity.class);
+                        startActivity(intent);
+                        Functions.animNext(activity);
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-
-//                selectedPath = getPath(selectedImageUri);
-//                System.out.println("SELECT_VIDEO Path : " + selectedPath);
-
             }
-        }
-    }
 
-    private String getRealPathFromURIForVideo(Uri selectedVideoUri) {
-        String wholeID = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            wholeID = DocumentsContract.getDocumentId(selectedVideoUri);
-        }
-        String id = wholeID.split(":")[1];
-
-        String[] column = {MediaStore.Video.Media.DATA};
-        String sel = MediaStore.Video.Media._ID + "=?";
-        Cursor cursor = getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, column, sel, new String[]{id}, null);
-        String filePath = "";
-
-        int columnIndex = cursor.getColumnIndex(column[0]);
-        if (cursor.moveToFirst()) {
-            filePath = cursor.getString(columnIndex);
-        }
-        cursor.close();
-        return filePath;
-    }
-
-
-    private static String getImageUrlWithAuthority(Context context, Uri uri) {
-        InputStream is = null;
-
-        if (uri.getAuthority() != null) {
-            try {
-                is = context.getContentResolver().openInputStream(uri);
-                Bitmap bmp = BitmapFactory.decodeStream(is);
-                return writeToTempImageAndGetPathUri(context, bmp).toString();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (is != null) {
-                        is.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            @Override
+            public void onFailure(Call<DefaultApiResponse> call, Throwable t) {
+                Functions.dialogHide();
             }
-        }
-        return null;
-    }
-
-    private static Uri writeToTempImageAndGetPathUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
+        });
     }
 
 

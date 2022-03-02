@@ -50,7 +50,9 @@
     <string name="signup_simple">Signup</string>
     <string name="skip_login">Skip Login >>></string>
     <string name="please_enter_your_email">Please enter your email id</string>
+    <string name="please_enter_your_video_title">Please enter your video title</string>
     <string name="please_enter_valid_your_email">Please enter your valid email id</string>
+    <string name="please_enter_your_profile_video">Please enter your profile video</string>
     <string name="please_enter_your_unique_code_given_by_your_school_club">Please enter your unique code given by your school or club</string>
     <string name="password_validation">Password must be at least 8 characters long and contain at least 1 capital 1 small letter, number and special character</string>
     <string name="check_internet_connection">Please check your internet connection..!!</string>
@@ -81,6 +83,7 @@
     <string name="athlete_profie">Athlete Profile</string>
     <string name="edit_profie">Edit profile</string>
     <string name="upload_video">Upload Video</string>
+    <string name="upload_video_max_validation">The Limit Is Maximum Video Of 50mb And In Time It Should Be 60 Seconds Max.</string>
     <string name="upload_now">Upload Now</string>
     <string name="what_you_are_thinking_right_now">What you\'re thinking right now...</string>
     <string name="yes">Yes</string>

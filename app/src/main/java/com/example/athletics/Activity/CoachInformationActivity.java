@@ -163,9 +163,7 @@ public class CoachInformationActivity extends BaseActivity {
                             rvSports.setVisibility(View.VISIBLE);
                             SportsList.addAll(response.body().getData());
                             rvSports.setLayoutManager(new GridLayoutManager(CoachInformationActivity.this, 3));
-                            rvSports.setAdapter(new CoachSportsAdapter(CoachInformationActivity.this, SportsList));
                             coachSportsAdapter = new CoachSportsAdapter(CoachInformationActivity.this, SportsList);
-//                            rvSports.setAdapter(new CoachSportsAdapter(CoachInformationActivity.this, SportsList));
                             rvSports.setAdapter(coachSportsAdapter);
                         } else {
                             rvSports.setVisibility(View.GONE);
@@ -408,13 +406,13 @@ public class CoachInformationActivity extends BaseActivity {
     public void CallCoachProfileUpdateApiResponse() {
         RequestBody sports = null;
         if (!new SessionManager(CoachInformationActivity.this).getKeyCoachSportsids().equalsIgnoreCase("")) {
-            sports = RequestBody.create(MediaType.parse("multipart/form-data"), new SessionManager(CoachInformationActivity.this).getKeyCoachSportsids().substring(1));
+            sports = RequestBody.create(MediaType.parse("multipart/form-data"), new SessionManager(CoachInformationActivity.this).getKeyCoachSportsids());
         } else {
             sports = RequestBody.create(MediaType.parse("multipart/form-data"), "");
         }
         RequestBody position = null;
         if (!new SessionManager(CoachInformationActivity.this).getKeyCoachPositionstrings().equalsIgnoreCase("")) {
-            position = RequestBody.create(MediaType.parse("multipart/form-data"), new SessionManager(CoachInformationActivity.this).getKeyCoachPositionstrings().substring(1));
+            position = RequestBody.create(MediaType.parse("multipart/form-data"), new SessionManager(CoachInformationActivity.this).getKeyCoachPositionstrings());
         } else {
             position = RequestBody.create(MediaType.parse("multipart/form-data"), "");
         }

@@ -75,7 +75,8 @@
         <activity
             android:name="com.example.athletics.Activity.UploadVideoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/NavigationDrawerAppTheme" />
+            android:theme="@style/NavigationDrawerAppTheme"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name="com.example.athletics.Activity.MyProfileActivity"
