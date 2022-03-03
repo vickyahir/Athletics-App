@@ -383,6 +383,43 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/LLUploadVideoMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|center"
+                            android:background="@drawable/bg_button"
+                            android:gravity="start|center"
+                            android:visibility="gone"
+
+                            >
+
+                            <ImageView
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:layout_marginLeft="@dimen/_15sdp"
+                                android:src="@drawable/ic_upload"
+                                android:tint="@color/white"
+
+                                />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_15sdp"
+                                android:background="?android:attr/selectableItemBackgroundBorderless"
+                                android:fontFamily="@font/rubik_medium"
+                                android:gravity="center|start"
+                                android:letterSpacing="0.05"
+                                android:paddingTop="@dimen/_10sdp"
+                                android:paddingBottom="@dimen/_10sdp"
+                                android:text="@string/upload_video"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_12ssp"
+                                tools:ignore="NewApi" />
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:id="@+id/LLMyInformationMenu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

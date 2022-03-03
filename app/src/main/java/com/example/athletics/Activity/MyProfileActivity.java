@@ -59,7 +59,7 @@ public class MyProfileActivity extends BaseActivity {
     private LinearLayout FrmProfileBg;
     private LinearLayout LLVideoData, LLPersonalData, LLFollowing, LLFollower,
             LLProfile, LLLikeVideo, LLProfileMenu, LLLikeVideoMenu,
-            LLPaymentMenu, LLMyVideoMenu, LLMyInformationMenu, LLCoachProfile, LLCoachResume;
+            LLPaymentMenu, LLMyVideoMenu, LLMyInformationMenu, LLCoachProfile, LLCoachResume, LLUploadVideoMenu;
     private RelativeLayout RelMyProfileMain;
     private SwipeRefreshLayout SwipeProfilePage;
     public static final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 123;
@@ -98,6 +98,7 @@ public class MyProfileActivity extends BaseActivity {
         LLLikeVideo = findViewById(R.id.LLLikeVideo);
         LLProfileMenu = findViewById(R.id.LLProfileMenu);
         LLLikeVideoMenu = findViewById(R.id.LLLikeVideoMenu);
+        LLUploadVideoMenu = findViewById(R.id.LLUploadVideoMenu);
         LLPaymentMenu = findViewById(R.id.LLPaymentMenu);
         LLMyVideoMenu = findViewById(R.id.LLMyVideoMenu);
         LLMyInformationMenu = findViewById(R.id.LLMyInformationMenu);
@@ -124,6 +125,7 @@ public class MyProfileActivity extends BaseActivity {
             LLPaymentMenu.setVisibility(View.GONE);
             LLMyInformationMenu.setVisibility(View.GONE);
             LLCoachProfile.setVisibility(View.GONE);
+            LLUploadVideoMenu.setVisibility(View.GONE);
 
 
             LLFollower.setClickable(false);
@@ -137,6 +139,7 @@ public class MyProfileActivity extends BaseActivity {
             LLMyInformationMenu.setVisibility(View.VISIBLE);
             LLCoachProfile.setVisibility(View.VISIBLE);
             LLCoachResume.setVisibility(View.GONE);
+            LLUploadVideoMenu.setVisibility(View.VISIBLE);
 
             LLFollower.setClickable(true);
             LLFollower.setEnabled(true);
@@ -149,6 +152,7 @@ public class MyProfileActivity extends BaseActivity {
             LLPaymentMenu.setVisibility(View.VISIBLE);
             LLMyInformationMenu.setVisibility(View.GONE);
             LLCoachProfile.setVisibility(View.GONE);
+            LLUploadVideoMenu.setVisibility(View.GONE);
 
             LLFollower.setClickable(false);
             LLFollower.setEnabled(false);
@@ -161,6 +165,7 @@ public class MyProfileActivity extends BaseActivity {
             LLMyInformationMenu.setVisibility(View.VISIBLE);
             LLCoachProfile.setVisibility(View.VISIBLE);
             LLCoachResume.setVisibility(View.VISIBLE);
+            LLUploadVideoMenu.setVisibility(View.GONE);
 
 
             LLFollower.setClickable(false);

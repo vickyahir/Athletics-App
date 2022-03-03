@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,57 +46,103 @@ public class CoachSportsAdapter extends RecyclerView.Adapter<CoachSportsAdapter.
         String result = "";
         if (!new SessionManager(context).getKeyCoachSportsids().equalsIgnoreCase("")) {
 
-            List<String> listresult = new ArrayList<>();
-            listresult.add(new SessionManager(context).getKeyCoachSportsids());
-            result = TextUtils.join(",", listresult);
+//            List<String> listresult = new ArrayList<>();
+//            listresult.add(new SessionManager(context).getKeyCoachSportsids());
+//            List<String> myList = new ArrayList<String>(Arrays.asList(new SessionManager(context).getKeyCoachSportsids().split(",")));
+//            result = TextUtils.join(",", listresult);
+
+
             List<String> myList = new ArrayList<String>(Arrays.asList(new SessionManager(context).getKeyCoachSportsids().split(",")));
+            result = TextUtils.join(",", myList);
+
             for (int i = 0; i < myList.size(); i++) {
                 if (String.valueOf(bean.getId()).equalsIgnoreCase(myList.get(i))) {
                     holder.chkSports.setChecked(true);
 
                     result = TextUtils.join(",", myList);
+//                    Functions.dialogShow(context);
+                    ((CoachInformationActivity) context).CallCoachCategoryPositionResponse(result);
                 }
             }
-            ((CoachInformationActivity) context).CallCoachCategoryPositionResponse(result);
 
         }
 
-
-        holder.chkSports.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        holder.chkSports.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            public void onClick(View view) {
+                List<String> list = new ArrayList<String>(Arrays.asList(new SessionManager(context).getKeyCoachSportsids().split(",")));
+                String results = TextUtils.join(",", list);
 
+                if (!holder.chkSports.isChecked()) {
+                    holder.chkSports.setChecked(false);
 
-                List<String> list = new ArrayList<>();
-                list.add(new SessionManager(context).getKeyCoachSportsids());
-                String result = TextUtils.join(",", list);
-
-                if (compoundButton.isChecked()) {
-
-                    list.add(String.valueOf(bean.getId()));
-                    result = TextUtils.join(",", list);
-                    new SessionManager(context).setKeyCoachSportsids(result);
-
-                    Functions.dialogShow(context);
-                    ((CoachInformationActivity) context).CallCoachCategoryPositionResponse(result);
-                } else {
-
-                    List<String> myList = new ArrayList<String>(Arrays.asList(result.split(",")));
+                    List<String> myList = new ArrayList<String>(Arrays.asList(results.split(",")));
 
                     for (int i = 0; i < myList.size(); i++) {
                         if (myList.get(i).equalsIgnoreCase(String.valueOf(bean.getId()))) {
                             myList.remove(i);
 
-                            result = TextUtils.join(",", myList);
-                            new SessionManager(context).setKeyCoachSportsids(result);
+                            results = TextUtils.join(",", myList);
+                            new SessionManager(context).setKeyCoachSportsids(results);
                             Functions.dialogShow(context);
-                            ((CoachInformationActivity) context).CallCoachCategoryPositionResponse(result);
+                            ((CoachInformationActivity) context).CallCoachCategoryPositionResponse(results);
                         }
 
                     }
+
+                } else {
+                    holder.chkSports.setChecked(true);
+
+                    list.add(String.valueOf(bean.getId()));
+                    results = TextUtils.join(",", list);
+                    new SessionManager(context).setKeyCoachSportsids(results);
+
+                    Functions.dialogShow(context);
+                    ((CoachInformationActivity) context).CallCoachCategoryPositionResponse(results);
+
                 }
+
             }
         });
+
+
+//        holder.chkSports.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//
+//
+////                List<String> list = new ArrayList<>();
+////                list.add(new SessionManager(context).getKeyCoachSportsids());
+////                String results = TextUtils.join(",", list);
+//
+//                List<String> list = new ArrayList<String>(Arrays.asList(new SessionManager(context).getKeyCoachSportsids().split(",")));
+//                String results = TextUtils.join(",", list);
+//
+//                if (compoundButton.isChecked()) {
+//                    list.add(String.valueOf(detail.get(position).getId()));
+//                    results = TextUtils.join(",", list);
+//                    new SessionManager(context).setKeyCoachSportsids(results);
+//
+////                    Functions.dialogShow(context);
+//                    ((CoachInformationActivity) context).CallCoachCategoryPositionResponse(results);
+//
+//                } else {
+//                    List<String> myList = new ArrayList<String>(Arrays.asList(results.split(",")));
+//
+//                    for (int i = 0; i < myList.size(); i++) {
+//                        if (myList.get(i).equalsIgnoreCase(String.valueOf(bean.getId()))) {
+//                            myList.remove(i);
+//
+//                            results = TextUtils.join(",", myList);
+//                            new SessionManager(context).setKeyCoachSportsids(results);
+////                            Functions.dialogShow(context);
+//                            ((CoachInformationActivity) context).CallCoachCategoryPositionResponse(results);
+//                        }
+//
+//                    }
+//                }
+//            }
+//        });
 
     }
 

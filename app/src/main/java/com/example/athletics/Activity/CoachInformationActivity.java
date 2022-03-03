@@ -29,6 +29,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.Athletics.R;
 import com.example.athletics.Adapter.CoachPositionAdapter;
@@ -79,6 +80,7 @@ public class CoachInformationActivity extends BaseActivity {
     private static final int SELECT_VIDEO = 200;
     private static final int PICK_PDF_REQUEST = 300;
     private static final int READ_STORAGE_PERMISSION_REQUEST_CODE = 500;
+    private SwipeRefreshLayout SwipeCoachInformationPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +121,7 @@ public class CoachInformationActivity extends BaseActivity {
         rvSports = (RecyclerView) findViewById(R.id.rvSports);
         edtExperience = findViewById(R.id.edtExperience);
         rvPositions = (RecyclerView) findViewById(R.id.rvPositions);
+        SwipeCoachInformationPage = (SwipeRefreshLayout) findViewById(R.id.SwipeCoachInformationPage);
         imgMenu.setVisibility(View.INVISIBLE);
         TvTitle.setText(getResources().getString(R.string.basic_information));
 
@@ -157,6 +160,10 @@ public class CoachInformationActivity extends BaseActivity {
                     if (response.isSuccessful()) {
                         Functions.dialogHide();
                         LLCoachInformationMain.setVisibility(View.VISIBLE);
+
+                        if (SwipeCoachInformationPage.isRefreshing()) {
+                            SwipeCoachInformationPage.setRefreshing(false);
+                        }
 
                         SportsList = new ArrayList<>();
                         if (response.body().getData().size() > 0) {
@@ -219,7 +226,7 @@ public class CoachInformationActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<CategoryPositionResponse> call, Throwable t) {
-                Functions.dialogHide();
+//                Functions.dialogHide();
             }
         });
     }
@@ -240,22 +247,26 @@ public class CoachInformationActivity extends BaseActivity {
                         }
 
 
-                        List<String> SportsIDSList = new ArrayList<>();
-                        SportsIDSList.addAll(response.body().getData().getSports());
+                        List<String> SportsIDSList = new ArrayList<>(response.body().getData().getSports());
 
-                        for (int i = 0; i < SportsIDSList.size(); i++) {
+                        if (SportsIDSList.size() > 0) {
                             SportsIDS = TextUtils.join(",", SportsIDSList);
                         }
+//                        for (int i = 0; i < SportsIDSList.size(); i++) {
+//                            SportsIDS = TextUtils.join(",", SportsIDSList);
+//
+//                        }
                         new SessionManager(CoachInformationActivity.this).setKeyCoachSportsids(SportsIDS);
                         coachSportsAdapter.notifyDataSetChanged();
 
 
-                        List<String> PositionStringsList = new ArrayList<>();
-                        PositionStringsList.addAll(response.body().getData().getPosition());
-
-                        for (int i = 0; i < PositionStringsList.size(); i++) {
+                        List<String> PositionStringsList = new ArrayList<>(response.body().getData().getPosition());
+                        if (PositionStringsList.size() > 0) {
                             PositionStrings = TextUtils.join(",", PositionStringsList);
                         }
+//                        for (int i = 0; i < PositionStringsList.size(); i++) {
+//                            PositionStrings = TextUtils.join(",", PositionStringsList);
+//                        }
                         new SessionManager(CoachInformationActivity.this).setKeyCoachPositionstrings(PositionStrings);
                         coachPositionAdapter.notifyDataSetChanged();
 
@@ -275,6 +286,19 @@ public class CoachInformationActivity extends BaseActivity {
 
 
     private void setClickListener() {
+
+
+        SwipeCoachInformationPage.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new SessionManager(CoachInformationActivity.this).setKeyCoachSportsids("");
+                new SessionManager(CoachInformationActivity.this).setKeyCoachPositionstrings("");
+                SportsIDS = "";
+                PositionStrings = "";
+                loadData();
+            }
+        });
+
 
         TvProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -406,13 +430,17 @@ public class CoachInformationActivity extends BaseActivity {
     public void CallCoachProfileUpdateApiResponse() {
         RequestBody sports = null;
         if (!new SessionManager(CoachInformationActivity.this).getKeyCoachSportsids().equalsIgnoreCase("")) {
-            sports = RequestBody.create(MediaType.parse("multipart/form-data"), new SessionManager(CoachInformationActivity.this).getKeyCoachSportsids());
+            String coachIDs = new SessionManager(CoachInformationActivity.this).getKeyCoachSportsids();
+            String CoachStringIDS = ltrim(coachIDs, ",");
+            sports = RequestBody.create(MediaType.parse("multipart/form-data"), CoachStringIDS);
         } else {
             sports = RequestBody.create(MediaType.parse("multipart/form-data"), "");
         }
         RequestBody position = null;
         if (!new SessionManager(CoachInformationActivity.this).getKeyCoachPositionstrings().equalsIgnoreCase("")) {
-            position = RequestBody.create(MediaType.parse("multipart/form-data"), new SessionManager(CoachInformationActivity.this).getKeyCoachPositionstrings());
+            String sportsIDs = new SessionManager(CoachInformationActivity.this).getKeyCoachPositionstrings();
+            String CoachSportsIDS = ltrim(sportsIDs, ",");
+            position = RequestBody.create(MediaType.parse("multipart/form-data"), CoachSportsIDS);
         } else {
             position = RequestBody.create(MediaType.parse("multipart/form-data"), "");
         }
@@ -461,6 +489,7 @@ public class CoachInformationActivity extends BaseActivity {
                         Intent intent = new Intent(activity, MyProfileActivity.class);
                         startActivity(intent);
                         Functions.animNext(activity);
+                        finish();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -473,6 +502,15 @@ public class CoachInformationActivity extends BaseActivity {
                 Functions.dialogHide();
             }
         });
+    }
+
+    public static String ltrim(String str, String trimchar) {
+        if (trimchar.length() <= str.length()) {
+            if (str.substring(0, trimchar.length()).equalsIgnoreCase(trimchar)) {
+                str = str.substring(trimchar.length(), str.length());
+            }
+        }
+        return str;
     }
 
 
