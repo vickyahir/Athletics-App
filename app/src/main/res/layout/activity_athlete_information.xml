@@ -1,0 +1,991 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelCoachInformationMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_app"
+    tools:context="com.example.athletics.Activity.AthleteInformationActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbarwith_back" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/SwipeCoachInformationPage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bootomMenu"
+        android:layout_below="@+id/toolbar">
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:id="@+id/LLAthleteInformationMain"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:background="@drawable/bg_desin_with_border"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/rubik_medium"
+                            android:text="@string/basic_info"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_8sdp"
+                                android:layout_weight="0.7"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/rubik_regular"
+                                    android:text="@string/university"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_10ssp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:background="@drawable/dialog_round_otp">
+
+                                    <Spinner
+                                        android:id="@+id/spinnerUniversity"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/_28sdp"
+
+                                        />
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/rubik_regular"
+                                    android:text="@string/scholastic_school_year"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_10ssp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:background="@drawable/dialog_round_otp">
+
+                                    <Spinner
+                                        android:id="@+id/spinnerScholasticSchool"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/_28sdp" />
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_weight="0.7"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/rubik_regular"
+                                    android:text="@string/school"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_10ssp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_28sdp"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:background="@drawable/dialog_round_otp"
+                                    android:padding="@dimen/_6sdp">
+
+
+                                    <EditText
+                                        android:id="@+id/edtSchool"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@null"
+                                        android:fontFamily="@font/rubik_regular"
+                                        android:hint="@string/school"
+                                        android:inputType="text"
+                                        android:textAlignment="viewStart"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/blur_color_fulldark"
+                                        android:textSize="@dimen/_10ssp" />
+
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/rubik_regular"
+                                    android:text="@string/gpa"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_10ssp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_28sdp"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:background="@drawable/dialog_round_otp"
+                                    android:padding="@dimen/_6sdp">
+
+
+                                    <EditText
+                                        android:id="@+id/edtGPA"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@null"
+                                        android:fontFamily="@font/rubik_regular"
+                                        android:hint="@string/gpa"
+                                        android:inputType="text"
+                                        android:textAlignment="viewStart"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/blur_color_fulldark"
+                                        android:textSize="@dimen/_10ssp" />
+
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/rubik_regular"
+                                    android:text="@string/team_name_"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_10ssp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_28sdp"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:background="@drawable/dialog_round_otp"
+                                    android:padding="@dimen/_6sdp">
+
+
+                                    <EditText
+                                        android:id="@+id/edtTeamName"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@null"
+                                        android:fontFamily="@font/rubik_regular"
+                                        android:hint="@string/team_name_"
+                                        android:inputType="text"
+                                        android:textAlignment="viewStart"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/blur_color_fulldark"
+                                        android:textSize="@dimen/_10ssp" />
+
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/rubik_medium"
+                                android:text="@string/profie_picture"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="@dimen/_10ssp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:orientation="horizontal">
+
+
+                                <TextView
+                                    android:id="@+id/TvProfilePic"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:drawableRight="@drawable/ic_gallery"
+                                    android:fontFamily="@font/rubik_medium"
+                                    android:paddingTop="@dimen/_5sdp"
+                                    android:paddingRight="@dimen/_5sdp"
+                                    android:paddingBottom="@dimen/_5sdp"
+                                    android:text="@string/select_picture"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_10ssp" />
+
+                                <TextView
+                                    android:id="@+id/TvProfileName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/rubik_medium"
+                                    android:gravity="center"
+                                    android:text="@string/profie_picture"
+                                    android:textColor="@color/blur_color_fulldark"
+                                    android:textSize="@dimen/_10ssp"
+                                    android:visibility="gone" />
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/rubik_medium"
+                                android:text="@string/video_profie"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="@dimen/_10ssp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_marginBottom="@dimen/_10sdp"
+                                android:orientation="horizontal">
+
+
+                                <TextView
+                                    android:id="@+id/TvUploadVideo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:drawableRight="@drawable/ic_video"
+                                    android:fontFamily="@font/rubik_medium"
+                                    android:paddingTop="@dimen/_5sdp"
+                                    android:paddingRight="@dimen/_5sdp"
+                                    android:paddingBottom="@dimen/_5sdp"
+                                    android:text="@string/select_video"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_10ssp" />
+
+                                <TextView
+                                    android:id="@+id/TvVideoName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/rubik_medium"
+                                    android:gravity="center"
+                                    android:text="@string/profie_picture"
+                                    android:textColor="@color/blur_color_fulldark"
+                                    android:textSize="@dimen/_10ssp"
+                                    android:visibility="gone" />
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:background="@drawable/bg_desin_with_border"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/rubik_medium"
+                            android:text="@string/extra_info"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/rubik_regular"
+                                    android:text="@string/age"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_10ssp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_28sdp"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:background="@drawable/dialog_round_otp"
+                                    android:padding="@dimen/_6sdp">
+
+
+                                    <EditText
+                                        android:id="@+id/edtAge"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:background="@null"
+                                        android:fontFamily="@font/rubik_regular"
+                                        android:hint="@string/age"
+                                        android:inputType="number"
+                                        android:textAlignment="viewStart"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/blur_color_fulldark"
+                                        android:textSize="@dimen/_10ssp" />
+
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/rubik_regular"
+                                    android:text="@string/speed"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_10ssp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_28sdp"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:background="@drawable/dialog_round_otp"
+                                    android:padding="@dimen/_6sdp">
+
+
+                                    <EditText
+                                        android:id="@+id/edtSpeed"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:background="@null"
+                                        android:fontFamily="@font/rubik_regular"
+                                        android:hint="@string/speed"
+                                        android:inputType="number"
+                                        android:textAlignment="viewStart"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/blur_color_fulldark"
+                                        android:textSize="@dimen/_10ssp" />
+
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/rubik_regular"
+                                    android:text="@string/height"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_10ssp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_28sdp"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:background="@drawable/dialog_round_otp"
+                                    android:padding="@dimen/_6sdp">
+
+
+                                    <EditText
+                                        android:id="@+id/edtHeight"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:background="@null"
+                                        android:fontFamily="@font/rubik_regular"
+                                        android:hint="@string/height"
+                                        android:inputType="number"
+                                        android:textAlignment="viewStart"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/blur_color_fulldark"
+                                        android:textSize="@dimen/_10ssp" />
+
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/rubik_regular"
+                                    android:text="@string/weight"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_10ssp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_28sdp"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:background="@drawable/dialog_round_otp"
+                                    android:padding="@dimen/_6sdp">
+
+
+                                    <EditText
+                                        android:id="@+id/edtWeight"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:background="@null"
+                                        android:fontFamily="@font/rubik_regular"
+                                        android:hint="@string/weight"
+                                        android:inputType="number"
+                                        android:textAlignment="viewStart"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/blur_color_fulldark"
+                                        android:textSize="@dimen/_10ssp" />
+
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/rubik_regular"
+                                    android:text="@string/paying_weight"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_10ssp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_28sdp"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:background="@drawable/dialog_round_otp"
+                                    android:padding="@dimen/_6sdp">
+
+
+                                    <EditText
+                                        android:id="@+id/edtPayingWeight"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:background="@null"
+                                        android:fontFamily="@font/rubik_regular"
+                                        android:hint="@string/paying_weight"
+                                        android:inputType="number"
+                                        android:textAlignment="viewStart"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/blur_color_fulldark"
+                                        android:textSize="@dimen/_10ssp" />
+
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/rubik_regular"
+                                    android:text="@string/gender"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_10ssp" />
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_28sdp"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:background="@drawable/dialog_round_otp">
+
+                                    <Spinner
+                                        android:id="@+id/spinnerGender"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/_30sdp" />
+
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/rubik_regular"
+                                android:text="@string/country"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_10ssp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:background="@drawable/dialog_round_otp">
+
+                                <Spinner
+                                    android:id="@+id/spinnerCountry"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_30sdp" />
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/rubik_regular"
+                                android:text="@string/state"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_10ssp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:background="@drawable/dialog_round_otp">
+
+                                <Spinner
+                                    android:id="@+id/spinnerState"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_30sdp" />
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:background="@drawable/bg_desin_with_border"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/rubik_medium"
+                            android:text="@string/playing_information"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/rubik_medium"
+                                android:text="@string/sports"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_11ssp" />
+
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvAthleteSports"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                tools:itemCount="2"
+                                tools:listitem="@layout/item_coach_category" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvAthleteSportsPosition"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                tools:itemCount="2"
+                                tools:listitem="@layout/item_athlete_sports" />
+
+                            <TextView
+                                android:id="@+id/TvNodataFoundPositions"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/rubik_regular"
+                                android:gravity="center"
+                                android:text="@string/no_data_found"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_10ssp"
+                                android:visibility="gone" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/rubik_regular"
+                                android:text="@string/major"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_10ssp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_28sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:background="@drawable/dialog_round_otp"
+                                android:padding="@dimen/_6sdp">
+
+
+                                <EditText
+                                    android:id="@+id/edtMajor"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@null"
+                                    android:fontFamily="@font/rubik_regular"
+                                    android:hint="@string/major"
+                                    android:inputType="text"
+                                    android:textAlignment="viewStart"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/blur_color_fulldark"
+                                    android:textSize="@dimen/_10ssp" />
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:background="@drawable/bg_desin_with_border"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/rubik_medium"
+                            android:text="@string/sports_state"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_12ssp" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/rubik_regular"
+                                android:text="@string/year"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_10ssp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:background="@drawable/dialog_round_otp">
+
+                                <Spinner
+                                    android:id="@+id/spinnerSportStateYear"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_30sdp" />
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvAthleteState"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                tools:itemCount="2"
+                                tools:listitem="@layout/item_athlete_sports_state" />
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/TvSave"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/bg_button"
+                        android:fontFamily="@font/rubik_bold"
+                        android:gravity="center"
+                        android:letterSpacing="0.05"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:text="@string/save"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_14ssp" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    <LinearLayout
+        android:id="@+id/bootomMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <include layout="@layout/bottom_menu" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

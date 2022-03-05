@@ -75,8 +75,7 @@
         <activity
             android:name="com.example.athletics.Activity.UploadVideoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/NavigationDrawerAppTheme"
-            android:windowSoftInputMode="adjustResize" />
+            android:theme="@style/NavigationDrawerAppTheme" />
 
         <activity
             android:name="com.example.athletics.Activity.MyProfileActivity"
@@ -156,6 +155,12 @@
             android:name="com.example.athletics.Activity.ProfileVideoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NavigationDrawerAppTheme" />
+
+        <activity
+            android:name="com.example.athletics.Activity.AthleteInformationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NavigationDrawerAppTheme"
+            android:windowSoftInputMode="adjustResize" />
 
 
     </application>

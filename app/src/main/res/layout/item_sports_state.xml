@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/TvSportStateName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik_regular"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10ssp"
+            tools:text="@string/year" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/dialog_round_otp"
+            android:padding="@dimen/_6sdp">
+
+
+            <EditText
+                android:id="@+id/edtSportState"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:fontFamily="@font/rubik_regular"
+                android:inputType="text"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textColorHint="@color/blur_color_fulldark"
+                android:textSize="@dimen/_10ssp" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

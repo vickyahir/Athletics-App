@@ -1,8 +1,10 @@
 package com.example.athletics.Retrofit;
 
 
+import com.example.athletics.Model.AthleteCategoryPositionApiResponse;
 import com.example.athletics.Model.AthleteInformationApiResponse;
 import com.example.athletics.Model.AthleteProfileResponse;
+import com.example.athletics.Model.AthleteReqDataResponse;
 import com.example.athletics.Model.CategoryPositionResponse;
 import com.example.athletics.Model.CoachCategoryResponse;
 import com.example.athletics.Model.CoachInformationApiResponse;
@@ -20,6 +22,7 @@ import com.example.athletics.Model.PaymentDetailsApiResponse;
 import com.example.athletics.Model.ProfileUpdateApiResponse;
 import com.example.athletics.Model.SignInApiResponse;
 import com.example.athletics.Model.SignInData;
+import com.example.athletics.Model.StateListApiResponse;
 import com.example.athletics.Model.SuitablePlanApiResponse;
 import com.example.athletics.Model.UserLikeVideoApiResponse;
 import com.example.athletics.Model.VideoCountIncrementResponse;
@@ -159,5 +162,16 @@ public interface ApiInterface {
     Call<DefaultApiResponse> GetAthleteVideoUpload(@Part("title") RequestBody title,
                                                    @Part MultipartBody.Part thumb,
                                                    @Part MultipartBody.Part video);
+
+
+    @GET("athlete-reqdata")
+    Call<AthleteReqDataResponse> GetAthleteReqDataApi();
+
+    @FormUrlEncoded
+    @POST("categorys/positions-sports")
+    Call<AthleteCategoryPositionApiResponse> GetCategoryPositionSportsApi(@Field("ids") String ids);
+
+    @GET("country/{id}/states")
+    Call<StateListApiResponse> GetStateListApi(@Path(value = "id") String id);
 
 }

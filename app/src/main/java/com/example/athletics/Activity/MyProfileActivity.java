@@ -555,6 +555,15 @@ public class MyProfileActivity extends BaseActivity {
     private void setClickListener() {
 
 
+        LLUploadVideoMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MyProfileActivity.this, UploadVideoActivity.class);
+                startActivity(intent);
+                Functions.animNext(MyProfileActivity.this);
+            }
+        });
+
         ImgProfileVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -614,8 +623,10 @@ public class MyProfileActivity extends BaseActivity {
                     Intent intent = new Intent(MyProfileActivity.this, CoachInformationActivity.class);
                     startActivity(intent);
                     Functions.animNext(MyProfileActivity.this);
-                } else {
-
+                } else if (new SessionManager(MyProfileActivity.this).getUserRole().equalsIgnoreCase("2")) {
+                    Intent intent = new Intent(MyProfileActivity.this, AthleteInformationActivity.class);
+                    startActivity(intent);
+                    Functions.animNext(MyProfileActivity.this);
                 }
             }
         });

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/TvPositionName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik_medium"
+            android:text="@string/sports"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_11ssp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAthleteSports"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_sports_state" />
+
+    </LinearLayout>
+
+</LinearLayout>

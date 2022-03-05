@@ -389,6 +389,7 @@
                             android:layout_gravity="start|center"
                             android:background="@drawable/bg_button"
                             android:gravity="start|center"
+                            android:layout_marginTop="@dimen/_15sdp"
                             android:visibility="gone"
 
                             >

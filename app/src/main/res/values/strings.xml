@@ -80,6 +80,10 @@
     <string name="my_information">My Information</string>
     <string name="coach_profie">Coach Profile</string>
     <string name="basic_information">Basic Information</string>
+    <string name="basic_info">Basic Info</string>
+    <string name="extra_info">Extra Info</string>
+    <string name="playing_information">Playing Information</string>
+    <string name="sports_state">Sports Stats</string>
     <string name="athlete_profie">Athlete Profile</string>
     <string name="edit_profie">Edit profile</string>
     <string name="upload_video">Upload Video</string>
@@ -118,12 +122,18 @@
     <string name="no_data_found">No data found</string>
     <string name="email_id_">Email ID :</string>
     <string name="sports_">Sports :</string>
+    <string name="sports">Sports</string>
     <string name="positions_">Positions :</string>
     <string name="other_details">Other Details :</string>
     <string name="major_">Major :</string>
+    <string name="major">Major</string>
     <string name="age_">Age :</string>
+    <string name="age">Age</string>
+
     <string name="gender_">Gender :</string>
+    <string name="gender">Gender</string>
     <string name="speed_">Speed :</string>
+    <string name="speed">Speed</string>
     <string name="coach_experience">Coach Experience :</string>
     <string name="share_your_experience">Share your experience here</string>
 
@@ -131,11 +141,23 @@
     <string name="school_detail_">School Detail :</string>
     <string name="state_of">State of</string>
     <string name="university_name_">University Name :</string>
+    <string name="university">University</string>
+    <string name="scholastic_school_year">Scholastic school year</string>
     <string name="school_">School :</string>
+    <string name="school">School</string>
+    <string name="team_name">Team Name (If Applicable)</string>
+    <string name="team_name_">Team Name</string>
     <string name="school_year_complete_">School Year Complete :</string>
+    <string name="year">Year</string>
     <string name="gpa_">GPA :</string>
+    <string name="gpa">GPA</string>
     <string name="about_us">About Us</string>
     <string name="help_and_support">Help &amp; Support</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="paying_weight">Paying Weight</string>
+    <string name="country">Country</string>
+    <string name="state">State</string>
     <string name="package_detail">Package Details</string>
     <string name="rate_us">Rate Us</string>
     <string name="check_for_update">Check for Update</string>
