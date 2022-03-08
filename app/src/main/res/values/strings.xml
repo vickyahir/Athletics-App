@@ -49,6 +49,7 @@
     <string name="already_having_an_Account">Already having an account?</string>
     <string name="signup_simple">Signup</string>
     <string name="skip_login">Skip Login >>></string>
+    <string name="you_can_select_only_two_position">You Can Select Only 2 positions</string>
     <string name="please_enter_your_email">Please enter your email id</string>
     <string name="please_enter_your_video_title">Please enter your video title</string>
     <string name="please_enter_valid_your_email">Please enter your valid email id</string>

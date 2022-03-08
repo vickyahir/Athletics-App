@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Athletics.R;
+import com.example.athletics.Activity.AthleteInformationActivity;
 import com.example.athletics.Model.AthleteInformationStatItem;
 
 import java.util.List;
@@ -20,13 +21,22 @@ import java.util.List;
 public class AthleteSportsStateAdapter extends RecyclerView.Adapter<AthleteSportsStateAdapter.Myviewholder> {
     Context context;
     List<String> detail;
+    List<String> DummyString;
     List<AthleteInformationStatItem> SelectedList;
+
 
 
     public AthleteSportsStateAdapter(Activity activity, List<String> muscles, List<AthleteInformationStatItem> selectList) {
         this.context = activity;
         this.detail = muscles;
         this.SelectedList = selectList;
+    }
+
+    public AthleteSportsStateAdapter(AthleteInformationActivity context, List<String> athleteStatsList, List<String> s) {
+        this.context = context;
+        this.detail = athleteStatsList;
+        this.DummyString = s;
+
     }
 
     @NonNull
@@ -41,14 +51,17 @@ public class AthleteSportsStateAdapter extends RecyclerView.Adapter<AthleteSport
 
         holder.TvSportStateName.setText(bean);
 
-        if (SelectedList.size() > 0) {
-            for (int i = 0; i < SelectedList.size(); i++) {
-                if (SelectedList.get(i).getName().equalsIgnoreCase(bean)) {
-                    holder.edtSportState.setText(SelectedList.get(i).getValue());
+        try {
+            if (SelectedList.size() > 0) {
+                for (int i = 0; i < SelectedList.size(); i++) {
+                    if (SelectedList.get(i).getName().equalsIgnoreCase(bean)) {
+                        holder.edtSportState.setText(SelectedList.get(i).getValue());
+                    }
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
 
     }
 

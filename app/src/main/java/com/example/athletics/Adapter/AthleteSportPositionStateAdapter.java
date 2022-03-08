@@ -17,6 +17,7 @@ import com.example.athletics.Model.AthleteCategoryPositionDataItem;
 import com.example.athletics.Model.AthleteInformationStateItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -50,7 +51,12 @@ public class AthleteSportPositionStateAdapter extends RecyclerView.Adapter<Athle
             AthleteStatsList.addAll(bean.getStats());
             holder.TvPositionName.setText("Stats for " + bean.getName());
             holder.rvAthleteSports.setLayoutManager(new GridLayoutManager(context, 3));
-            athletePositionAdapter = new AthleteSportsStateAdapter(((AthleteInformationActivity) context), AthleteStatsList, SelectedList.get(position).getStat());
+
+            if (SelectedList.size() > position) {
+                athletePositionAdapter = new AthleteSportsStateAdapter(((AthleteInformationActivity) context), AthleteStatsList, SelectedList.get(position).getStat());
+            } else {
+                athletePositionAdapter = new AthleteSportsStateAdapter(((AthleteInformationActivity) context), AthleteStatsList, Collections.singletonList("Athletes"));
+            }
             holder.rvAthleteSports.setAdapter(athletePositionAdapter);
         } catch (Exception e) {
             e.printStackTrace();

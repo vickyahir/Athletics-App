@@ -17,15 +17,16 @@ import com.example.athletics.Model.AthleteCategoryPositionDataItem;
 import com.example.athletics.Model.AthleteInformationPositionItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
 public class SportPositionAdapter extends RecyclerView.Adapter<SportPositionAdapter.Myviewholder> {
     Context context;
-    List<AthleteCategoryPositionDataItem> detail;
-    List<AthleteInformationPositionItem> SelectedList;
+    public List<AthleteCategoryPositionDataItem> detail;
+    public List<AthleteInformationPositionItem> SelectedList;
     public PositionAdapter athletePositionAdapter;
-    private List<String> AthleteSportsList;
+    public List<String> AthleteSportsList;
 
 
     public SportPositionAdapter(Activity activity, List<AthleteCategoryPositionDataItem> muscles, List<AthleteInformationPositionItem> select) {
@@ -50,7 +51,11 @@ public class SportPositionAdapter extends RecyclerView.Adapter<SportPositionAdap
             AthleteSportsList.addAll(bean.getPositions());
             holder.TvPositionName.setText("Position(s) for " + bean.getName());
             holder.rvAthleteSports.setLayoutManager(new GridLayoutManager(context, 3));
-            athletePositionAdapter = new PositionAdapter(((AthleteInformationActivity) context), AthleteSportsList, SelectedList.get(position).getPos());
+            if (SelectedList.size() > position) {
+                    athletePositionAdapter = new PositionAdapter(((AthleteInformationActivity) context), AthleteSportsList, SelectedList.get(position).getPos());
+            } else {
+                athletePositionAdapter = new PositionAdapter(((AthleteInformationActivity) context), AthleteSportsList, Collections.singletonList(""));
+            }
             holder.rvAthleteSports.setAdapter(athletePositionAdapter);
         } catch (Exception e) {
             e.printStackTrace();

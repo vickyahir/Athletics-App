@@ -13,9 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Athletics.R;
 import com.example.athletics.Activity.AthleteInformationActivity;
-import com.example.athletics.Activity.CoachInformationActivity;
 import com.example.athletics.Model.AthleteReqCategoriesItem;
-import com.example.athletics.Utils.Functions;
 import com.example.athletics.Utils.SessionManager;
 
 import java.util.ArrayList;
@@ -55,6 +53,7 @@ public class AthleteSportsAdapter extends RecyclerView.Adapter<AthleteSportsAdap
             for (int i = 0; i < myList.size(); i++) {
                 if (String.valueOf(bean.getId()).equalsIgnoreCase(myList.get(i))) {
                     holder.chkSports.setChecked(true);
+                    bean.setSelected(true);
                     result = TextUtils.join(",", myList);
                     ((AthleteInformationActivity) context).CallAthleteSportsCategoryApiResponse(result);
                 }
@@ -70,7 +69,7 @@ public class AthleteSportsAdapter extends RecyclerView.Adapter<AthleteSportsAdap
 
                 if (!holder.chkSports.isChecked()) {
                     holder.chkSports.setChecked(false);
-
+                    bean.setSelected(false);
                     List<String> myList = new ArrayList<String>(Arrays.asList(results.split(",")));
 
                     for (int i = 0; i < myList.size(); i++) {
@@ -86,7 +85,7 @@ public class AthleteSportsAdapter extends RecyclerView.Adapter<AthleteSportsAdap
 
                 } else {
                     holder.chkSports.setChecked(true);
-
+                    bean.setSelected(true);
                     list.add(String.valueOf(bean.getId()));
                     results = TextUtils.join(",", list);
                     new SessionManager(context).setKeyAthleteSportsids(results);
@@ -97,8 +96,6 @@ public class AthleteSportsAdapter extends RecyclerView.Adapter<AthleteSportsAdap
 
             }
         });
-
-
 
 
     }

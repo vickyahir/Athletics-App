@@ -38,6 +38,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.Athletics.R;
 import com.example.athletics.Adapter.AthleteSportPositionStateAdapter;
 import com.example.athletics.Adapter.AthleteSportsAdapter;
+import com.example.athletics.Adapter.PositionAdapter;
 import com.example.athletics.Adapter.SportPositionAdapter;
 import com.example.athletics.Model.AthleteCategoryPositionApiResponse;
 import com.example.athletics.Model.AthleteCategoryPositionDataItem;
@@ -54,9 +55,14 @@ import com.example.athletics.Utils.Functions;
 import com.example.athletics.Utils.SessionManager;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -81,6 +87,9 @@ public class AthleteInformationActivity extends BaseActivity {
     private SportPositionAdapter athleteSportPositionAdapter;
     private List<AthleteCategoryPositionDataItem> AthleteSportsPositionStateList;
     private AthleteSportPositionStateAdapter athleteSportPositionStateAdapter;
+
+    private PositionAdapter positionAdapter;
+    private List<String> DummyList;
 
     private AthleteInformationApiResponse athleteInformationApiResponse;
 
@@ -359,7 +368,6 @@ public class AthleteInformationActivity extends BaseActivity {
                         AthleteSportsAdapter.notifyDataSetChanged();
 
 
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -617,14 +625,47 @@ public class AthleteInformationActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 
+//                for (int i = 0; i < AthleteSportsList.size(); i++) {
+//                    Toast.makeText(activity, "" + AthleteSportsList.get(i).isSelected(), Toast.LENGTH_SHORT).show();
+//                }
 
-                if (cd.isConnectingToInternet()) {
-                    Functions.dialogShow(AthleteInformationActivity.this);
-                    CallCoachProfileUpdateApiResponse();
-                } else {
-                    Snackbar snackbar = Snackbar.make(RelCoachInformationMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
-                    snackbar.show();
+
+//                Toast.makeText(activity, "" + athleteSportPositionAdapter.athletePositionAdapter.chkSports.isChecked(), Toast.LENGTH_SHORT).show();
+
+
+                try {
+                    JSONArray PositionArrayOneData = new JSONArray();
+
+                    JSONObject JsonObjectPositionData = new JSONObject();
+
+                    List<String> list = new ArrayList<String>(Arrays.asList(new SessionManager(AthleteInformationActivity.this).getKeyAthleteSportsids().split(",")));
+
+                    for (int i = 0; i < list.size(); i++) {
+
+                        JsonObjectPositionData.put("id", list.get(i));
+
+                        JSONArray array = new JSONArray();
+                        array.put("element_1");
+
+                        JsonObjectPositionData.put("pos", array);
+                        PositionArrayOneData.put(JsonObjectPositionData);
+                    }
+
+
+                    System.out.println("JsonArray>>>>>>>" + PositionArrayOneData.toString());
+//                    Toast.makeText(activity, "" + PositionArrayOneData.toString(), Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+
+
+//                if (cd.isConnectingToInternet()) {
+//                    Functions.dialogShow(AthleteInformationActivity.this);
+//                    CallCoachProfileUpdateApiResponse();
+//                } else {
+//                    Snackbar snackbar = Snackbar.make(RelCoachInformationMain, getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
+//                    snackbar.show();
+//                }
 
             }
         });
