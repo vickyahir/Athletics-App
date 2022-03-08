@@ -74,7 +74,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AthleteInformationActivity extends BaseActivity {
+public class AthleteInformationActivity extends BaseActivity  {
     private ImageView imgBack, imgMenu;
     private Toolbar toolbarMain;
     private TextView TvTitle, TvNodataFoundPositions, TvSave, TvProfilePic, TvProfileName, TvUploadVideo, TvVideoName;
@@ -88,8 +88,6 @@ public class AthleteInformationActivity extends BaseActivity {
     private List<AthleteCategoryPositionDataItem> AthleteSportsPositionStateList;
     private AthleteSportPositionStateAdapter athleteSportPositionStateAdapter;
 
-    private PositionAdapter positionAdapter;
-    private List<String> DummyList;
 
     private AthleteInformationApiResponse athleteInformationApiResponse;
 
@@ -132,7 +130,6 @@ public class AthleteInformationActivity extends BaseActivity {
         setContentView(R.layout.activity_athlete_information);
         super.onCreateMenu();
         super.onMenuSelect(5);
-
         getIntentData();
         initView();
         loadData();
@@ -276,6 +273,9 @@ public class AthleteInformationActivity extends BaseActivity {
         spinnerCountry.setAdapter(CountryArrayAdapter);
 
     }
+
+
+
 
     private void SetYearData() {
         ScholasticYearList = new ArrayList<>();
@@ -630,7 +630,8 @@ public class AthleteInformationActivity extends BaseActivity {
 //                }
 
 
-//                Toast.makeText(activity, "" + athleteSportPositionAdapter.athletePositionAdapter.chkSports.isChecked(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "" + AthleteSportsList.get(0).isSelected(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "" + athleteSportPositionAdapter.athletePositionAdapter, Toast.LENGTH_SHORT).show();
 
 
                 try {

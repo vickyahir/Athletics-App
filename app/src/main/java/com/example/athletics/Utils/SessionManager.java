@@ -19,6 +19,7 @@ public class SessionManager {
     public static final String KEY_COACH_POSITIONSTRINGS = "keycoachpositionstrings";
     public static final String KEY_ATHLETE_SPORTSIDS = "keyatheletesportsids";
     public static final String KEY_USER_ACTIVE = "keyuseractive";
+    public static final String KEY_SELECTED_SPORTS = "keyselectedsport";
 
 
     // Shared Preferences
@@ -95,6 +96,16 @@ public class SessionManager {
 
     public void setKeyUserActive(String id) {
         editor.putString(KEY_USER_ACTIVE, id);
+        editor.commit();
+    }
+
+    public String getKeySelectedSports() {
+        String value = pref.getString(KEY_SELECTED_SPORTS, "");
+        return value;
+    }
+
+    public void setKeySelectedSports(String id) {
+        editor.putString(KEY_SELECTED_SPORTS, id);
         editor.commit();
     }
 
