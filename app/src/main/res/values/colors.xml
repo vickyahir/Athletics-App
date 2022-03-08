@@ -6,11 +6,13 @@
 
     <color name="gray">#A4A4A6</color>
     <color name="download">#0D85FE</color>
+    <color name="email_color">#7952B3</color>
     <color name="background_app">#F5F5F5</color>
     <color name="bg_border">#FBFBFB</color>
     <color name="border">#EBEBEB</color>
     <color name="white_gray">#DCEDE9E9</color>
     <color name="white">#ffffff</color>
+    <color name="home_color">#3C4858</color>
     <color name="white_dark">#00E1D7D7</color>
     <color name="black">#010101</color>
     <color name="subscription_color">#FCEBED</color>

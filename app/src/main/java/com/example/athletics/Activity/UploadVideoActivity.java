@@ -39,6 +39,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
@@ -50,14 +51,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UploadVideoActivity extends BaseActivity {
-    private ImageView imgSearch, imgBack, imgMenu, imgVideoView, imgVideoUpload;
+    private ImageView imgSearch, imgBack, imgMenu, imgVideoView, imgVideoUpload, imgImageUpload, imgThumbnailView;
     private Toolbar toolbarMain;
     private TextView TvTitle, TvUploadNow;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 100;
-    private FrameLayout frmVideoView;
+    private FrameLayout frmVideoView, frmImageView;
     private EditText EdtAthleteTitle;
     String ImageUri = "", VideoUri = "";
     private RelativeLayout RelUploadVideoMain;
+    private static String Base64Images = "";
     private static final int SELECT_VIDEO = 200;
     private String[] permissions = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -95,7 +97,10 @@ public class UploadVideoActivity extends BaseActivity {
         imgMenu = toolbarMain.findViewById(R.id.imgMenu);
         imgVideoView = findViewById(R.id.imgVideoView);
         frmVideoView = findViewById(R.id.frmVideoView);
+        frmImageView = findViewById(R.id.frmImageView);
         imgVideoUpload = findViewById(R.id.imgVideoUpload);
+        imgImageUpload = findViewById(R.id.imgImageUpload);
+        imgThumbnailView = findViewById(R.id.imgThumbnailView);
         EdtAthleteTitle = findViewById(R.id.EdtAthleteTitle);
         RelUploadVideoMain = findViewById(R.id.RelUploadVideoMain);
 
@@ -215,6 +220,24 @@ public class UploadVideoActivity extends BaseActivity {
             }
         });
 
+        imgImageUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!EasyPermissions.hasPermissions(UploadVideoActivity.this, permissions)) {
+                    EasyPermissions.requestPermissions(UploadVideoActivity.this, getString(R.string.please_allow_app), 1, permissions);
+                } else {
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_picture)), 100);
+                }
+
+
+            }
+        });
+
     }
 
     @Override
@@ -270,12 +293,25 @@ public class UploadVideoActivity extends BaseActivity {
                     bmThumbnail = mMMR.getFrameAtTime();
                     imgVideoView.setImageBitmap(bmThumbnail);
 
-                    ImageUri = BitMapToString(bmThumbnail);
+//                    ImageUri = BitMapToString(bmThumbnail);
+                }
+
+            } else if (requestCode == 100 && null != data) {
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                    if (bitmap != null) {
+                        frmImageView.setVisibility(View.VISIBLE);
+                        imgThumbnailView.setImageBitmap(bitmap);
+                        ImageUri = getPath(UploadVideoActivity.this, data.getData());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
 
             }
         }
     }
+
 
     public String BitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

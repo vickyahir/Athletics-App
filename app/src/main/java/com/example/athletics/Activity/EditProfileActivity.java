@@ -376,7 +376,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         String jsonString = response.body().string();
                         JSONObject jsonResult = new JSONObject(jsonString);
 
-                        Snackbar snackbar = Snackbar.make(LLProfileMain, jsonResult.optJSONArray("msg").getString(0), Snackbar.LENGTH_LONG);
+                        Snackbar snackbar = Snackbar.make(LLProfileMain, "" + jsonResult.getString("msg"), Snackbar.LENGTH_LONG);
                         snackbar.show();
 
 

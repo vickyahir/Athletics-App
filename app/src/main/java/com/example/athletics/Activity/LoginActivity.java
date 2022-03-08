@@ -19,7 +19,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.Athletics.R;
-import com.example.athletics.Model.SignInApiResponse;
 import com.example.athletics.Retrofit.ApiClient;
 import com.example.athletics.Retrofit.ApiInterface;
 import com.example.athletics.Utils.ConnectionDetector;
@@ -28,6 +27,9 @@ import com.example.athletics.Utils.Functions;
 import com.example.athletics.Utils.SessionManager;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.json.JSONObject;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -177,35 +179,47 @@ public class LoginActivity extends AppCompatActivity {
     private void callSignInApi() {
 
         apiInterface = ApiClient.getClient(LoginActivity.this).create(ApiInterface.class);
-        final Call<SignInApiResponse> loginApiResponseCall = apiInterface.GetLogin(EdtEmail.getText().toString(), EdtPassword.getText().toString());
-        loginApiResponseCall.enqueue(new Callback<SignInApiResponse>() {
+        final Call<ResponseBody> loginApiResponseCall = apiInterface.GetLogin(EdtEmail.getText().toString(), EdtPassword.getText().toString());
+        loginApiResponseCall.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<SignInApiResponse> call, Response<SignInApiResponse> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     Functions.dialogHide();
 
+
                     if (response.isSuccessful()) {
 
-                        if (response.body().isStatus()) {
+                        String jsonString = response.body().string();
+                        JSONObject jsonResult = new JSONObject(jsonString);
 
-                            Toast.makeText(LoginActivity.this, response.body().getMsg(), Toast.LENGTH_LONG).show();
+                        if (jsonResult.getBoolean("status")) {
 
-                            new SessionManager(LoginActivity.this).setKeyUserName(response.body().getData().getName());
-                            new SessionManager(LoginActivity.this).setApiToken(response.body().getData().getToken());
-                            new SessionManager(LoginActivity.this).setUserID(String.valueOf(response.body().getData().getId()));
-                            new SessionManager(LoginActivity.this).setKeyEmail(response.body().getData().getEmail());
-                            new SessionManager(LoginActivity.this).setKeyUserRole(String.valueOf(response.body().getData().getRole()));
+                            Toast.makeText(LoginActivity.this, "" + jsonResult.getString("msg"), Toast.LENGTH_LONG).show();
 
-                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                            startActivity(intent);
-                            finish();
-                            Functions.animNext(LoginActivity.this);
+                            new SessionManager(LoginActivity.this).setKeyUserName(jsonResult.getJSONObject("data").getString("name"));
+                            new SessionManager(LoginActivity.this).setApiToken(jsonResult.getJSONObject("data").getString("token"));
+                            new SessionManager(LoginActivity.this).setUserID(String.valueOf(jsonResult.getJSONObject("data").getInt("id")));
+                            new SessionManager(LoginActivity.this).setKeyEmail(jsonResult.getJSONObject("data").getString("email"));
+                            new SessionManager(LoginActivity.this).setKeyUserRole(jsonResult.getJSONObject("data").getString("role"));
+                            new SessionManager(LoginActivity.this).setKeyUserActive(jsonResult.getJSONObject("data").getString("email_verified_at"));
+
+                            if (jsonResult.getJSONObject("data").getString("email_verified_at").equalsIgnoreCase("null")) {
+                                Intent intent = new Intent(LoginActivity.this, EmailVerifyActivity.class);
+                                startActivity(intent);
+                                finish();
+                                Functions.animNext(LoginActivity.this);
+                            } else {
+                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                startActivity(intent);
+                                finish();
+                                Functions.animNext(LoginActivity.this);
+                            }
+
 
                         } else {
-
-                            Toast.makeText(LoginActivity.this, response.body().getMsg(), Toast.LENGTH_LONG).show();
+                            Snackbar snackbar = Snackbar.make(RelLoginMain, "" + jsonResult.getString("msg"), Snackbar.LENGTH_LONG);
+                            snackbar.show();
                         }
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -214,7 +228,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<SignInApiResponse> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Functions.dialogHide();
             }
 

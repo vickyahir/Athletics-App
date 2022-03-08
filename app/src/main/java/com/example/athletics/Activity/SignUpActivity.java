@@ -26,6 +26,7 @@ import com.example.athletics.Retrofit.ApiInterface;
 import com.example.athletics.Utils.ConnectionDetector;
 import com.example.athletics.Utils.Constant;
 import com.example.athletics.Utils.Functions;
+import com.example.athletics.Utils.SessionManager;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONObject;
@@ -206,7 +207,6 @@ public class SignUpActivity extends AppCompatActivity {
                     }
 
                     if (cd.isConnectingToInternet()) {
-
                         Functions.dialogShow(SignUpActivity.this);
                         callSignUpApi();
 
@@ -239,17 +239,25 @@ public class SignUpActivity extends AppCompatActivity {
                 try {
                     Functions.dialogHide();
                     if (response.isSuccessful()) {
-//                        if (response.body().isStatus()) {
-//                            Toast.makeText(SignUpActivity.this, response.body().getMsg(), Toast.LENGTH_LONG).show();
-//                            Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
-//                            startActivity(intent);
-//                            Functions.animNext(SignUpActivity.this);
-//                        } else {
-//                            Toast.makeText(SignUpActivity.this, response.body().getMsg(), Toast.LENGTH_LONG).show();
-//                        }
 
-                        Toast.makeText(SignUpActivity.this, "Register Success. Please login and continue in app !", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+
+                        String jsonString = response.body().string();
+                        JSONObject jsonResult = new JSONObject(jsonString);
+                        JSONObject DataSuccess = jsonResult.getJSONObject("data");
+
+//                        Toast.makeText(SignUpActivity.this, "" + jsonResult.optJSONArray("msg"), Toast.LENGTH_SHORT).show();
+
+                        new SessionManager(SignUpActivity.this).setKeyUserName(DataSuccess.getString("name"));
+                        new SessionManager(SignUpActivity.this).setApiToken(DataSuccess.getString("token"));
+                        new SessionManager(SignUpActivity.this).setUserID(String.valueOf(DataSuccess.getInt("id")));
+                        new SessionManager(SignUpActivity.this).setKeyEmail(DataSuccess.getString("email"));
+                        new SessionManager(SignUpActivity.this).setKeyUserRole(DataSuccess.getString("role"));
+
+
+//                        Snackbar snackbar = Snackbar.make(RelLoginMain, jsonResult.optJSONArray("msg").getString(0), Snackbar.LENGTH_LONG);
+//                        snackbar.show();
+
+                        Intent intent = new Intent(SignUpActivity.this, EmailVerifyActivity.class);
                         startActivity(intent);
                         Functions.animNext(SignUpActivity.this);
 

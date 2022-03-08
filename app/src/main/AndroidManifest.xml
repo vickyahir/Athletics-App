@@ -53,6 +53,11 @@
             android:theme="@style/AppTheme" />
 
         <activity
+            android:name="com.example.athletics.Activity.EmailVerifyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
             android:name="com.example.athletics.Activity.ForgotPasswordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />

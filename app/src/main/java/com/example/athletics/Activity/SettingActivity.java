@@ -84,19 +84,27 @@ public class SettingActivity extends BaseActivity {
 
         TvTitle.setText(getResources().getString(R.string.settings));
 
-        if (new SessionManager(SettingActivity.this).getUserID().equalsIgnoreCase("")) {
-            TvLogout.setText(getResources().getString(R.string.login));
-            LLProfileView.setVisibility(View.GONE);
-            LLPackageDetail.setVisibility(View.GONE);
-        } else {
-            TvLogout.setText(getResources().getString(R.string.logout));
-            LLProfileView.setVisibility(View.VISIBLE);
-            LLPackageDetail.setVisibility(View.VISIBLE);
-        }
 
     }
 
     private void loadData() {
+
+        if (!new SessionManager(SettingActivity.this).getUserID().equalsIgnoreCase("") && new SessionManager(SettingActivity.this).getKeyUserActive().equalsIgnoreCase("null")) {
+            Intent intent = new Intent(SettingActivity.this, EmailVerifyActivity.class);
+            startActivity(intent);
+            Functions.animNext(SettingActivity.this);
+        } else {
+            if (new SessionManager(SettingActivity.this).getUserID().equalsIgnoreCase("")) {
+                TvLogout.setText(getResources().getString(R.string.login));
+                LLProfileView.setVisibility(View.GONE);
+                LLPackageDetail.setVisibility(View.GONE);
+            } else {
+                TvLogout.setText(getResources().getString(R.string.logout));
+                LLProfileView.setVisibility(View.VISIBLE);
+                LLPackageDetail.setVisibility(View.VISIBLE);
+            }
+        }
+
 
         if (!new SessionManager(SettingActivity.this).getUserID().equalsIgnoreCase("")) {
             if (cd.isConnectingToInternet()) {

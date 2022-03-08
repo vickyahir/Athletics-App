@@ -3,6 +3,8 @@ package com.example.athletics.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +49,7 @@ public class HomeAthleteCategoryAdapter extends RecyclerView.Adapter<HomeAthlete
     private MediaController mediaController;
     public ApiInterface apiInterface;
     public ConnectionDetector cd;
+    public boolean isMute = false;
 
 
     public HomeAthleteCategoryAdapter(Activity activity, List<HomeAthleteDataItem> muscles) {
@@ -148,6 +151,32 @@ public class HomeAthleteCategoryAdapter extends RecyclerView.Adapter<HomeAthlete
             Snackbar snackbar = Snackbar.make(holder.LLAthleteMain, context.getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
             snackbar.show();
         }
+
+
+        holder.LLMuteUnMute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                if (!isMute) {
+                    AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                    am.setStreamMute(AudioManager.STREAM_MUSIC, true);
+                    isMute = true;
+                    holder.imgPlay.setVisibility(View.VISIBLE);
+                    holder.imgPlay.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_volume_off));
+                } else {
+
+                    AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                    am.setStreamMute(AudioManager.STREAM_MUSIC, false);
+                    isMute = false;
+                    holder.imgPlay.setVisibility(View.VISIBLE);
+                    holder.imgPlay.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_volume_up));
+                }
+                ImgageDispplaySomeTimes(holder.imgPlay);
+
+            }
+        });
+
 
 //        holder.simpleVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 //            @Override
@@ -262,6 +291,16 @@ public class HomeAthleteCategoryAdapter extends RecyclerView.Adapter<HomeAthlete
 
     }
 
+    private void ImgageDispplaySomeTimes(ImageView imgPlay) {
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                imgPlay.setVisibility(View.GONE);
+            }
+        }, 1000);
+
+
+    }
+
 
     @Override
     public int getItemCount() {
@@ -272,7 +311,7 @@ public class HomeAthleteCategoryAdapter extends RecyclerView.Adapter<HomeAthlete
     public class Myviewholder extends RecyclerView.ViewHolder {
         private ImageView iv_User, imgLike, imgShare, ImgMenu, imgFullscreen, imgPlay;
         private TextView Tv_Username, Tv_UserLocation, Tv_GameName;
-        private LinearLayout LLUserProfile;
+        private LinearLayout LLUserProfile, LLMuteUnMute;
         private YoutubePlayerView simpleVideoView;
         private RelativeLayout LLAthleteMain;
         //        public CircularProgressIndicator RoundProgress;
@@ -287,11 +326,12 @@ public class HomeAthleteCategoryAdapter extends RecyclerView.Adapter<HomeAthlete
             imgLike = itemView.findViewById(R.id.imgLike);
             imgShare = itemView.findViewById(R.id.imgShare);
             ImgMenu = itemView.findViewById(R.id.ImgMenu);
-//            imgPlay = itemView.findViewById(R.id.imgPlay);
+            imgPlay = itemView.findViewById(R.id.imgPlay);
             imgFullscreen = itemView.findViewById(R.id.imgFullscreen);
             LLUserProfile = itemView.findViewById(R.id.LLUserProfile);
             LLAthleteMain = itemView.findViewById(R.id.LLAthleteMain);
             simpleVideoView = itemView.findViewById(R.id.simpleVideoView);
+            LLMuteUnMute = itemView.findViewById(R.id.LLMuteUnMute);
 //            RoundProgress = itemView.findViewById(R.id.RoundProgress);
             videoProgressbarAthlete = itemView.findViewById(R.id.videoProgressbarAthlete);
 

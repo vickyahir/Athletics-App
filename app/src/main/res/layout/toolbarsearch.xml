@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/transperrent"
@@ -26,9 +27,10 @@
                     android:id="@+id/iv_Back"
                     android:layout_width="@dimen/_28sdp"
                     android:layout_height="@dimen/_28sdp"
-                    android:padding="@dimen/_3sdp"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_back" />
+                    android:padding="@dimen/_3sdp"
+                    android:src="@drawable/ic_back"
+                    tools:ignore="NewApi" />
 
 
                 <TextView
@@ -66,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:gravity="center"
                 android:visibility="gone">
 
@@ -98,21 +100,33 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:gravity="center">
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:background="@drawable/dialog_round_otp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
 
                 <SearchView
                     android:id="@+id/searchView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_weight="1"
                     android:iconifiedByDefault="false"
                     android:queryHint="@string/find_someone"
                     android:theme="@style/AppThemeSearch"
                     app:theme="@style/SearchViewStyle" />
+
+                <ImageView
+                    android:id="@+id/imgFilter"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:padding="@dimen/_4sdp"
+                    android:src="@drawable/ic_equalizer" />
 
 
             </LinearLayout>

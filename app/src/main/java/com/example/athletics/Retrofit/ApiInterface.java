@@ -20,7 +20,6 @@ import com.example.athletics.Model.MyVideoApiResponse;
 import com.example.athletics.Model.PackageDetailApiResponse;
 import com.example.athletics.Model.PaymentDetailsApiResponse;
 import com.example.athletics.Model.ProfileUpdateApiResponse;
-import com.example.athletics.Model.SignInApiResponse;
 import com.example.athletics.Model.SignInData;
 import com.example.athletics.Model.StateListApiResponse;
 import com.example.athletics.Model.SuitablePlanApiResponse;
@@ -43,8 +42,8 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("login")
-    Call<SignInApiResponse> GetLogin(@Field("email") String email,
-                                     @Field("password") String password);
+    Call<ResponseBody> GetLogin(@Field("email") String email,
+                                @Field("password") String password);
 
 
     @GET("user")
@@ -68,6 +67,13 @@ public interface ApiInterface {
     Call<ProfileUpdateApiResponse> UpdateUserProfile(@Part MultipartBody.Part image);
 
 
+    //profile verified api
+
+
+    @GET("profile")
+    Call<ResponseBody> GetProfileVerifyOrNotApi();
+
+
     @GET("like-video")
     Call<UserLikeVideoApiResponse> GetUserLikeVideoApi();
 
@@ -79,11 +85,26 @@ public interface ApiInterface {
     @POST("athletes")
     Call<HomeAthleteApiResponse> HomeAthleteApiResponse(@Field("limit") String limit);
 
+
+    @FormUrlEncoded
+    @POST("athletes")
+    Call<HomeAthleteApiResponse> AthleteSearchApiResponse(@Field("excludes") String excludes,
+                                                          @Field("q") String q,
+                                                          @Field("from") String from,
+                                                          @Field("cate") String cate);
+
     @POST("explore")
     Call<HomeExploreApiResponse> HomeExploreApiResponse();
 
     @POST("coaches")
     Call<HomeCoachApiResponse> HomeCoachApiResponse();
+
+    @FormUrlEncoded
+    @POST("coaches")
+    Call<HomeCoachApiResponse> CoachSearchApiResponse(@Field("excludes") String excludes,
+                                                      @Field("q") String q,
+                                                      @Field("from") String from,
+                                                      @Field("cate") String cate);
 
 
     @FormUrlEncoded
@@ -174,4 +195,33 @@ public interface ApiInterface {
     @GET("country/{id}/states")
     Call<StateListApiResponse> GetStateListApi(@Path(value = "id") String id);
 
+    @GET("resend-verify-email")
+    Call<DefaultApiResponse> GetEmailVerifyApiResponse();
+
+
+    @Multipart
+    @POST("athlete/profile-update")
+    Call<AthleteInformationApiResponse> AthleteProfileUpdateApiResponse(
+            @Part("position") RequestBody position,
+            @Part("state") RequestBody state,
+            @Part("university_id") RequestBody university_id,
+            @Part("state_id") RequestBody state_id,
+            @Part("country_id") RequestBody country_id,
+            @Part("school") RequestBody school,
+            @Part("speed") RequestBody speed,
+            @Part("year_complete") RequestBody year_complete,
+            @Part("major") RequestBody major,
+            @Part("gpa") RequestBody gpa,
+            @Part("age") RequestBody age,
+            @Part("year") RequestBody year,
+            @Part("height") RequestBody height,
+            @Part("team") RequestBody team,
+            @Part("weight") RequestBody weight,
+            @Part("playing_weight") RequestBody playing_weight,
+            @Part("category_id") RequestBody category_id,
+            @Part("references") RequestBody references,
+            @Part("gender") RequestBody gender,
+            @Part MultipartBody.Part image,
+            @Part MultipartBody.Part profile_video
+    );
 }

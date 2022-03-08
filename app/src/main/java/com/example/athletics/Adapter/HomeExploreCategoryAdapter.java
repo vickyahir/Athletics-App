@@ -10,17 +10,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
 import android.media.MediaScannerConnection;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -36,6 +39,7 @@ import com.bumptech.glide.Glide;
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.example.Athletics.R;
 import com.example.athletics.Activity.AthleteProfileActivity;
+import com.example.athletics.Activity.EmailVerifyActivity;
 import com.example.athletics.Activity.LoginActivity;
 import com.example.athletics.Activity.VideoViewActivity;
 import com.example.athletics.Model.HomeExploreDataItem;
@@ -77,6 +81,7 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
     Intent intent;
     public ApiInterface apiInterface;
     public ConnectionDetector cd;
+    public boolean isMute = false;
 
 
     public HomeExploreCategoryAdapter(Activity activity, List<HomeExploreDataItem> muscles) {
@@ -142,7 +147,7 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
 
             @Override
             public void onPlaybackQualityChange(String arg) {
-
+                Toast.makeText(context, "" + arg, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -176,6 +181,7 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
             }
         });
 
+
         holder.simpleVideoView.play();
         if (cd.isConnectingToInternet()) {
             CallVideoCounIncrementResponse(bean, holder.TvViewCount);
@@ -183,6 +189,30 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
             Snackbar snackbar = Snackbar.make(holder.LLExploreItem, context.getResources().getString(R.string.check_internet_connection), Snackbar.LENGTH_LONG);
             snackbar.show();
         }
+
+        holder.LLMuteUnMute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                if (!isMute) {
+                    AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                    am.setStreamMute(AudioManager.STREAM_MUSIC, true);
+                    isMute = true;
+                    holder.imgPlay.setVisibility(View.VISIBLE);
+                    holder.imgPlay.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_volume_off));
+                } else {
+
+                    AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                    am.setStreamMute(AudioManager.STREAM_MUSIC, false);
+                    isMute = false;
+                    holder.imgPlay.setVisibility(View.VISIBLE);
+                    holder.imgPlay.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_volume_up));
+                }
+                ImgageDispplaySomeTimes(holder.imgPlay);
+
+            }
+        });
 
 
 //        holder.videoProgressbar.setVisibility(View.VISIBLE);
@@ -362,6 +392,10 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
 
                 if (new SessionManager(context).getUserID().equalsIgnoreCase("")) {
                     LoginAlertDialog();
+                } else if (new SessionManager(context).getKeyUserActive().equalsIgnoreCase("null")) {
+                    Intent intent = new Intent(context, EmailVerifyActivity.class);
+                    context.startActivity(intent);
+                    Functions.animNext(context);
                 } else {
                     if (cd.isConnectingToInternet()) {
                         Functions.dialogShow(context);
@@ -425,6 +459,16 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
 
     }
 
+    private void ImgageDispplaySomeTimes(ImageView imgPlay) {
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                imgPlay.setVisibility(View.GONE);
+            }
+        }, 1000);
+
+
+    }
+
 
     @Override
     public int getItemCount() {
@@ -433,10 +477,11 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
 
 
     public class Myviewholder extends RecyclerView.ViewHolder {
-        public ImageView iv_User, imgLike, imgView, imgFullscreen, ImgShare;
+        public ImageView iv_User, imgLike, imgView, imgFullscreen, ImgShare, imgPlay;
         public TextView Tv_Username, TvLikeCount, TvViewCount, Tv_UserType, Tv_PostTitle;
-        public LinearLayout LLUserProfile, LLVideoProgress;
+        public LinearLayout LLUserProfile, LLVideoProgress, LLMuteUnMute;
         public YoutubePlayerView simpleVideoView;
+        public FrameLayout video_layout;
         //        public SurfaceView simpleVideoView;
 //        public SurfaceHolder surfaceHolder;
 //        public MediaPlayer mediaPlayer;
@@ -452,12 +497,14 @@ public class HomeExploreCategoryAdapter extends RecyclerView.Adapter<HomeExplore
             imgLike = (ImageView) itemView.findViewById(R.id.imgLike);
             imgView = (ImageView) itemView.findViewById(R.id.imgView);
             ImgShare = (ImageView) itemView.findViewById(R.id.ImgShare);
+            video_layout = (FrameLayout) itemView.findViewById(R.id.video_layout);
 //            ImgMenu = itemView.findViewById(R.id.ImgMenu);
-//            imgPlay = itemView.findViewById(R.id.imgPlay);
+            imgPlay = itemView.findViewById(R.id.imgPlay);
             imgFullscreen = (ImageView) itemView.findViewById(R.id.imgFullscreen);
             TvLikeCount = (TextView) itemView.findViewById(R.id.TvLikeCount);
             TvViewCount = (TextView) itemView.findViewById(R.id.TvViewCount);
             LLUserProfile = (LinearLayout) itemView.findViewById(R.id.LLUserProfile);
+            LLMuteUnMute = (LinearLayout) itemView.findViewById(R.id.LLMuteUnMute);
             LLExploreItem = itemView.findViewById(R.id.LLExploreItem);
             simpleVideoView = itemView.findViewById(R.id.simpleVideoView);
             videoProgressbar = itemView.findViewById(R.id.videoProgressbar);

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +45,7 @@ public class MyVideoCategoryAdapter extends RecyclerView.Adapter<MyVideoCategory
     List<MyVideoDataItem> muscles;
     public ApiInterface apiInterface;
     public ConnectionDetector cd;
+    public boolean isMute = false;
 
 
     public MyVideoCategoryAdapter(Activity activity, List<MyVideoDataItem> muscles) {
@@ -142,6 +145,30 @@ public class MyVideoCategoryAdapter extends RecyclerView.Adapter<MyVideoCategory
 
         holder.simpleVideoView.play();
 
+        holder.LLMuteUnMute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                if (!isMute) {
+                    AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                    am.setStreamMute(AudioManager.STREAM_MUSIC, true);
+                    isMute = true;
+                    holder.imgPlay.setVisibility(View.VISIBLE);
+                    holder.imgPlay.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_volume_off));
+                } else {
+
+                    AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                    am.setStreamMute(AudioManager.STREAM_MUSIC, false);
+                    isMute = false;
+                    holder.imgPlay.setVisibility(View.VISIBLE);
+                    holder.imgPlay.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_volume_up));
+                }
+                ImgageDispplaySomeTimes(holder.imgPlay);
+
+            }
+        });
+
 
         holder.imgLike.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,6 +213,16 @@ public class MyVideoCategoryAdapter extends RecyclerView.Adapter<MyVideoCategory
 
     }
 
+    private void ImgageDispplaySomeTimes(ImageView imgPlay) {
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                imgPlay.setVisibility(View.GONE);
+            }
+        }, 1000);
+
+
+    }
+
 
     @Override
     public int getItemCount() {
@@ -196,7 +233,7 @@ public class MyVideoCategoryAdapter extends RecyclerView.Adapter<MyVideoCategory
     public class Myviewholder extends RecyclerView.ViewHolder {
         public ImageView iv_User, imgLike, imgView, ImgMenu, imgFullscreen, imgPlay, ImgShare, ImgDelete;
         public TextView Tv_Username, TvLikeCount, TvViewCount, Tv_UserType, Tv_PostTitle;
-        public LinearLayout LLUserProfile;
+        public LinearLayout LLUserProfile, LLMuteUnMute;
         public YoutubePlayerView simpleVideoView;
         private RelativeLayout LLExploreItem;
         //        public CircularProgressIndicator RoundProgress;
@@ -220,6 +257,7 @@ public class MyVideoCategoryAdapter extends RecyclerView.Adapter<MyVideoCategory
             LLUserProfile = itemView.findViewById(R.id.LLUserProfile);
             LLExploreItem = itemView.findViewById(R.id.LLExploreItem);
             simpleVideoView = itemView.findViewById(R.id.simpleVideoView);
+            LLMuteUnMute = itemView.findViewById(R.id.LLMuteUnMute);
 //            RoundProgress = itemView.findViewById(R.id.RoundProgress);
             videoProgressbar = itemView.findViewById(R.id.videoProgressbar);
 

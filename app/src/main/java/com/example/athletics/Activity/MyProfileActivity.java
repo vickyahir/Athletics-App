@@ -183,6 +183,10 @@ public class MyProfileActivity extends BaseActivity {
     protected void onResume() {
         if (new SessionManager(MyProfileActivity.this).getUserID().equalsIgnoreCase("")) {
             LoginAlertDialog();
+        } else if (new SessionManager(MyProfileActivity.this).getKeyUserActive().equalsIgnoreCase("null")) {
+            Intent intent = new Intent(MyProfileActivity.this, EmailVerifyActivity.class);
+            startActivity(intent);
+            Functions.animNext(MyProfileActivity.this);
         } else {
             loadData();
         }

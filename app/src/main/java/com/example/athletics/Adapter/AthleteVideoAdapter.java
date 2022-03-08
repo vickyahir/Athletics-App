@@ -10,12 +10,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
 import android.media.MediaScannerConnection;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.example.Athletics.R;
+import com.example.athletics.Activity.EmailVerifyActivity;
 import com.example.athletics.Activity.LoginActivity;
 import com.example.athletics.Activity.VideoViewActivity;
 import com.example.athletics.Model.AthleteProfileVideosItem;
@@ -75,6 +78,7 @@ public class AthleteVideoAdapter extends RecyclerView.Adapter<AthleteVideoAdapte
     Intent intent;
     public ApiInterface apiInterface;
     public ConnectionDetector cd;
+    public boolean isMute = false;
 
 
     public AthleteVideoAdapter(Activity activity, List<AthleteProfileVideosItem> muscles) {
@@ -176,6 +180,30 @@ public class AthleteVideoAdapter extends RecyclerView.Adapter<AthleteVideoAdapte
             snackbar.show();
         }
 
+        holder.LLMuteUnMute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                if (!isMute) {
+                    AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                    am.setStreamMute(AudioManager.STREAM_MUSIC, true);
+                    isMute = true;
+                    holder.imgPlay.setVisibility(View.VISIBLE);
+                    holder.imgPlay.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_volume_off));
+                } else {
+
+                    AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                    am.setStreamMute(AudioManager.STREAM_MUSIC, false);
+                    isMute = false;
+                    holder.imgPlay.setVisibility(View.VISIBLE);
+                    holder.imgPlay.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_volume_up));
+                }
+                ImgageDispplaySomeTimes(holder.imgPlay);
+
+            }
+        });
+
 
         holder.imgLike.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,6 +211,10 @@ public class AthleteVideoAdapter extends RecyclerView.Adapter<AthleteVideoAdapte
 
                 if (new SessionManager(context).getUserID().equalsIgnoreCase("")) {
                     LoginAlertDialog();
+                } else if (new SessionManager(context).getKeyUserActive().equalsIgnoreCase("null")) {
+                    Intent intent = new Intent(context, EmailVerifyActivity.class);
+                    context.startActivity(intent);
+                    Functions.animNext(context);
                 } else {
                     if (cd.isConnectingToInternet()) {
                         Functions.dialogShow(context);
@@ -246,6 +278,16 @@ public class AthleteVideoAdapter extends RecyclerView.Adapter<AthleteVideoAdapte
 
     }
 
+    private void ImgageDispplaySomeTimes(ImageView imgPlay) {
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                imgPlay.setVisibility(View.GONE);
+            }
+        }, 1000);
+
+
+    }
+
 
     @Override
     public int getItemCount() {
@@ -256,7 +298,7 @@ public class AthleteVideoAdapter extends RecyclerView.Adapter<AthleteVideoAdapte
     public class Myviewholder extends RecyclerView.ViewHolder {
         public ImageView imgLike, imgView, imgFullscreen, imgPlay, ImgShare;
         public TextView TvLikeCount, TvViewCount, Tv_PostTitle;
-        public LinearLayout LLUserProfile;
+        public LinearLayout LLUserProfile, LLMuteUnMute;
         public YoutubePlayerView simpleVideoView;
         private RelativeLayout LLItemAthlete;
         //        public CircularProgressIndicator RoundProgress;
@@ -275,6 +317,7 @@ public class AthleteVideoAdapter extends RecyclerView.Adapter<AthleteVideoAdapte
             LLUserProfile = itemView.findViewById(R.id.LLUserProfile);
             LLItemAthlete = itemView.findViewById(R.id.LLItemAthlete);
             simpleVideoView = itemView.findViewById(R.id.simpleVideoView);
+            LLMuteUnMute = itemView.findViewById(R.id.LLMuteUnMute);
 //            RoundProgress = itemView.findViewById(R.id.RoundProgress);
             videoProgressbar = itemView.findViewById(R.id.videoProgressbar);
 

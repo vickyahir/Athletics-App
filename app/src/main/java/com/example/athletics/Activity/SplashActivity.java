@@ -68,9 +68,14 @@ public class SplashActivity extends AppCompatActivity {
 
 
     private void RedirectToNextScreen() {
-        if (!new SessionManager(SplashActivity.this).getUserID().equalsIgnoreCase("")) {
+        if (!new SessionManager(SplashActivity.this).getUserID().equalsIgnoreCase("") && !new SessionManager(SplashActivity.this).getKeyUserActive().equalsIgnoreCase("null")) {
 //            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
             Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+            startActivity(intent);
+            finish();
+            Functions.animNext(SplashActivity.this);
+        } else if (!new SessionManager(SplashActivity.this).getUserID().equalsIgnoreCase("") && new SessionManager(SplashActivity.this).getKeyUserActive().equalsIgnoreCase("null")) {
+            Intent intent = new Intent(SplashActivity.this, EmailVerifyActivity.class);
             startActivity(intent);
             finish();
             Functions.animNext(SplashActivity.this);

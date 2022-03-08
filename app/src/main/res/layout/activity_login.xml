@@ -256,7 +256,8 @@
                         android:text="@string/signup_simple"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_11ssp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="NewApi" />
 
 
                 </LinearLayout>

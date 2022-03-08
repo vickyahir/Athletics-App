@@ -46,7 +46,6 @@ import com.example.athletics.Model.AthleteReqCategoriesItem;
 import com.example.athletics.Model.AthleteReqCountriesItem;
 import com.example.athletics.Model.AthleteReqDataResponse;
 import com.example.athletics.Model.AthleteReqUniversityItem;
-import com.example.athletics.Model.DefaultApiResponse;
 import com.example.athletics.Model.StateListApiResponse;
 import com.example.athletics.Model.StateListDataItem;
 import com.example.athletics.Retrofit.ApiClient;
@@ -116,6 +115,7 @@ public class AthleteInformationActivity extends BaseActivity {
     private Spinner spinnerUniversity, spinnerGender, spinnerScholasticSchool, spinnerSportStateYear,
             spinnerCountry, spinnerState;
 
+    private String UniversityID = "", Gender = "", YearComplete = "", Year = "", CountryId = "", StateId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,6 +206,7 @@ public class AthleteInformationActivity extends BaseActivity {
             public void onResponse(Call<AthleteReqDataResponse> call, Response<AthleteReqDataResponse> response) {
                 try {
                     if (response.isSuccessful()) {
+
                         Functions.dialogHide();
                         LLAthleteInformationMain.setVisibility(View.VISIBLE);
 
@@ -336,9 +337,15 @@ public class AthleteInformationActivity extends BaseActivity {
             public void onResponse(Call<AthleteInformationApiResponse> call, Response<AthleteInformationApiResponse> response) {
                 try {
                     if (response.isSuccessful()) {
-                        Functions.dialogHide();
+
+//                        Functions.dialogHide();
+//                        LLAthleteInformationMain.setVisibility(View.VISIBLE);
 
                         athleteInformationApiResponse = response.body();
+
+                        if (!response.body().getData().getStateId().equalsIgnoreCase("")) {
+                            CallStateFromCountryResponse(response.body().getData().getStateId());
+                        }
 
                         List<String> AthleteSportsIDS = new ArrayList<>(response.body().getData().getCategoryId());
                         if (AthleteSportsIDS.size() > 0) {
@@ -348,8 +355,9 @@ public class AthleteInformationActivity extends BaseActivity {
                         if (!AthleteCategoryIds.equalsIgnoreCase("")) {
                             CallAthleteSportsCategoryApiResponse(AthleteCategoryIds);
                         }
-                        SetAthleteInformationData(response.body());
+
                         AthleteSportsAdapter.notifyDataSetChanged();
+
 
 
                     }
@@ -400,6 +408,7 @@ public class AthleteInformationActivity extends BaseActivity {
                         } else {
                             rvAthleteState.setVisibility(View.GONE);
                         }
+
 
                     }
                 } catch (Exception e) {
@@ -479,6 +488,8 @@ public class AthleteInformationActivity extends BaseActivity {
                 ((TextView) adapterView.getChildAt(0)).setTextColor(getResources().getColor(R.color.black));
                 ((TextView) adapterView.getChildAt(0)).setTextSize(12);
 //                Toast.makeText(activity, UniversityList.get(i), Toast.LENGTH_SHORT).show();
+                UniversityID = UniversityId.get(i);
+
             }
 
             @Override
@@ -493,6 +504,7 @@ public class AthleteInformationActivity extends BaseActivity {
                 ((TextView) adapterView.getChildAt(0)).setTextColor(getResources().getColor(R.color.black));
                 ((TextView) adapterView.getChildAt(0)).setTextSize(12);
 //                Toast.makeText(activity, GenderList.get(i), Toast.LENGTH_SHORT).show();
+                Gender = GenderList.get(i);
             }
 
             @Override
@@ -507,7 +519,7 @@ public class AthleteInformationActivity extends BaseActivity {
                 ((TextView) adapterView.getChildAt(0)).setTextColor(getResources().getColor(R.color.black));
                 ((TextView) adapterView.getChildAt(0)).setTextSize(12);
 //                Toast.makeText(activity, ScholasticYearList.get(i), Toast.LENGTH_SHORT).show();
-
+                YearComplete = ScholasticYearList.get(i);
             }
 
             @Override
@@ -522,6 +534,7 @@ public class AthleteInformationActivity extends BaseActivity {
                 ((TextView) adapterView.getChildAt(0)).setTextColor(getResources().getColor(R.color.black));
                 ((TextView) adapterView.getChildAt(0)).setTextSize(12);
 //                Toast.makeText(activity, SportStateYearList.get(i), Toast.LENGTH_SHORT).show();
+                Year = SportStateYearList.get(i);
             }
 
             @Override
@@ -537,6 +550,7 @@ public class AthleteInformationActivity extends BaseActivity {
                 ((TextView) adapterView.getChildAt(0)).setTextSize(12);
 //                Toast.makeText(activity, CountryList.get(i), Toast.LENGTH_SHORT).show();
 //                Functions.dialogShow(AthleteInformationActivity.this);
+                CountryId = CountryIdList.get(i);
                 CallStateFromCountryResponse(CountryIdList.get(i));
 
             }
@@ -552,6 +566,7 @@ public class AthleteInformationActivity extends BaseActivity {
 
 
     private void setClickListener() {
+
 
         SwipeCoachInformationPage.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -660,9 +675,10 @@ public class AthleteInformationActivity extends BaseActivity {
         spinnerState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                ((TextView) adapterView.getChildAt(0)).setTextColor(getResources().getColor(R.color.black));
-//                ((TextView) adapterView.getChildAt(0)).setTextSize(12);
+                ((TextView) adapterView.getChildAt(0)).setTextColor(getResources().getColor(R.color.black));
+                ((TextView) adapterView.getChildAt(0)).setTextSize(12);
 //                Toast.makeText(activity, StateList.get(i), Toast.LENGTH_SHORT).show();
+                StateId = StateIdList.get(i);
 
             }
 
@@ -672,6 +688,8 @@ public class AthleteInformationActivity extends BaseActivity {
             }
         });
 
+
+        SetAthleteInformationData(athleteInformationApiResponse);
 
     }
 
@@ -725,25 +743,26 @@ public class AthleteInformationActivity extends BaseActivity {
 
 
     public void CallCoachProfileUpdateApiResponse() {
-        RequestBody sports = null;
-        if (!new SessionManager(AthleteInformationActivity.this).getKeyCoachSportsids().equalsIgnoreCase("")) {
-            String coachIDs = new SessionManager(AthleteInformationActivity.this).getKeyCoachSportsids();
-            String CoachStringIDS = ltrim(coachIDs, ",");
-            sports = RequestBody.create(MediaType.parse("multipart/form-data"), CoachStringIDS);
-        } else {
-            sports = RequestBody.create(MediaType.parse("multipart/form-data"), "");
-        }
-        RequestBody position = null;
-        if (!new SessionManager(AthleteInformationActivity.this).getKeyCoachPositionstrings().equalsIgnoreCase("")) {
-            String sportsIDs = new SessionManager(AthleteInformationActivity.this).getKeyCoachPositionstrings();
-            String CoachSportsIDS = ltrim(sportsIDs, ",");
-            position = RequestBody.create(MediaType.parse("multipart/form-data"), CoachSportsIDS);
-        } else {
-            position = RequestBody.create(MediaType.parse("multipart/form-data"), "");
-        }
-        RequestBody details = null;
-        details = RequestBody.create(MediaType.parse("multipart/form-data"), "");
 
+        RequestBody position = RequestBody.create(MediaType.parse("multipart/form-data"), "");
+        RequestBody state = RequestBody.create(MediaType.parse("multipart/form-data"), "");
+        RequestBody university_id = RequestBody.create(MediaType.parse("multipart/form-data"), UniversityID);
+        RequestBody state_id = RequestBody.create(MediaType.parse("multipart/form-data"), StateId);
+        RequestBody country_id = RequestBody.create(MediaType.parse("multipart/form-data"), CountryId);
+        RequestBody school = RequestBody.create(MediaType.parse("multipart/form-data"), edtSchool.getText().toString());
+        RequestBody speed = RequestBody.create(MediaType.parse("multipart/form-data"), edtSpeed.getText().toString());
+        RequestBody year_complete = RequestBody.create(MediaType.parse("multipart/form-data"), YearComplete);
+        RequestBody major = RequestBody.create(MediaType.parse("multipart/form-data"), edtMajor.getText().toString());
+        RequestBody gpa = RequestBody.create(MediaType.parse("multipart/form-data"), edtGPA.getText().toString());
+        RequestBody age = RequestBody.create(MediaType.parse("multipart/form-data"), edtAge.getText().toString());
+        RequestBody year = RequestBody.create(MediaType.parse("multipart/form-data"), Year);
+        RequestBody height = RequestBody.create(MediaType.parse("multipart/form-data"), edtHeight.getText().toString());
+        RequestBody team = RequestBody.create(MediaType.parse("multipart/form-data"), edtTeamName.getText().toString());
+        RequestBody weight = RequestBody.create(MediaType.parse("multipart/form-data"), edtWeight.getText().toString());
+        RequestBody playing_weight = RequestBody.create(MediaType.parse("multipart/form-data"), edtPayingWeight.getText().toString());
+        RequestBody category_id = RequestBody.create(MediaType.parse("multipart/form-data"), new SessionManager(AthleteInformationActivity.this).getKeyAthleteSportsids());
+        RequestBody references = RequestBody.create(MediaType.parse("multipart/form-data"), "");
+        RequestBody gender = RequestBody.create(MediaType.parse("multipart/form-data"), Gender);
 
         MultipartBody.Part image = null;
         if (!ImageUri.equals("")) {
@@ -759,14 +778,13 @@ public class AthleteInformationActivity extends BaseActivity {
             profile_video = MultipartBody.Part.createFormData("profile_video", video_banner.getName(), surveyBody);
         }
 
-        MultipartBody.Part resume = null;
-
 
         apiInterface = ApiClient.getClient(this).create(ApiInterface.class);
-        Call<DefaultApiResponse> loginApiResponseCall = apiInterface.CoachProfileUpdateApiResponse(sports, position, details, image, profile_video, resume);
-        loginApiResponseCall.enqueue(new Callback<DefaultApiResponse>() {
+        Call<AthleteInformationApiResponse> loginApiResponseCall = apiInterface.AthleteProfileUpdateApiResponse(position, state, university_id, state_id, country_id
+                , school, speed, year_complete, major, gpa, age, year, height, team, weight, playing_weight, category_id, references, gender, image, profile_video);
+        loginApiResponseCall.enqueue(new Callback<AthleteInformationApiResponse>() {
             @Override
-            public void onResponse(Call<DefaultApiResponse> call, Response<DefaultApiResponse> response) {
+            public void onResponse(Call<AthleteInformationApiResponse> call, Response<AthleteInformationApiResponse> response) {
                 try {
                     if (response.isSuccessful()) {
                         Functions.dialogHide();
@@ -785,7 +803,7 @@ public class AthleteInformationActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<DefaultApiResponse> call, Throwable t) {
+            public void onFailure(Call<AthleteInformationApiResponse> call, Throwable t) {
                 Functions.dialogHide();
             }
         });

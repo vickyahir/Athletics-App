@@ -31,6 +31,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
+
+                <LinearLayout
+                    android:id="@+id/LLMuteUnMute"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/imgPlay"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_baseline_volume_off"
+                        android:tint="@color/white"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+
                 <ProgressBar
                     android:id="@+id/videoProgressbar"
                     android:layout_width="30dp"
