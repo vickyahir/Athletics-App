@@ -38,7 +38,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.Athletics.R;
 import com.example.athletics.Adapter.AthleteSportPositionStateAdapter;
 import com.example.athletics.Adapter.AthleteSportsAdapter;
-import com.example.athletics.Adapter.PositionAdapter;
 import com.example.athletics.Adapter.SportPositionAdapter;
 import com.example.athletics.Model.AthleteCategoryPositionApiResponse;
 import com.example.athletics.Model.AthleteCategoryPositionDataItem;
@@ -64,6 +63,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -74,7 +74,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AthleteInformationActivity extends BaseActivity  {
+public class AthleteInformationActivity extends BaseActivity {
     private ImageView imgBack, imgMenu;
     private Toolbar toolbarMain;
     private TextView TvTitle, TvNodataFoundPositions, TvSave, TvProfilePic, TvProfileName, TvUploadVideo, TvVideoName;
@@ -106,6 +106,8 @@ public class AthleteInformationActivity extends BaseActivity  {
 
     private List<String> UniversityList;
     private List<String> UniversityId;
+
+    private List<String> PositionString;
 
     private String[] permissions = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -147,6 +149,7 @@ public class AthleteInformationActivity extends BaseActivity  {
 
 
     private void initView() {
+        PositionString = new ArrayList<>();
         toolbarMain = findViewById(R.id.toolbarMain);
         imgBack = toolbarMain.findViewById(R.id.imgBack);
         imgMenu = toolbarMain.findViewById(R.id.imgMenu);
@@ -275,8 +278,6 @@ public class AthleteInformationActivity extends BaseActivity  {
     }
 
 
-
-
     private void SetYearData() {
         ScholasticYearList = new ArrayList<>();
         int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -398,9 +399,25 @@ public class AthleteInformationActivity extends BaseActivity  {
                         if (response.body().getData().size() > 0) {
                             rvAthleteSportsPosition.setVisibility(View.VISIBLE);
                             AthleteSportsPositionList.addAll(response.body().getData());
-                            rvAthleteSportsPosition.setLayoutManager(new LinearLayoutManager(AthleteInformationActivity.this));
+                         /*   rvAthleteSportsPosition.setLayoutManager(new LinearLayoutManager(AthleteInformationActivity.this));
                             athleteSportPositionAdapter = new SportPositionAdapter(AthleteInformationActivity.this, AthleteSportsPositionList, athleteInformationApiResponse.getData().getPosition());
+                            rvAthleteSportsPosition.setAdapter(athleteSportPositionAdapter);*/
+
+                            rvAthleteSportsPosition.setLayoutManager(new LinearLayoutManager(AthleteInformationActivity.this));
+                            SportPositionAdapter athleteSportPositionAdapter = new SportPositionAdapter(AthleteInformationActivity.this, AthleteSportsPositionList, athleteInformationApiResponse.getData().getPosition(), new SportPositionAdapter.onItemClickListener() {
+                                @Override
+                                public void OnSportsPositionName(String stringList) {
+                                    PositionString.add(stringList);
+                                }
+
+                                @Override
+                                public void OnSportsPositionId(String StringID) {
+                                    PositionString.add(StringID);
+                                    Toast.makeText(AthleteInformationActivity.this, "" + PositionString.toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                             rvAthleteSportsPosition.setAdapter(athleteSportPositionAdapter);
+
                         } else {
                             rvAthleteSportsPosition.setVisibility(View.GONE);
                         }
@@ -431,6 +448,7 @@ public class AthleteInformationActivity extends BaseActivity  {
             }
         });
     }
+
 
     public void SetAthleteInformationData(AthleteInformationApiResponse athleteInformationApiResponse) {
 
@@ -572,6 +590,10 @@ public class AthleteInformationActivity extends BaseActivity  {
 
     }
 
+    public void GetSportsListName(String SportsName) {
+        String s = TextUtils.join(SportsName, Collections.singleton(","));
+    }
+
 
     private void setClickListener() {
 
@@ -630,8 +652,8 @@ public class AthleteInformationActivity extends BaseActivity  {
 //                }
 
 
-                Toast.makeText(activity, "" + AthleteSportsList.get(0).isSelected(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(activity, "" + athleteSportPositionAdapter.athletePositionAdapter, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(activity, "" + AthleteSportsList.get(0).isSelected(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "" + new SessionManager(AthleteInformationActivity.this).getKeySelectedSports(), Toast.LENGTH_SHORT).show();
 
 
                 try {

@@ -2,6 +2,7 @@ package com.example.athletics.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.Athletics.R;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,12 +25,16 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.Myview
     List<String> detail;
     List<String> SelectedList;
     public int SelectedValue = 0;
+    SportPositionAdapter.onItemClickListener onItemClickListener; //add this
+    String result = "";
+    List<String> myList;
 
 
-    public PositionAdapter(Activity activity, List<String> muscles, List<String> select) {
+    public PositionAdapter(Activity activity, List<String> muscles, List<String> select, SportPositionAdapter.onItemClickListener onItemClickListener) {
         this.context = activity;
         this.detail = muscles;
         this.SelectedList = select;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -40,8 +46,10 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.Myview
     @Override
     public void onBindViewHolder(@NonNull final Myviewholder holder, final int position) {
         final String bean = detail.get(position);
+        myList = new ArrayList<String>();
 
         holder.chkSports.setText(bean);
+
 
         if (SelectedList.size() > 0) {
             for (int i = 0; i < SelectedList.size(); i++) {
@@ -49,9 +57,17 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.Myview
                     holder.chkSports.setChecked(true);
                     SelectedValue++;
 
+                    myList.add(bean);
+
+
+//                    new SessionManager(context).setKeySelectedSports(result);
+//
+//                    ((AthleteInformationActivity)context).GetSportsListName(result);
 
                 }
             }
+            result = TextUtils.join(",", myList);
+            onItemClickListener.OnSportsPositionName(result);
         }
 
         holder.chkSports.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -61,16 +77,34 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.Myview
                 if (!holder.chkSports.isChecked()) {
                     SelectedValue--;
                     holder.chkSports.setChecked(false);
+
+
+                    myList.remove(bean);
+                    result = TextUtils.join(",", myList);
+
+                    onItemClickListener.OnSportsPositionName(result);
+
                 } else {
                     if (SelectedValue < 2) {
                         holder.chkSports.setChecked(true);
                         SelectedValue++;
+
+
+                        myList.add(bean);
+                        result = TextUtils.join(",", myList);
+
+                        onItemClickListener.OnSportsPositionName(result);
+
+
                     } else {
                         holder.chkSports.setChecked(false);
                         Snackbar snackbar = Snackbar.make(holder.LLCheckBoxSelected, context.getResources().getString(R.string.you_can_select_only_two_position), Snackbar.LENGTH_SHORT);
                         snackbar.show();
                     }
                 }
+//                new SessionManager(context).setKeySelectedSports(result);
+
+
             }
         });
 
@@ -87,13 +121,12 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.Myview
         private CheckBox chkSports;
         private LinearLayout LLCheckBoxSelected;
 
-
         public Myviewholder(@NonNull View itemView) {
             super(itemView);
             chkSports = itemView.findViewById(R.id.chkSports);
             LLCheckBoxSelected = itemView.findViewById(R.id.LLCheckBoxSelected);
-
-
         }
     }
+
+
 }
