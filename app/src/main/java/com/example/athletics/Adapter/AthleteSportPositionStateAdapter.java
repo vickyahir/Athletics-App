@@ -23,16 +23,19 @@ import java.util.List;
 
 public class AthleteSportPositionStateAdapter extends RecyclerView.Adapter<AthleteSportPositionStateAdapter.Myviewholder> {
     Context context;
-    List<AthleteCategoryPositionDataItem> detail;
-    List<AthleteInformationStateItem> SelectedList;
+    public List<AthleteCategoryPositionDataItem> detail;
+    public List<AthleteInformationStateItem> SelectedList;
     public AthleteSportsStateAdapter athletePositionAdapter;
-    private List<String> AthleteStatsList;
+    public List<String> AthleteStatsList;
+    OnEdittextChanged onEdittextChanged; //add this
 
 
-    public AthleteSportPositionStateAdapter(Activity activity, List<AthleteCategoryPositionDataItem> muscles, List<AthleteInformationStateItem> select) {
+    public AthleteSportPositionStateAdapter(Activity activity, List<AthleteCategoryPositionDataItem> muscles, List<AthleteInformationStateItem> select, OnEdittextChanged onEdittextChanged) {
         this.context = activity;
         this.detail = muscles;
         this.SelectedList = select;
+        this.onEdittextChanged = onEdittextChanged;
+
     }
 
     @NonNull
@@ -53,9 +56,9 @@ public class AthleteSportPositionStateAdapter extends RecyclerView.Adapter<Athle
             holder.rvAthleteSports.setLayoutManager(new GridLayoutManager(context, 3));
 
             if (SelectedList.size() > position) {
-                athletePositionAdapter = new AthleteSportsStateAdapter(((AthleteInformationActivity) context), AthleteStatsList, SelectedList.get(position).getStat());
+                athletePositionAdapter = new AthleteSportsStateAdapter(((AthleteInformationActivity) context), AthleteStatsList, SelectedList.get(position).getStat(),onEdittextChanged);
             } else {
-                athletePositionAdapter = new AthleteSportsStateAdapter(((AthleteInformationActivity) context), AthleteStatsList, Collections.singletonList("Athletes"));
+                athletePositionAdapter = new AthleteSportsStateAdapter(((AthleteInformationActivity) context), AthleteStatsList, Collections.singletonList("Athletes"),onEdittextChanged);
             }
             holder.rvAthleteSports.setAdapter(athletePositionAdapter);
         } catch (Exception e) {
@@ -84,4 +87,10 @@ public class AthleteSportPositionStateAdapter extends RecyclerView.Adapter<Athle
 
         }
     }
+
+    public interface OnEdittextChanged {
+        void OnEdittextValue(String Name,String Value);
+    }
+
+
 }

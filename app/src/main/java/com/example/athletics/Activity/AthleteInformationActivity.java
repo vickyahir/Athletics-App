@@ -61,9 +61,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -88,6 +86,15 @@ public class AthleteInformationActivity extends BaseActivity {
     private List<AthleteCategoryPositionDataItem> AthleteSportsPositionStateList;
     private AthleteSportPositionStateAdapter athleteSportPositionStateAdapter;
 
+    JSONArray PositionArrayOneData;
+    JSONObject JsonObjectPositionData;
+
+    JSONArray StateArrayOneData;
+    JSONObject JsonObjectStateData;
+
+    private List<String> PositionSelectedName;
+    int SelectedPosition = 0;
+
 
     private AthleteInformationApiResponse athleteInformationApiResponse;
 
@@ -107,7 +114,6 @@ public class AthleteInformationActivity extends BaseActivity {
     private List<String> UniversityList;
     private List<String> UniversityId;
 
-    private List<String> PositionString;
 
     private String[] permissions = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -149,7 +155,13 @@ public class AthleteInformationActivity extends BaseActivity {
 
 
     private void initView() {
-        PositionString = new ArrayList<>();
+        PositionSelectedName = new ArrayList<>();
+        PositionArrayOneData = new JSONArray();
+
+        StateArrayOneData = new JSONArray();
+        JsonObjectStateData = new JSONObject();
+
+
         toolbarMain = findViewById(R.id.toolbarMain);
         imgBack = toolbarMain.findViewById(R.id.imgBack);
         imgMenu = toolbarMain.findViewById(R.id.imgMenu);
@@ -363,7 +375,7 @@ public class AthleteInformationActivity extends BaseActivity {
                         }
                         new SessionManager(AthleteInformationActivity.this).setKeyAthleteSportsids(AthleteCategoryIds);
                         if (!AthleteCategoryIds.equalsIgnoreCase("")) {
-                            CallAthleteSportsCategoryApiResponse(AthleteCategoryIds);
+                            CallAthleteSportsCategoryApiResponse(AthleteCategoryIds, "Add");
                         }
 
                         AthleteSportsAdapter.notifyDataSetChanged();
@@ -384,7 +396,13 @@ public class AthleteInformationActivity extends BaseActivity {
     }
 
 
-    public void CallAthleteSportsCategoryApiResponse(String SportsIDS) {
+    public void CallAthleteSportsCategoryApiResponse(String SportsIDS, String Action) {
+
+        if (Action.equalsIgnoreCase("Remove")) {
+            if (PositionSelectedName.size() > 0) {
+                PositionSelectedName.clear();
+            }
+        }
 
         apiInterface = ApiClient.getClient(this).create(ApiInterface.class);
         Call<AthleteCategoryPositionApiResponse> loginApiResponseCall = apiInterface.GetCategoryPositionSportsApi(SportsIDS);
@@ -399,36 +417,29 @@ public class AthleteInformationActivity extends BaseActivity {
                         if (response.body().getData().size() > 0) {
                             rvAthleteSportsPosition.setVisibility(View.VISIBLE);
                             AthleteSportsPositionList.addAll(response.body().getData());
-                         /*   rvAthleteSportsPosition.setLayoutManager(new LinearLayoutManager(AthleteInformationActivity.this));
-                            athleteSportPositionAdapter = new SportPositionAdapter(AthleteInformationActivity.this, AthleteSportsPositionList, athleteInformationApiResponse.getData().getPosition());
-                            rvAthleteSportsPosition.setAdapter(athleteSportPositionAdapter);*/
-
                             rvAthleteSportsPosition.setLayoutManager(new LinearLayoutManager(AthleteInformationActivity.this));
-                            SportPositionAdapter athleteSportPositionAdapter = new SportPositionAdapter(AthleteInformationActivity.this, AthleteSportsPositionList, athleteInformationApiResponse.getData().getPosition(), new SportPositionAdapter.onItemClickListener() {
-                                @Override
-                                public void OnSportsPositionName(String stringList) {
-                                    PositionString.add(stringList);
-                                }
-
-                                @Override
-                                public void OnSportsPositionId(String StringID) {
-                                    PositionString.add(StringID);
-                                    Toast.makeText(AthleteInformationActivity.this, "" + PositionString.toString(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                            athleteSportPositionAdapter = new SportPositionAdapter(AthleteInformationActivity.this, AthleteSportsPositionList, athleteInformationApiResponse.getData().getPosition());
                             rvAthleteSportsPosition.setAdapter(athleteSportPositionAdapter);
+
+                            /*rvAthleteSportsPosition.setLayoutManager(new LinearLayoutManager(AthleteInformationActivity.this));
+                            SportPositionAdapter athleteSportPositionAdapter = new SportPositionAdapter(AthleteInformationActivity.this, AthleteSportsPositionList, athleteInformationApiResponse.getData().getPosition());
+                            rvAthleteSportsPosition.setAdapter(athleteSportPositionAdapter);*/
 
                         } else {
                             rvAthleteSportsPosition.setVisibility(View.GONE);
                         }
-
 
                         AthleteSportsPositionStateList = new ArrayList<>();
                         if (response.body().getData().size() > 0) {
                             rvAthleteState.setVisibility(View.VISIBLE);
                             AthleteSportsPositionStateList.addAll(response.body().getData());
                             rvAthleteState.setLayoutManager(new LinearLayoutManager(AthleteInformationActivity.this));
-                            athleteSportPositionStateAdapter = new AthleteSportPositionStateAdapter(AthleteInformationActivity.this, AthleteSportsPositionStateList, athleteInformationApiResponse.getData().getState());
+                            athleteSportPositionStateAdapter = new AthleteSportPositionStateAdapter(AthleteInformationActivity.this, AthleteSportsPositionStateList, athleteInformationApiResponse.getData().getState(), new AthleteSportPositionStateAdapter.OnEdittextChanged() {
+                                @Override
+                                public void OnEdittextValue(String Name, String Value) {
+                                    Toast.makeText(activity, "" + Name + Value, Toast.LENGTH_SHORT).show();
+                                }
+                            });
                             rvAthleteState.setAdapter(athleteSportPositionStateAdapter);
                         } else {
                             rvAthleteState.setVisibility(View.GONE);
@@ -590,8 +601,36 @@ public class AthleteInformationActivity extends BaseActivity {
 
     }
 
-    public void GetSportsListName(String SportsName) {
-        String s = TextUtils.join(SportsName, Collections.singleton(","));
+    public void GetSportsListName(String SportsName, String Action) {
+
+
+        if (Action.equalsIgnoreCase("Add")) {
+
+            boolean IsSame = false;
+            if (PositionSelectedName.size() > 0) {
+                for (int i = 0; i < PositionSelectedName.size(); i++) {
+                    if (SportsName.equalsIgnoreCase(PositionSelectedName.get(i))) {
+                        IsSame = true;
+                    }
+                }
+                if (!IsSame) {
+                    PositionSelectedName.add(SportsName);
+                }
+            } else {
+                PositionSelectedName.add(SportsName);
+            }
+
+        } else {
+            if (PositionSelectedName.size() > 0) {
+                for (int i = 0; i < PositionSelectedName.size(); i++) {
+                    if (SportsName.equalsIgnoreCase(PositionSelectedName.get(i))) {
+                        PositionSelectedName.remove(i);
+                    }
+                }
+            }
+        }
+
+//        Toast.makeText(activity, "" + PositionSelectedName.toString(), Toast.LENGTH_SHORT).show();
     }
 
 
@@ -647,39 +686,83 @@ public class AthleteInformationActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-//                for (int i = 0; i < AthleteSportsList.size(); i++) {
-//                    Toast.makeText(activity, "" + AthleteSportsList.get(i).isSelected(), Toast.LENGTH_SHORT).show();
-//                }
-
-
-//                Toast.makeText(activity, "" + AthleteSportsList.get(0).isSelected(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(activity, "" + new SessionManager(AthleteInformationActivity.this).getKeySelectedSports(), Toast.LENGTH_SHORT).show();
-
-
                 try {
-                    JSONArray PositionArrayOneData = new JSONArray();
+                    for (int i = 0; i < AthleteSportsList.size(); i++) {
+                        try {
+                            JSONArray Statearray = new JSONArray();
+                            JSONObject json = new JSONObject();
 
-                    JSONObject JsonObjectPositionData = new JSONObject();
+                            if (AthleteSportsList.get(i).isSelected()) {
+                                JsonObjectStateData.put("id", AthleteSportsList.get(i).getId());
 
-                    List<String> list = new ArrayList<String>(Arrays.asList(new SessionManager(AthleteInformationActivity.this).getKeyAthleteSportsids().split(",")));
+                                for (int j = 0; j < athleteSportPositionStateAdapter.SelectedList.size(); j++) {
+                                    for (int k = 0; k < athleteSportPositionStateAdapter.SelectedList.get(0).getStat().size(); k++) {
+                                        for (int l = 0; l < athleteSportPositionStateAdapter.athletePositionAdapter.getItemCount(); l++) {
+                                            JsonObjectStateData.put("pos", Statearray);
+                                            json.put("name", athleteSportPositionStateAdapter.athletePositionAdapter.TvSportStateName.getText().toString());
+                                            json.put("value", athleteSportPositionStateAdapter.athletePositionAdapter.edtSportState.getText().toString());
+                                        }
 
-                    for (int i = 0; i < list.size(); i++) {
+                                    }
+                                    Statearray.put(json);
+                                }
+                                StateArrayOneData.put(JsonObjectStateData);
+                            }
 
-                        JsonObjectPositionData.put("id", list.get(i));
 
-                        JSONArray array = new JSONArray();
-                        array.put("element_1");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-                        JsonObjectPositionData.put("pos", array);
-                        PositionArrayOneData.put(JsonObjectPositionData);
                     }
 
-
-                    System.out.println("JsonArray>>>>>>>" + PositionArrayOneData.toString());
-//                    Toast.makeText(activity, "" + PositionArrayOneData.toString(), Toast.LENGTH_SHORT).show();
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+
+//                Toast.makeText(activity, "" + StateArrayOneData.toString(), Toast.LENGTH_SHORT).show();
+
+                try {
+
+                    for (int i = 0; i < AthleteSportsList.size(); i++) {
+                        try {
+
+                            if (AthleteSportsList.get(i).isSelected()) {
+                                JsonObjectPositionData = new JSONObject();
+                                JsonObjectPositionData.put("id", AthleteSportsList.get(i).getId());
+                                JSONArray array = new JSONArray();
+
+                                if (AthleteSportsPositionList.get(SelectedPosition).getPositions() != null) {
+                                    for (int j = 0; j < AthleteSportsPositionList.get(SelectedPosition).getPositions().size(); j++) {
+
+                                        for (int k = 0; k < PositionSelectedName.size(); k++) {
+
+                                            if (PositionSelectedName.get(k).equalsIgnoreCase(AthleteSportsPositionList.get(SelectedPosition).getPositions().get(j))) {
+
+                                                array.put(PositionSelectedName.get(k));
+                                                JsonObjectPositionData.put("pos", array);
+                                                PositionSelectedName.remove(k);
+                                            }
+                                        }
+
+                                    }
+                                }
+                                PositionArrayOneData.put(JsonObjectPositionData);
+                                SelectedPosition = SelectedPosition + 1;
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+//                Toast.makeText(activity, "" + PositionArrayOneData.toString(), Toast.LENGTH_SHORT).show();
 
 
 //                if (cd.isConnectingToInternet()) {

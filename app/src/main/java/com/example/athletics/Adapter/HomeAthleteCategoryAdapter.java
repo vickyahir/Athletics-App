@@ -93,56 +93,59 @@ public class HomeAthleteCategoryAdapter extends RecyclerView.Adapter<HomeAthlete
         params.setVolume(100); // volume control
         params.setPlaybackQuality(PlaybackQuality.small); //
 
-        holder.simpleVideoView.initializeWithCustomURL(bean.getAthlete().getProfileVideo(), bean.getImage(), params, new YoutubePlayerView.YouTubeListener() {
-            @Override
-            public void onReady() {
-                holder.simpleVideoView.reload();
-                holder.simpleVideoView.requestLayout();
-                holder.simpleVideoView.play();
+        if (bean.getAthlete().getProfileVideo() != null) {
+            holder.simpleVideoView.initializeWithCustomURL(bean.getAthlete().getProfileVideo(), bean.getImage(), params, new YoutubePlayerView.YouTubeListener() {
+                @Override
+                public void onReady() {
+                    holder.simpleVideoView.reload();
+                    holder.simpleVideoView.requestLayout();
+                    holder.simpleVideoView.play();
 
 
-            }
+                }
 
-            @Override
-            public void onStateChange(YoutubePlayerView.STATE state) {
+                @Override
+                public void onStateChange(YoutubePlayerView.STATE state) {
 
-            }
+                }
 
-            @Override
-            public void onPlaybackQualityChange(String arg) {
+                @Override
+                public void onPlaybackQualityChange(String arg) {
 
-            }
+                }
 
-            @Override
-            public void onPlaybackRateChange(String arg) {
+                @Override
+                public void onPlaybackRateChange(String arg) {
 
-            }
+                }
 
-            @Override
-            public void onError(String arg) {
+                @Override
+                public void onError(String arg) {
 
-            }
+                }
 
-            @Override
-            public void onApiChange(String arg) {
+                @Override
+                public void onApiChange(String arg) {
 
-            }
+                }
 
-            @Override
-            public void onCurrentSecond(double second) {
+                @Override
+                public void onCurrentSecond(double second) {
 
-            }
+                }
 
-            @Override
-            public void onDuration(double duration) {
+                @Override
+                public void onDuration(double duration) {
 
-            }
+                }
 
-            @Override
-            public void logs(String log) {
+                @Override
+                public void logs(String log) {
 
-            }
-        });
+                }
+            });
+        }
+
 
         holder.simpleVideoView.play();
         if (cd.isConnectingToInternet()) {

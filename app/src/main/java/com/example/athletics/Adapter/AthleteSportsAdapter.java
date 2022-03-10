@@ -55,7 +55,7 @@ public class AthleteSportsAdapter extends RecyclerView.Adapter<AthleteSportsAdap
                     holder.chkSports.setChecked(true);
                     bean.setSelected(true);
                     result = TextUtils.join(",", myList);
-                    ((AthleteInformationActivity) context).CallAthleteSportsCategoryApiResponse(result);
+                    ((AthleteInformationActivity) context).CallAthleteSportsCategoryApiResponse(result, "Add");
                 }
             }
 
@@ -78,7 +78,7 @@ public class AthleteSportsAdapter extends RecyclerView.Adapter<AthleteSportsAdap
 
                             results = TextUtils.join(",", myList);
                             new SessionManager(context).setKeyAthleteSportsids(results);
-                            ((AthleteInformationActivity) context).CallAthleteSportsCategoryApiResponse(results);
+                            ((AthleteInformationActivity) context).CallAthleteSportsCategoryApiResponse(results, "Remove");
                         }
 
                     }
@@ -90,7 +90,7 @@ public class AthleteSportsAdapter extends RecyclerView.Adapter<AthleteSportsAdap
                     results = TextUtils.join(",", list);
                     new SessionManager(context).setKeyAthleteSportsids(results);
 
-                    ((AthleteInformationActivity) context).CallAthleteSportsCategoryApiResponse(results);
+                    ((AthleteInformationActivity) context).CallAthleteSportsCategoryApiResponse(results, "Remove");
 
                 }
 

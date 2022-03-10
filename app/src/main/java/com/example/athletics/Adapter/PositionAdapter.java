@@ -2,7 +2,6 @@ package com.example.athletics.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Athletics.R;
+import com.example.athletics.Activity.AthleteInformationActivity;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,16 +24,14 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.Myview
     List<String> detail;
     List<String> SelectedList;
     public int SelectedValue = 0;
-    SportPositionAdapter.onItemClickListener onItemClickListener; //add this
-    String result = "";
-    List<String> myList;
 
 
-    public PositionAdapter(Activity activity, List<String> muscles, List<String> select, SportPositionAdapter.onItemClickListener onItemClickListener) {
+
+    public PositionAdapter(Activity activity, List<String> muscles, List<String> select) {
         this.context = activity;
         this.detail = muscles;
         this.SelectedList = select;
-        this.onItemClickListener = onItemClickListener;
+
     }
 
     @NonNull
@@ -46,7 +43,6 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.Myview
     @Override
     public void onBindViewHolder(@NonNull final Myviewholder holder, final int position) {
         final String bean = detail.get(position);
-        myList = new ArrayList<String>();
 
         holder.chkSports.setText(bean);
 
@@ -56,18 +52,12 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.Myview
                 if (SelectedList.get(i).equalsIgnoreCase(bean)) {
                     holder.chkSports.setChecked(true);
                     SelectedValue++;
-
-                    myList.add(bean);
-
-
-//                    new SessionManager(context).setKeySelectedSports(result);
-//
-//                    ((AthleteInformationActivity)context).GetSportsListName(result);
-
+//                    onItemClickListener.OnPositionNameSelected(bean);
+                    ((AthleteInformationActivity) context).GetSportsListName(bean, "Add");
                 }
             }
-            result = TextUtils.join(",", myList);
-            onItemClickListener.OnSportsPositionName(result);
+
+
         }
 
         holder.chkSports.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -77,24 +67,13 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.Myview
                 if (!holder.chkSports.isChecked()) {
                     SelectedValue--;
                     holder.chkSports.setChecked(false);
-
-
-                    myList.remove(bean);
-                    result = TextUtils.join(",", myList);
-
-                    onItemClickListener.OnSportsPositionName(result);
+                    ((AthleteInformationActivity) context).GetSportsListName(bean, "Remove");
 
                 } else {
                     if (SelectedValue < 2) {
                         holder.chkSports.setChecked(true);
                         SelectedValue++;
-
-
-                        myList.add(bean);
-                        result = TextUtils.join(",", myList);
-
-                        onItemClickListener.OnSportsPositionName(result);
-
+                        ((AthleteInformationActivity) context).GetSportsListName(bean, "Add");
 
                     } else {
                         holder.chkSports.setChecked(false);
@@ -102,8 +81,6 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.Myview
                         snackbar.show();
                     }
                 }
-//                new SessionManager(context).setKeySelectedSports(result);
-
 
             }
         });

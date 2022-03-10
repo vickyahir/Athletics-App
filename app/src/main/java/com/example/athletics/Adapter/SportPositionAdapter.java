@@ -26,15 +26,13 @@ public class SportPositionAdapter extends RecyclerView.Adapter<SportPositionAdap
     public List<AthleteCategoryPositionDataItem> detail;
     public List<AthleteInformationPositionItem> SelectedList;
     public PositionAdapter athletePositionAdapter;
-    public List<String> AthleteSportsList;
-    onItemClickListener onItemClickListener; //add this
 
 
-    public SportPositionAdapter(Activity activity, List<AthleteCategoryPositionDataItem> muscles, List<AthleteInformationPositionItem> select, onItemClickListener clickListener) {
+    public SportPositionAdapter(Activity activity, List<AthleteCategoryPositionDataItem> muscles, List<AthleteInformationPositionItem> select) {
         this.context = activity;
         this.detail = muscles;
         this.SelectedList = select;
-        this.onItemClickListener = clickListener;
+
 
     }
 
@@ -51,18 +49,17 @@ public class SportPositionAdapter extends RecyclerView.Adapter<SportPositionAdap
 
 
         try {
-            AthleteSportsList = new ArrayList<>();
+
+            List<String> AthleteSportsList = new ArrayList<>();
             AthleteSportsList.addAll(bean.getPositions());
             holder.TvPositionName.setText("Position(s) for " + bean.getName());
             holder.rvAthleteSports.setLayoutManager(new GridLayoutManager(context, 3));
-            onItemClickListener.OnSportsPositionId(String.valueOf(bean.getId()));
             if (SelectedList.size() > position) {
-                athletePositionAdapter = new PositionAdapter(((AthleteInformationActivity) context), AthleteSportsList, SelectedList.get(position).getPos(), onItemClickListener);
+                athletePositionAdapter = new PositionAdapter(((AthleteInformationActivity) context), AthleteSportsList, SelectedList.get(position).getPos());
             } else {
-                athletePositionAdapter = new PositionAdapter(((AthleteInformationActivity) context), AthleteSportsList, Collections.singletonList(""), onItemClickListener);
+                athletePositionAdapter = new PositionAdapter(((AthleteInformationActivity) context), AthleteSportsList, Collections.singletonList(""));
             }
             holder.rvAthleteSports.setAdapter(athletePositionAdapter);
-
 
 
         } catch (Exception e) {
@@ -87,17 +84,9 @@ public class SportPositionAdapter extends RecyclerView.Adapter<SportPositionAdap
             super(itemView);
             TvPositionName = itemView.findViewById(R.id.TvPositionName);
             rvAthleteSports = itemView.findViewById(R.id.rvAthleteSports);
-
-
         }
-
-
     }
 
-    public interface onItemClickListener {
-        void OnSportsPositionName(String sportsName);
-        void OnSportsPositionId(String id);
-    }
 
 
 }

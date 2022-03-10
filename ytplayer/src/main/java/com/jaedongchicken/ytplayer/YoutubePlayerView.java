@@ -118,11 +118,15 @@ public class YoutubePlayerView extends WebView {
             this.params = params;
         }
         isCustomDomain = true;
-        String webCustomUrl = customURL.concat(videoId);
-        if (videoId.startsWith("http") || videoId.startsWith("https")) {
-            webCustomUrl = videoId;
+        if (videoId != null) {
+            String webCustomUrl = customURL.concat(videoId);
+
+            if (videoId.startsWith("http") || videoId.startsWith("https")) {
+                webCustomUrl = videoId;
+            }
+            initialize(webCustomUrl.concat(params.toString()), youTubeListener, ImagePath);
         }
-        initialize(webCustomUrl.concat(params.toString()), youTubeListener, ImagePath);
+
     }
 
     public void setWhiteBackgroundColor() {
