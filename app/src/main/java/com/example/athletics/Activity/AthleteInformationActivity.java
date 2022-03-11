@@ -93,7 +93,7 @@ public class AthleteInformationActivity extends BaseActivity {
     JSONObject JsonObjectStateData;
 
     private List<String> PositionSelectedName;
-    int SelectedPosition = 0;
+    int SelectedPosition = 0, SelectedState = 0;
 
 
     private AthleteInformationApiResponse athleteInformationApiResponse;
@@ -697,11 +697,9 @@ public class AthleteInformationActivity extends BaseActivity {
 
                                 for (int j = 0; j < athleteSportPositionStateAdapter.SelectedList.size(); j++) {
                                     for (int k = 0; k < athleteSportPositionStateAdapter.SelectedList.get(0).getStat().size(); k++) {
-                                        for (int l = 0; l < athleteSportPositionStateAdapter.athletePositionAdapter.getItemCount(); l++) {
-                                            JsonObjectStateData.put("pos", Statearray);
-                                            json.put("name", athleteSportPositionStateAdapter.athletePositionAdapter.TvSportStateName.getText().toString());
-                                            json.put("value", athleteSportPositionStateAdapter.athletePositionAdapter.edtSportState.getText().toString());
-                                        }
+                                        JsonObjectStateData.put("pos", Statearray);
+                                        json.put("name", athleteSportPositionStateAdapter.SelectedList.get(0).getStat().get(k).getName());
+                                        json.put("value", athleteSportPositionStateAdapter.SelectedList.get(0).getStat().get(k).getValue());
 
                                     }
                                     Statearray.put(json);
@@ -721,7 +719,7 @@ public class AthleteInformationActivity extends BaseActivity {
                 }
 
 
-//                Toast.makeText(activity, "" + StateArrayOneData.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "" + StateArrayOneData.toString(), Toast.LENGTH_SHORT).show();
 
                 try {
 

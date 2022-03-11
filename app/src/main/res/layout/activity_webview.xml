@@ -5,27 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_app"
-    tools:context=".Activity.HomeActivity">
+    tools:context="com.example.athletics.Activity.WebviewActivity">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbarwith_back" />
 
-    <androidx.core.widget.NestedScrollView
+
+    <WebView
+        android:id="@+id/simpleWebView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:fadeScrollbars="true"
-        android:scrollbarSize="@dimen/_1sdp"
-        android:scrollbars="vertical">
-
-        <WebView
-            android:id="@+id/simpleWebView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-
-    </androidx.core.widget.NestedScrollView>
+        android:layout_below="@+id/toolbar" />
 
 
 </RelativeLayout>

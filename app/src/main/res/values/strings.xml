@@ -16,6 +16,7 @@
     <string name="enter_your_email_and_password">Enter your emails and password</string>
     <string name="enter_email_to_reset_password">Enter email to reset password</string>
     <string name="enter_your_credential_to_continue">Enter your credential to continue</string>
+    <string name="create_your_account">Create your account</string>
     <string name="email">Email*</string>
     <string name="username">Username</string>
     <string name="password">Password*</string>

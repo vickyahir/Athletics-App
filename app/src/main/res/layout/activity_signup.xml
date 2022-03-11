@@ -62,7 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/rubik_regular"
-                    android:text="@string/enter_your_credential_to_continue"
+                    android:text="@string/create_your_account"
                     android:textColor="@color/gray"
                     android:textSize="@dimen/_11ssp" />
 
@@ -355,6 +355,7 @@
                             android:id="@+id/TvTermsOfService"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_2sdp"
                             android:background="?android:attr/selectableItemBackgroundBorderless"
                             android:fontFamily="@font/rubik_medium"
                             android:text="@string/terms_of_service"
@@ -382,6 +383,7 @@
                             android:id="@+id/TvPrivacyPolicy"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_2sdp"
                             android:background="?android:attr/selectableItemBackgroundBorderless"
                             android:fontFamily="@font/rubik_medium"
                             android:text="@string/pricacy_policy"

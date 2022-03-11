@@ -2,6 +2,7 @@ package com.example.athletics.Activity;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -48,7 +49,6 @@ public class WebviewActivity extends AppCompatActivity {
         imgBack = toolbarMain.findViewById(R.id.imgBack);
         imgMenu = toolbarMain.findViewById(R.id.imgMenu);
         TvTitle = toolbarMain.findViewById(R.id.TvTitle);
-
         LLProfileMain = findViewById(R.id.LLProfileMain);
         simpleWebView = findViewById(R.id.simpleWebView);
         imgMenu.setVisibility(View.INVISIBLE);
@@ -59,21 +59,41 @@ public class WebviewActivity extends AppCompatActivity {
 
     private void loadData() {
 
+        Functions.dialogShow(WebviewActivity.this);
         simpleWebView.getSettings().setJavaScriptEnabled(true);
-        simpleWebView.setHorizontalScrollBarEnabled(true);
-        simpleWebView.getSettings().setLoadWithOverviewMode(true);
-        simpleWebView.getSettings().setUseWideViewPort(true);
-        simpleWebView.requestFocus();
-
-
-        simpleWebView.loadUrl("https://www.google.com");
+        simpleWebView.loadUrl("http://www.google.com");
+//        simpleWebView.loadUrl("https://developer.android.com/");
 
         simpleWebView.setWebViewClient(new WebViewClient() {
+            boolean loader = false;
 
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
+                Log.e("URL==", url);
                 if (url.startsWith("https:")) {
                     view.loadUrl(url);
+                } else {
+
+                    String StatusArray[] = url.split("&");
+                    String Status[] = StatusArray[0].split(":");
+                    String Transactionid[] = StatusArray[1].split(":");
+//                    Toast.makeText(PaymentActivity.this, getResources().getString(R.string.your_payment_is) + Status[1], Toast.LENGTH_SHORT).show();
+
+//                    if (Status[1].equalsIgnoreCase("CANCELLED")) {
+//                        Intent intent = new Intent(PaymentActivity.this, OrderDetailsActivity.class);
+//                        intent.putExtra("orderId", OrderID);
+//                        intent.putExtra("from", "payment");
+//                        startActivity(intent);
+//                        finish();
+//                        Functions.animNext(PaymentActivity.this);
+//                    } else {
+//                        Intent intent = new Intent(PaymentActivity.this, ThankyouPageActivity.class);
+//                        intent.putExtra("orderId", Transactionid[1]);
+//                        startActivity(intent);
+//                        finish();
+//                        Functions.animNext(PaymentActivity.this);
+//                    }
+
+
                 }
                 return true;
             }
@@ -81,14 +101,20 @@ public class WebviewActivity extends AppCompatActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
+                loader = true;
             }
 
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-
-                view.loadUrl(url);
+                if (loader == true) {
+                    Functions.dialogHide();
+                } else {
+                    view.loadUrl(url);
+                }
             }
         });
+
+
     }
 
     @Override
