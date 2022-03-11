@@ -21,20 +21,22 @@ import java.util.Collections;
 import java.util.List;
 
 
+
 public class AthleteSportPositionStateAdapter extends RecyclerView.Adapter<AthleteSportPositionStateAdapter.Myviewholder> {
     Context context;
     public List<AthleteCategoryPositionDataItem> detail;
     public List<AthleteInformationStateItem> SelectedList;
     public AthleteSportsStateAdapter athletePositionAdapter;
     public List<String> AthleteStatsList;
-    OnEdittextChanged onEdittextChanged; //add this
+    public OnEdittextChanged OnEdittextChanged; //add this
 
 
-    public AthleteSportPositionStateAdapter(Activity activity, List<AthleteCategoryPositionDataItem> muscles, List<AthleteInformationStateItem> select, OnEdittextChanged onEdittextChanged) {
+    public AthleteSportPositionStateAdapter(Activity activity, List<AthleteCategoryPositionDataItem> muscles, List<AthleteInformationStateItem> select, AthleteSportPositionStateAdapter.OnEdittextChanged onEdittextChanged) {
         this.context = activity;
         this.detail = muscles;
         this.SelectedList = select;
-        this.onEdittextChanged = onEdittextChanged;
+        this.OnEdittextChanged = onEdittextChanged;
+        System.out.println("muscles size is >>>" + muscles.size());
 
     }
 
@@ -52,13 +54,14 @@ public class AthleteSportPositionStateAdapter extends RecyclerView.Adapter<Athle
         try {
             AthleteStatsList = new ArrayList<>();
             AthleteStatsList.addAll(bean.getStats());
+          //  detailsList.add(position, bean.getStats().get(position));
             holder.TvPositionName.setText("Stats for " + bean.getName());
             holder.rvAthleteSports.setLayoutManager(new GridLayoutManager(context, 3));
-
+            System.out.println("data  >>>>>>" + bean.getStats());
             if (SelectedList.size() > position) {
-                athletePositionAdapter = new AthleteSportsStateAdapter(((AthleteInformationActivity) context), AthleteStatsList, SelectedList.get(position).getStat(),onEdittextChanged);
+                athletePositionAdapter = new AthleteSportsStateAdapter(((AthleteInformationActivity) context), AthleteStatsList, SelectedList.get(position).getStat(), OnEdittextChanged);
             } else {
-                athletePositionAdapter = new AthleteSportsStateAdapter(((AthleteInformationActivity) context), AthleteStatsList, Collections.singletonList("Athletes"),onEdittextChanged);
+                athletePositionAdapter = new AthleteSportsStateAdapter(((AthleteInformationActivity) context), AthleteStatsList, Collections.singletonList("Athletes"), OnEdittextChanged);
             }
             holder.rvAthleteSports.setAdapter(athletePositionAdapter);
         } catch (Exception e) {
@@ -89,7 +92,9 @@ public class AthleteSportPositionStateAdapter extends RecyclerView.Adapter<Athle
     }
 
     public interface OnEdittextChanged {
-        void OnEdittextValue(String Name,String Value);
+        void OnEdittextValue(String Name, String Value);
+
+        void getEditTextValue(String editValue, String title, int pos);
     }
 
 
